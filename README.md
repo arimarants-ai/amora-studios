@@ -130,10 +130,11 @@ the key in the account you want the email to come from.
    | `NOTIFY_FROM` | `AMORA Studios <leads@amorastudios.com>`, once the domain is verified |
    | `WEBHOOK_SECRET` | any long random string you invent |
 
-5. **In Supabase**, go to **Database → Webhooks → Create a new hook**:
-   - Table `leads`, event **Insert**
-   - Type **HTTP Request**, method **POST**, URL of the `notify-lead` function
-   - Add the header `x-webhook-secret` with the same value you used in step 4
+5. **In Supabase**, open the **SQL Editor** and run `supabase/webhook.sql` with its two placeholders filled in.
+   That registers the trigger which calls the function on every new enquiry.
+
+   The dashboard can do this too, under **Integrations → Database Webhooks**, but only once webhooks have been
+   enabled on the project. On a fresh project the SQL is the shorter route, and it enables what it needs.
 
 Submit a test enquiry and you should get the email within a few seconds. If nothing arrives, open
 **Edge Functions → notify-lead → Logs**, which records why a send was refused.
