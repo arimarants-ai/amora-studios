@@ -15,6 +15,13 @@ amora-studios/
     css/style.css   the whole design system
     js/main.js      the scroll camera, the quote form, nav, mobile menu
     img/favicon.svg
+    img/og.png      the 1200x630 image shown when a link is shared
+  design/
+    og-image.html   the source that og.png is rendered from
+  supabase/
+    schema.sql      the leads table and its security policy
+    webhook.sql     the trigger that fires the notification
+    functions/notify-lead/  emails you when an enquiry arrives
 ```
 
 ## Running it locally
@@ -146,13 +153,16 @@ fake enquiry and make your account send email.
 
 1. **Domain.** `https://amorastudios.com` is a placeholder in the canonical tags, the Open Graph tags,
    `sitemap.xml`, and `robots.txt`. Swap it for the real domain once you have one.
-2. **Share image.** Add a `1200x630` PNG at `assets/img/og.png` and add these two lines to the `<head>` of each
-   page so links look right when shared.
+2. **Share image.** `assets/img/og.png` is the picture shown when an AMORA link is pasted into WhatsApp, a DM, or
+   social. It is 1200x630 and already linked from every page. To change it, edit `design/og-image.html` and
+   re-render it:
 
-   ```html
-   <meta property="og:image" content="https://amorastudios.com/assets/img/og.png" />
-   <meta name="twitter:image" content="https://amorastudios.com/assets/img/og.png" />
+   ```bash
+   npx playwright screenshot --viewport-size=1200,630 design/og-image.html assets/img/og.png
    ```
+
+   Keep the finished file under about 300KB, or WhatsApp skips the preview. If you change the domain, update the
+   `og:image` and `twitter:image` URLs alongside the other absolute links.
 
 ## How the scroll animation works
 

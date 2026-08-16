@@ -1,0 +1,58 @@
+<!-- Source for assets/img/og.png, the image shown when an AMORA link is shared.
+     To change it, edit this file, open it in a browser at exactly 1200x630, and
+     screenshot it. Or render it headlessly:
+
+       npx playwright screenshot --viewport-size=1200,630 design/og-image.html assets/img/og.png
+
+     Keep the finished PNG under about 300KB, or WhatsApp skips the preview. -->
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap"><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1200px; height:630px; background:#faf6f0; font-family:'Inter',sans-serif; color:#14110e;
+       position:relative; overflow:hidden; }
+.glow { position:absolute; width:820px; height:820px; right:-260px; top:-320px; border-radius:50%;
+        background:radial-gradient(circle, rgba(194,85,45,0.22) 0%, rgba(207,155,63,0.10) 42%, rgba(250,246,240,0) 70%); }
+.glow2 { position:absolute; width:520px; height:520px; left:-200px; bottom:-260px; border-radius:50%;
+        background:radial-gradient(circle, rgba(63,97,83,0.14) 0%, rgba(250,246,240,0) 70%); }
+.inner { position:relative; height:100%; padding:74px 78px; display:flex; flex-direction:column; justify-content:space-between; }
+.brand { display:flex; align-items:center; gap:16px; }
+.mark { width:60px; height:60px; border-radius:17px; background:#c2552d; display:flex; align-items:center; justify-content:center; }
+.name { font-family:'Fraunces',serif; font-weight:700; font-size:31px; letter-spacing:-0.01em; line-height:1; }
+.sub { font-size:14.5px; color:#6c6259; letter-spacing:0.16em; text-transform:uppercase; margin-top:6px; }
+h1 { font-family:'Fraunces',serif; font-weight:600; font-size:69px; line-height:1.07; letter-spacing:-0.022em; max-width:15.5ch; }
+h1 em { font-style:normal; color:#c2552d; }
+.stages { display:flex; gap:11px; margin-top:34px; }
+.chip { font-size:17px; font-weight:500; color:#14110e; border:1px solid rgba(20,17,14,0.18);
+        border-radius:999px; padding:10px 22px; background:rgba(255,255,255,0.55); }
+.foot { display:flex; align-items:center; justify-content:space-between; }
+.foot p { font-size:19px; color:#6c6259; }
+.rule { position:absolute; left:0; right:0; bottom:0; height:7px;
+        background:linear-gradient(90deg,#c2552d 0%,#cf9b3f 55%,#3f6153 100%); }
+</style></head><body>
+<div class="glow"></div><div class="glow2"></div>
+<div class="inner">
+  <div class="brand">
+    <span class="mark">
+      <svg width="34" height="34" viewBox="0 0 64 64" fill="none" stroke="#fff8ef" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 48 L32 15 L50 48" /><path d="M22.5 34.5 H41.5" />
+      </svg>
+    </span>
+    <span><div class="name">AMORA</div><div class="sub">Studios</div></span>
+  </div>
+
+  <div>
+    <h1>Get found. Get booked. <em>Get remembered.</em></h1>
+    <div class="stages">
+      <span class="chip">Build</span><span class="chip">Attract</span>
+      <span class="chip">Convert</span><span class="chip">Grow</span>
+    </div>
+  </div>
+
+  <div class="foot">
+    <p>Digital growth for small businesses</p>
+    <p>amorastudios.com</p>
+  </div>
+</div>
+<div class="rule"></div>
+</body></html>
