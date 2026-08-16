@@ -104,6 +104,40 @@ free tiers and all take a plain form POST, which is what the code already sends.
 hidden `access_key` input to the form. With either option set, the visitor never leaves the page, they just see a
 thank you message, and if the send fails they get told and keep what they typed.
 
+## Getting told about new enquiries
+
+Enquiries land in the `leads` table quietly. `supabase/functions/notify-lead/index.ts` emails you whenever a new
+one arrives, through [Resend](https://resend.com).
+
+**The Resend account that sends is whichever account the API key belongs to.** Nothing else decides it, so create
+the key in the account you want the email to come from.
+
+1. **In Resend**, add and verify `amorastudios.com` under **Domains**. Skip this to start with and the function
+   falls back to Resend's `onboarding@resend.dev`, which can only email your own address. Fine for testing, not for
+   anything a client sees.
+2. **In Resend**, go to **API Keys → Create API Key**, give it **Sending access** only, and copy it.
+3. **In Supabase**, go to **Edge Functions → Deploy a new function**, name it `notify-lead`, and paste in the
+   contents of `supabase/functions/notify-lead/index.ts`.
+4. **In Supabase**, under **Edge Functions → notify-lead → Secrets**, add:
+
+   | Secret | Value |
+   | --- | --- |
+   | `RESEND_API_KEY` | the key from step 2 |
+   | `NOTIFY_TO` | where enquiries should land, comma separated for more than one |
+   | `NOTIFY_FROM` | `AMORA Studios <leads@amorastudios.com>`, once the domain is verified |
+   | `WEBHOOK_SECRET` | any long random string you invent |
+
+5. **In Supabase**, go to **Database → Webhooks → Create a new hook**:
+   - Table `leads`, event **Insert**
+   - Type **HTTP Request**, method **POST**, URL of the `notify-lead` function
+   - Add the header `x-webhook-secret` with the same value you used in step 4
+
+Submit a test enquiry and you should get the email within a few seconds. If nothing arrives, open
+**Edge Functions → notify-lead → Logs**, which records why a send was refused.
+
+The secret in step 4 matters because the function URL is public. Without it, anyone who found the URL could post a
+fake enquiry and make your account send email.
+
 ## Other things to change before launch
 
 1. **Domain.** `https://amorastudios.com` is a placeholder in the canonical tags, the Open Graph tags,
