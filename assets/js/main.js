@@ -303,11 +303,24 @@
   /* ==========================================================================
      THE QUOTE FORM
 
-     Works with no backend at all. It assembles the enquiry and hands it to
-     the visitor's mail app, addressed to us. Set FORM_ENDPOINT below to a
-     form service (Formspree, Web3Forms, Basin) and it will post there
-     instead, which is the better setup once the domain is live.
+     Three ways to receive an enquiry, tried in this order:
+
+       1. Supabase, if SUPABASE_URL and SUPABASE_ANON_KEY are filled in. The
+          enquiry is written straight into the leads table.
+       2. A form service (Formspree, Web3Forms, Basin), if FORM_ENDPOINT is set.
+       3. Nothing configured, which is the default. The enquiry is assembled
+          and handed to the visitor's mail app, addressed to us.
+
+     So the form works with no backend at all, and gets better as you set
+     each one up. See README.md.
      ====================================================================== */
+
+  // The anon key is meant to be public and is safe in the page. What keeps
+  // the table safe is the row level security policy in supabase/schema.sql,
+  // which allows inserts and nothing else. Never put the service_role key
+  // here, it bypasses those policies.
+  var SUPABASE_URL = "";
+  var SUPABASE_ANON_KEY = "";
 
   // Left empty on purpose. Fill it in and the form posts instead of opening
   // a mail app. See README.md.
@@ -358,6 +371,46 @@
 
       var body = lines.join("\n");
       var subject = "Quote request from " + (data.get("business") || data.get("name") || "a small business");
+
+      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+        if (submitBtn) submitBtn.disabled = true;
+        say("Sending...", "pending");
+
+        var lead = {
+          business: (data.get("business") || "").toString().trim(),
+          name: (data.get("name") || "").toString().trim(),
+          email: (data.get("email") || "").toString().trim(),
+          phone: (data.get("phone") || "").toString().trim() || null,
+          package: packages,
+          services: services,
+          message: (data.get("message") || "").toString().trim() || null,
+          page: window.location.pathname
+        };
+
+        fetch(SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/leads", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: "Bearer " + SUPABASE_ANON_KEY,
+            // Nothing is read back, so the anon role never needs select rights.
+            Prefer: "return=minimal"
+          },
+          body: JSON.stringify(lead)
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error("bad status");
+            form.reset();
+            say("Thanks, that is with us. We will come back to you within one working day.", "ok");
+          })
+          .catch(function () {
+            say("That did not send. Please try again, or email us using the button below.", "error");
+          })
+          .then(function () {
+            if (submitBtn) submitBtn.disabled = false;
+          });
+        return;
+      }
 
       if (FORM_ENDPOINT) {
         if (submitBtn) submitBtn.disabled = true;
