@@ -23,6 +23,45 @@
     return a + (b - a) * t;
   }
 
+  /* ==========================================================================
+     ANALYTICS
+
+     Fill in POSTHOG_KEY and the site starts reporting page views, plus a
+     quote_submitted event whenever an enquiry goes through. Leave it empty
+     and no analytics script is loaded and no requests are made, which is the
+     default. See README.md.
+     ====================================================================== */
+
+  // The project API key from PostHog, Settings → Project → Project API Key.
+  // It is meant to be public and is safe in the page.
+  var POSTHOG_KEY = "";
+
+  // us.i.posthog.com or eu.i.posthog.com, whichever region the project is in.
+  // Getting this wrong means events are sent somewhere that will not have them.
+  var POSTHOG_HOST = "https://us.i.posthog.com";
+
+  // Reports an event if analytics is switched on, and quietly does nothing if
+  // it is not. Everything else in this file calls this rather than posthog
+  // directly, so the site behaves the same either way.
+  function track(event, properties) {
+    if (window.posthog && typeof window.posthog.capture === "function") {
+      window.posthog.capture(event, properties || {});
+    }
+  }
+
+  if (POSTHOG_KEY) {
+    // PostHog's loader, which queues calls made before the script arrives.
+    /* eslint-disable */
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    /* eslint-enable */
+    window.posthog.init(POSTHOG_KEY, {
+      api_host: POSTHOG_HOST,
+      person_profiles: "identified_only",
+      capture_pageview: true,
+      capture_pageleave: true
+    });
+  }
+
   /* ------------------------------------------------------------ year stamp */
 
   var yearEls = document.querySelectorAll("[data-year]");
@@ -356,6 +395,18 @@
       var services = data.getAll("services");
       var packages = data.getAll("package");
 
+      // Deliberately no name, email, phone, or message. Analytics needs the
+      // shape of the enquiry, not the person's details.
+      var enquiryShape = function (method) {
+        return {
+          method: method,
+          package: packages.length ? packages.join(", ") : "none",
+          service_count: services.length,
+          services: services.join(", "),
+          has_message: Boolean((data.get("message") || "").toString().trim())
+        };
+      };
+
       // The spam trap is invisible to people, so anything in it came from a bot.
       // Show the normal thank you rather than an error, otherwise the bot just
       // tries again with the field left blank.
@@ -413,9 +464,11 @@
           .then(function (res) {
             if (!res.ok) throw new Error("bad status");
             form.reset();
+            track("quote_submitted", enquiryShape("supabase"));
             say("Thanks, that is with us. We will come back to you within one working day.", "ok");
           })
           .catch(function () {
+            track("quote_failed", enquiryShape("supabase"));
             say("That did not send. Please try again, or email us using the button below.", "error");
           })
           .then(function () {
@@ -435,9 +488,11 @@
           .then(function (res) {
             if (!res.ok) throw new Error("bad status");
             form.reset();
+            track("quote_submitted", enquiryShape("form_endpoint"));
             say("Thanks, that is with us. We will come back to you within one working day.", "ok");
           })
           .catch(function () {
+            track("quote_failed", enquiryShape("form_endpoint"));
             say("That did not send. Please try again, or email us using the button below.", "error");
           })
           .then(function () {
@@ -445,6 +500,8 @@
           });
         return;
       }
+
+      track("quote_submitted", enquiryShape("mailto"));
 
       window.location.href =
         "mailto:" + inbox() + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);

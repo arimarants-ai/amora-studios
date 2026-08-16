@@ -149,6 +149,37 @@ Submit a test enquiry and you should get the email within a few seconds. If noth
 The secret in step 4 matters because the function URL is public. Without it, anyone who found the URL could post a
 fake enquiry and make your account send email.
 
+## Analytics
+
+The site reports nothing by default. `assets/js/main.js` has two constants near the top:
+
+```js
+var POSTHOG_KEY = "";
+var POSTHOG_HOST = "https://us.i.posthog.com";
+```
+
+Fill in `POSTHOG_KEY` with the project API key from [PostHog](https://posthog.com), under
+**Settings → Project → Project API Key**, and set `POSTHOG_HOST` to match the region the project is in,
+`us.i.posthog.com` or `eu.i.posthog.com`. Get the region wrong and events go somewhere that will never show them.
+
+Leave the key empty and no analytics script is loaded and no requests are made at all.
+
+With it set you get page views, plus these events:
+
+| Event | When |
+| --- | --- |
+| `quote_submitted` | An enquiry went through. `method` is `supabase`, `form_endpoint`, or `mailto` |
+| `quote_failed` | The send was refused, so you can see enquiries that were attempted and lost |
+
+Both carry the shape of the enquiry, which package was picked, how many services, and whether a message was
+written, but **never the name, email, phone, or message text**. Those live in the `leads` table, which is the
+right place for them. Analytics is for counting, not for holding customer details.
+
+The question worth asking of it is what share of the people who reach `services.html` actually submit. That
+number, rather than raw visits, tells you whether the page is doing its job.
+
+The key is designed to be public and is safe in the page.
+
 ## Other things to change before launch
 
 1. **Domain.** `https://amorastudios.com` is a placeholder in the canonical tags, the Open Graph tags,
