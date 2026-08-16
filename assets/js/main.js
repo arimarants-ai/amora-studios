@@ -34,7 +34,7 @@
 
   // The project API key from PostHog, Settings → Project → Project API Key.
   // It is meant to be public and is safe in the page.
-  var POSTHOG_KEY = "";
+  var POSTHOG_KEY = "phc_rQDJPdLsoSVTZqUT3wVcdPDhKJpXcxyXCK4gdpqcCozD";
 
   // us.i.posthog.com or eu.i.posthog.com, whichever region the project is in.
   // Getting this wrong means events are sent somewhere that will not have them.
