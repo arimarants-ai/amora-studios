@@ -649,6 +649,14 @@
               </div>
             </div>
 
+            <!-- Spam trap. Off screen and skipped by keyboard and screen readers,
+                 so a person never sees it. Bots fill in every field they find,
+                 and anything that fills this one is dropped. -->
+            <div class="hp" aria-hidden="true">
+              <label for="q-website">Leave this empty</label>
+              <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
             <fieldset class="fieldset">
               <legend>Where would you like to start?</legend>
               <p class="hint">Pick a package if one looks right, or skip this and choose services below.</p>

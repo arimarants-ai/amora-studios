@@ -58,15 +58,42 @@ Two things worth knowing:
 
 ## The quote form
 
-`services.html#quote` has a real form. Business name, contact name, email, phone, eighteen service checkboxes, and
-a free text box.
+`services.html#quote` has a real form. Business name, contact name, email, phone, an optional package pick, sixteen
+service checkboxes grouped by stage, and a free text box.
 
 Out of the box it works with no setup at all. On submit it assembles the whole enquiry, including which services
 were ticked, and opens the visitor's mail app with everything already written and addressed to you. You get one
 tidy email rather than a vague "hi, interested".
 
-**To make it send silently in the background instead**, which is what you want once the domain is live, open
-`assets/js/main.js`, find `FORM_ENDPOINT`, and paste in an endpoint from a free form service.
+There are two ways to make it send silently in the background instead, which is what you want once the domain is
+live. The form tries them in this order.
+
+### Option 1, Supabase (enquiries land in a database)
+
+Best if you want the enquiries kept, searchable, and reportable rather than sitting in an inbox.
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. Open **SQL Editor → New query**, paste in `supabase/schema.sql` from this repo, and run it. That creates the
+   `leads` table and the security policy.
+3. Go to **Project Settings → API** and copy the **Project URL** and the **anon public** key.
+4. Open `assets/js/main.js` and fill in the two constants at the top of the quote form section:
+
+```js
+var SUPABASE_URL = "https://yourproject.supabase.co";
+var SUPABASE_ANON_KEY = "eyJhbGci...";
+```
+
+Enquiries then appear under **Table Editor → leads**, newest first, with a `handled` checkbox and a `notes` column
+for your own triage.
+
+The anon key is designed to be public and is safe sitting in the page. What protects the table is row level
+security: the policy in `schema.sql` lets anonymous visitors insert a valid enquiry and nothing else, so nobody can
+read, edit, or delete what is in there. **Never put the `service_role` key in the site**, it bypasses those
+policies entirely.
+
+### Option 2, a form service (enquiries land in your inbox)
+
+Simpler, no database. Find `FORM_ENDPOINT` in `assets/js/main.js` and paste in an endpoint.
 
 ```js
 var FORM_ENDPOINT = "https://api.web3forms.com/submit";
@@ -74,8 +101,8 @@ var FORM_ENDPOINT = "https://api.web3forms.com/submit";
 
 [Web3Forms](https://web3forms.com), [Formspree](https://formspree.io), and [Basin](https://usebasin.com) all have
 free tiers and all take a plain form POST, which is what the code already sends. With Web3Forms you also add a
-hidden `access_key` input to the form. With this set, the visitor never leaves the page, they just see a thank you
-message, and your address lives on the form service rather than in the page.
+hidden `access_key` input to the form. With either option set, the visitor never leaves the page, they just see a
+thank you message, and if the send fails they get told and keep what they typed.
 
 ## Other things to change before launch
 
