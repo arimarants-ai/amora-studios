@@ -6,6 +6,9 @@
 //
 // Set up steps are in README.md under "Getting told about new enquiries".
 
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { withSupabase } from "jsr:@supabase/server@^1";
+
 interface Lead {
   business?: string | null;
   name?: string | null;
@@ -33,13 +36,15 @@ function list(items: string[] | null | undefined, empty: string): string {
   return items.map(esc).join(", ");
 }
 
-Deno.serve(async (req: Request): Promise<Response> => {
+export async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  // Shared secret, so only the Supabase webhook can trigger a send. Set
-  // WEBHOOK_SECRET and send the same value as the x-webhook-secret header.
+  // The function is reachable without a Supabase key, so this shared secret is
+  // what stops anyone who finds the URL from making the account send email.
+  // Set WEBHOOK_SECRET here and send the same value as the x-webhook-secret
+  // header on the database webhook.
   const expected = Deno.env.get("WEBHOOK_SECRET");
   if (expected && req.headers.get("x-webhook-secret") !== expected) {
     return new Response("Unauthorized", { status: 401 });
@@ -121,4 +126,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   return new Response("Sent", { status: 200 });
-});
+}
+
+// A database webhook arrives with no Supabase key, so the platform auth gate is
+// off and the shared secret above does the checking instead.
+export default {
+  fetch: withSupabase({ auth: "none" }, handler),
+};

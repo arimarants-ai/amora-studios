@@ -116,8 +116,11 @@ the key in the account you want the email to come from.
    falls back to Resend's `onboarding@resend.dev`, which can only email your own address. Fine for testing, not for
    anything a client sees.
 2. **In Resend**, go to **API Keys → Create API Key**, give it **Sending access** only, and copy it.
-3. **In Supabase**, go to **Edge Functions → Deploy a new function**, name it `notify-lead`, and paste in the
-   contents of `supabase/functions/notify-lead/index.ts`.
+3. **In Supabase**, go to **Edge Functions → Deploy a new function → Via Editor**, name it `notify-lead`, select
+   everything in the sample file, and paste in the contents of `supabase/functions/notify-lead/index.ts`.
+
+   The function declares `withSupabase({ auth: "none" })`, which is what Supabase recommends for webhooks. It means
+   a caller does not need a Supabase key, so the `WEBHOOK_SECRET` below is what keeps the function private.
 4. **In Supabase**, under **Edge Functions → notify-lead → Secrets**, add:
 
    | Secret | Value |
