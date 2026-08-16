@@ -49,10 +49,18 @@ create trigger on_lead_created
 --   select tgname from pg_trigger
 --   where tgrelid = 'public.leads'::regclass and not tgisinternal;
 --
--- See what pg_net actually sent, and what came back:
+-- See what came back. Note there is no url column here, the url is only on
+-- net.http_request_queue while a request is still waiting to be sent, and
+-- responses are kept for about six hours:
 --
---   select id, created, url, status_code, error_msg
+--   select id, created, status_code, error_msg, timed_out, content
 --   from net._http_response order by created desc limit 5;
+--
+-- Or just the failures, where content carries the reason:
+--
+--   select * from net._http_response
+--   where status_code >= 400 or error_msg is not null
+--   order by created desc;
 --
 -- To change the URL or the secret later, replace the function and it takes
 -- effect straight away, the trigger does not need recreating:
