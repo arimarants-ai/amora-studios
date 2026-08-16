@@ -319,8 +319,11 @@
   // the table safe is the row level security policy in supabase/schema.sql,
   // which allows inserts and nothing else. Never put the service_role key
   // here, it bypasses those policies.
-  var SUPABASE_URL = "";
-  var SUPABASE_ANON_KEY = "";
+  // The project URL, not the REST endpoint. The /rest/v1/ part is added below,
+  // and pasting the longer form by mistake is tidied up rather than broken.
+  var SUPABASE_URL = "https://ithvjbdrryykcsewohhf.supabase.co";
+  var SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0aHZqYmRycnl5a2NzZXdvaGhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1NTgxMTIsImV4cCI6MjEwMDEzNDExMn0.70NHqM_hp7lqJMqaF2MTcMSjbbKkS3MOGrqKJS2Jklk";
 
   // Left empty on purpose. Fill it in and the form posts instead of opening
   // a mail app. See README.md.
@@ -396,7 +399,7 @@
           page: window.location.pathname
         };
 
-        fetch(SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/leads", {
+        fetch(SUPABASE_URL.replace(/\/+$/, "").replace(/\/rest\/v1$/, "") + "/rest/v1/leads", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
