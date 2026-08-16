@@ -338,12 +338,16 @@
 
       var data = new FormData(form);
       var services = data.getAll("services");
+      var packages = data.getAll("package");
 
       var lines = [
         "Business name: " + (data.get("business") || ""),
         "Contact name: " + (data.get("name") || ""),
         "Email: " + (data.get("email") || ""),
         "Phone: " + (data.get("phone") || "not given"),
+        "",
+        "Package interested in:",
+        packages.length ? packages.map(function (p) { return "  - " + p; }).join("\n") : "  - none picked",
         "",
         "Services interested in:",
         services.length ? services.map(function (s) { return "  - " + s; }).join("\n") : "  - not sure yet",
