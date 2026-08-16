@@ -353,6 +353,15 @@
       var services = data.getAll("services");
       var packages = data.getAll("package");
 
+      // The spam trap is invisible to people, so anything in it came from a bot.
+      // Show the normal thank you rather than an error, otherwise the bot just
+      // tries again with the field left blank.
+      if ((data.get("website") || "").toString().trim()) {
+        form.reset();
+        say("Thanks, that is with us. We will come back to you within one working day.", "ok");
+        return;
+      }
+
       var lines = [
         "Business name: " + (data.get("business") || ""),
         "Contact name: " + (data.get("name") || ""),
