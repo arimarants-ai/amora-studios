@@ -312,16 +312,6 @@
     request();
   }
 
-  // In reduced motion the stage is a plain stacked page, so the world is
-  // shown once at full width rather than being flown through.
-  if (reduceMotion && world) {
-    world.setAttribute("viewBox", "40 60 2360 800");
-    if (stage) {
-      stage.style.setProperty("--t", "1");
-      stage.style.setProperty("--day", "1");
-    }
-  }
-
   /* ------------------------------------------------- path length setup */
 
   // Any stroke that draws itself needs its own length, so read it from the

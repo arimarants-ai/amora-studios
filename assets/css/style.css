@@ -1930,61 +1930,13 @@ p {
     transition-duration: 0.001ms !important;
   }
 
-  /* The story stops being a camera move and becomes a picture of the whole
-     world followed by the six beats, read top to bottom. */
-  .stage {
-    height: auto;
-  }
-
-  .stage__pin {
-    position: static;
-    height: auto;
-    overflow: visible;
-  }
-
-  .stage__scene {
-    position: relative;
-    inset: auto;
-    aspect-ratio: 16 / 7;
-  }
-
-  .stage__scrim,
-  .stage__cue {
-    display: none;
-  }
-
-  .stage__copy {
-    position: static;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(40px, 7vw, 72px);
-    padding-block: clamp(56px, 8vw, 96px);
-    max-width: var(--container);
-    margin-inline: auto;
-  }
-
-  .beat {
-    opacity: 1;
-    transform: none;
-    max-width: 62ch;
-  }
-
-  .sv,
-  .sv-on,
-  .sv-day,
-  .sv-rise {
-    opacity: 1;
-    transform: none;
-  }
-
-  .sv-night,
-  .sv-tint {
-    opacity: 0;
-  }
-
-  .sv-draw {
-    stroke-dashoffset: 0;
-  }
+  /* The story still runs here. It used to be flattened into a stacked page,
+     which read as a broken site to anyone whose machine has reduced motion
+     switched on, and that is a lot of people. What changes instead is how
+     much movement there is around it: the camera tracks the scrollbar one to
+     one rather than easing toward it, the looping decoration above is stopped
+     by the duration overrides, and the sections below appear without sliding.
+     Same story, less to react to. */
 
   [data-reveal] {
     opacity: 1;
