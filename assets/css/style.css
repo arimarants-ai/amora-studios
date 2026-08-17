@@ -39,6 +39,11 @@
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
+  /* The story's subheads. Inter carries the rest of the site, but under a
+     Fraunces headline it reads like every other site, so the beats get a face
+     with a little more of its own. */
+  --font-sub: "Instrument Sans", "Inter", -apple-system, Helvetica, Arial, sans-serif;
+
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --shadow-soft: 0 24px 60px -30px rgba(20, 12, 6, 0.45);
   --shadow-lift: 0 30px 70px -35px rgba(20, 12, 6, 0.6);
@@ -928,9 +933,12 @@ p {
 }
 
 .beat__body {
-  color: rgba(248, 243, 236, 0.74);
-  font-size: clamp(1rem, 1.25vw, 1.14rem);
-  max-width: 44ch;
+  font-family: var(--font-sub);
+  color: rgba(248, 243, 236, 0.76);
+  font-size: clamp(1.02rem, 1.3vw, 1.19rem);
+  line-height: 1.62;
+  letter-spacing: -0.005em;
+  max-width: 46ch;
 }
 
 .stage__cue {
