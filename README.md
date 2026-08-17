@@ -119,7 +119,7 @@ one arrives, through [Resend](https://resend.com).
 **The Resend account that sends is whichever account the API key belongs to.** Nothing else decides it, so create
 the key in the account you want the email to come from.
 
-1. **In Resend**, add and verify `amorastudios.com` under **Domains**. Skip this to start with and the function
+1. **In Resend**, add and verify `amorastudios.net` under **Domains**. Skip this to start with and the function
    falls back to Resend's `onboarding@resend.dev`, which can only email your own address. Fine for testing, not for
    anything a client sees.
 2. **In Resend**, go to **API Keys → Create API Key**, give it **Sending access** only, and copy it.
@@ -140,7 +140,7 @@ the key in the account you want the email to come from.
    | --- | --- |
    | `RESEND_API_KEY` | the key from step 2 |
    | `NOTIFY_TO` | where enquiries should land, comma separated for more than one |
-   | `NOTIFY_FROM` | `AMORA Studios <leads@amorastudios.com>`, once the domain is verified |
+   | `NOTIFY_FROM` | `AMORA Studios <leads@amorastudios.net>`, once the domain is verified |
    | `WEBHOOK_SECRET` | any long random string you invent |
 
 5. **In Supabase**, open the **SQL Editor** and run `supabase/webhook.sql` with its two placeholders filled in.
@@ -188,7 +188,7 @@ The key is designed to be public and is safe in the page.
 
 ## Other things to change before launch
 
-1. **Domain.** `https://amorastudios.com` is a placeholder in the canonical tags, the Open Graph tags,
+1. **Domain.** `https://amorastudios.net` is a placeholder in the canonical tags, the Open Graph tags,
    `sitemap.xml`, and `robots.txt`. Swap it for the real domain once you have one.
 2. **Share image.** `assets/img/og.png` is the picture shown when an AMORA link is pasted into WhatsApp, a DM, or
    social. It is 1200x630 and already linked from every page. To change it, edit `design/og-image.html` and
