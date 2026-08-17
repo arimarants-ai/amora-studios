@@ -126,8 +126,14 @@ the key in the account you want the email to come from.
 3. **In Supabase**, go to **Edge Functions → Deploy a new function → Via Editor**, name it `notify-lead`, select
    everything in the sample file, and paste in the contents of `supabase/functions/notify-lead/index.ts`.
 
-   The function declares `withSupabase({ auth: "none" })`, which is what Supabase recommends for webhooks. It means
-   a caller does not need a Supabase key, so the `WEBHOOK_SECRET` below is what keeps the function private.
+   Then open the function's settings and turn **Verify JWT off**. This is the step that is easy to miss, and
+   without it nothing works: Supabase checks for a valid JWT before your function's code runs, a database webhook
+   does not carry one, and every call comes back `401 UNAUTHORIZED_NO_AUTH_HEADER`. Sending the anon key in an
+   `Authorization` header instead does not help, it is rejected as `UNAUTHORIZED_INVALID_JWT_FORMAT`. Disabling the
+   check is what Supabase recommends for `pg_net` and webhook callers.
+
+   The function declares `withSupabase({ auth: "none" })` to match, so a caller needs no Supabase key, and the
+   `WEBHOOK_SECRET` below is what actually keeps the function private.
 4. **In Supabase**, under **Edge Functions → notify-lead → Secrets**, add:
 
    | Secret | Value |

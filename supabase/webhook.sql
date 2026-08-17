@@ -8,6 +8,16 @@
 -- Before running it:
 --   1. deploy the notify-lead edge function
 --   2. set its RESEND_API_KEY, NOTIFY_TO, and WEBHOOK_SECRET secrets
+--   3. turn OFF "Verify JWT" on the function, in its settings in the dashboard
+--
+-- Step 3 is the one that is easy to miss. Supabase checks for a valid JWT
+-- before a function's own code runs, and a database webhook does not carry
+-- one, so every call comes back 401 UNAUTHORIZED_NO_AUTH_HEADER and nothing
+-- reaches the function. Supabase's own guidance is to disable that check for
+-- pg_net and webhook callers. Do not try to satisfy it by sending the anon key
+-- in an Authorization header instead, it is rejected as UNAUTHORIZED_INVALID_
+-- JWT_FORMAT. Turning the check off and relying on the shared secret below is
+-- the supported route.
 --
 -- Then replace the two placeholders below and run it in the SQL editor.
 --   YOUR_PROJECT_REF     the subdomain of your project URL
