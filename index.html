@@ -163,8 +163,20 @@
                 <!-- the shop -->
                 <g id="shop">
                   <rect x="180" y="468" width="290" height="232" rx="6" fill="#fbf3e6" stroke="rgba(80,52,32,0.34)" stroke-width="2" />
-                  <path d="M166 468 H484 L470 424 H180 Z" fill="#c2552d" />
-                  <path d="M206 424 L196 468 M254 424 L246 468 M302 424 L298 468 M350 424 L350 468 M398 424 L402 468 M446 424 L454 468" stroke="rgba(255,255,255,0.5)" stroke-width="9" />
+                  <!-- Awning. A scalloped edge and panels that follow the slope,
+                       rather than a flat trapezoid with stripes painted over it. -->
+                  <clipPath id="awning-shape">
+                    <path d="M180 424 H470 L484 462 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 q-22.7 13 -45.4 0 L166 462 Z" />
+                  </clipPath>
+                  <g clip-path="url(#awning-shape)">
+                    <rect x="160" y="416" width="332" height="72" fill="#c2552d" />
+                    <path d="M180.0 418 H221.4 L211.4 482 H166.0 Z" fill="#e5a074" />
+                    <path d="M262.9 418 H304.3 L302.3 482 H256.9 Z" fill="#e5a074" />
+                    <path d="M345.7 418 H387.1 L393.1 482 H347.7 Z" fill="#e5a074" />
+                    <path d="M428.6 418 H470.0 L484.0 482 H438.6 Z" fill="#e5a074" />
+                    <!-- the fold where the canvas leaves the wall -->
+                    <rect x="160" y="416" width="332" height="9" fill="rgba(60,28,14,0.28)" />
+                  </g>
                   <rect x="246" y="368" width="158" height="44" rx="9" fill="#2a1d16" />
 
                   <rect x="204" y="502" width="146" height="128" rx="5" fill="#fdf7ee" stroke="rgba(80,52,32,0.3)" stroke-width="2" />
@@ -174,8 +186,15 @@
                   <rect x="386" y="548" width="52" height="28" rx="6" fill="#fdf7ee" stroke="rgba(80,52,32,0.22)" stroke-width="2" />
                   <circle cx="388" cy="622" r="5" fill="rgba(80,52,32,0.5)" />
 
-                  <rect x="496" y="652" width="46" height="48" rx="6" fill="#d9b892" stroke="rgba(80,52,32,0.24)" stroke-width="2" />
-                  <path d="M519 652 v-30 M519 638 q-18 -6 -20 -26 M519 632 q18 -6 20 -26" stroke="#5c7a5c" stroke-width="5" fill="none" stroke-linecap="round" />
+                  <!-- Planter. A tapered pot with a rim, and leaves drawn as
+                       shapes rather than three strokes fanned out. -->
+                  <path d="M498 660 H542 L536 700 H504 Z" fill="#d9b892" stroke="rgba(80,52,32,0.24)" stroke-width="2" stroke-linejoin="round" />
+                  <rect x="494" y="652" width="52" height="11" rx="3" fill="#cfa87f" stroke="rgba(80,52,32,0.24)" stroke-width="2" />
+                  <g fill="#5c7a5c">
+                    <path d="M520 652 q-3 -20 2 -34 q6 14 2 34 Z" />
+                    <path d="M517 652 q-14 -9 -19 -25 q16 5 23 25 Z" />
+                    <path d="M525 652 q13 -11 17 -27 q-15 7 -21 27 Z" />
+                  </g>
                 </g>
 
                 <!-- street lamp -->
@@ -212,11 +231,16 @@
                 <rect x="204" y="502" width="146" height="128" rx="5" fill="#f7c675" opacity="0.28" />
                 <path d="M204 630 L150 700 H404 L350 630 Z" fill="#f7c675" opacity="0.12" />
 
-                <!-- someone still working late -->
-                <g fill="#2a1d16" opacity="0.5">
-                  <circle cx="256" cy="552" r="15" />
-                  <path d="M228 604 q28 -34 56 0 Z" />
+                <!-- Someone still working late. Read at this size it only needs
+                     a head, a shoulder line and an arm resting on the counter,
+                     which is enough to be a person rather than an icon. -->
+                <g fill="#2a1d16" opacity="0.52">
+                  <circle cx="252" cy="548" r="13" />
+                  <path d="M250 562 h6 v8 h-6 Z" />
+                  <path d="M228 606 q2 -34 24 -34 q22 0 24 34 Z" />
+                  <path d="M272 586 q17 3 23 14 l-7 5 q-7 -9 -18 -12 Z" />
                 </g>
+                <rect x="262" y="602" width="62" height="5" rx="2.5" fill="#2a1d16" opacity="0.3" />
 
                 <!-- the sign, unlit -->
                 <rect x="268" y="384" width="76" height="10" rx="5" fill="rgba(246,230,207,0.34)" />
