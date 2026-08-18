@@ -65,8 +65,13 @@ Two things worth knowing:
 
 ## The quote form
 
-`services.html#quote` has a real form. Business name, contact name, email, phone, an optional package pick, sixteen
-service checkboxes grouped by stage, and a free text box.
+`services.html#quote` has a real form. Business name, contact name, email, phone, an optional package pick, the
+eight service checkboxes, and a free text box.
+
+The eight are the modules the backend can actually deliver: Website, Social media, Content creation, Lead
+generation, Local SEO, Reputation, Email & SMS, Analytics & growth. The checkbox values are those names verbatim,
+so what lands in `leads.services` lines up with what the platform provisions. If the module list changes, change
+it here too rather than letting the site advertise something that cannot be switched on.
 
 Out of the box it works with no setup at all. On submit it assembles the whole enquiry, including which services
 were ticked, and opens the visitor's mail app with everything already written and addressed to you. You get one
