@@ -74,19 +74,53 @@ unrelated business without editing, it is not a direction yet.
 
 ## Step 3: structure
 
-Decide the pages from the business, not from a template. Some shapes that work:
+**Default to several pages.** Most businesses have more than one thing to say,
+and a real page per subject is easier to send a client, easier to update without
+touching everything else, and ranks for the searches that page is actually about.
+A single scrolling page collapses all of that into one URL.
 
-- **One page** for a business with a single service and a phone number. Genuinely
-  the right answer more often than it gets chosen.
+Decide the pages from the business rather than a template. Some shapes:
+
 - **Home, services, about** for anyone whose customers compare before enquiring.
-- **Home, menu/portfolio/work, about, visit** where the *thing* is the pitch — a
-  restaurant, a photographer, a venue.
-- **Home plus a page per service** where each service has different customers who
-  search different words.
+- **Home, a page per service, contact** where the services have different
+  customers searching different words. A roofer's emergency page and their
+  re-roofing page are read by people in completely different states of mind.
+- **Home, menu or portfolio, about, visit** where the thing itself is the pitch —
+  a restaurant, a photographer, a venue.
+- **One page** only when the business genuinely has one thing to say: a single
+  service, a phone number, and no depth to add without padding.
 
-A page nobody will maintain is worse than no page. Skip the blog unless someone
-will actually write it, and skip the testimonial section entirely rather than
-inventing quotes.
+### If the nav has items, they should mostly be pages
+
+A top nav that reads like a site — What we do, Coverage, Emergency, Contact —
+and turns out to be four anchors on one long page is a small betrayal of what the
+visitor expected. They click expecting to arrive somewhere, and instead the page
+moves under them. Anchors are for jumping within a page you are already on, not
+for impersonating a site.
+
+So: build the pages, or shorten the nav to match what actually exists.
+
+### Keep a page from being thin
+
+A page needs a reason to exist beyond filling a nav slot. Before splitting, check
+each candidate has its own subject, enough substance to stand alone, and a
+sentence you could write on it that would not belong anywhere else. Two thin
+pages are worse than one good one, and a page nobody will maintain is worse than
+no page.
+
+Skip a blog unless someone will actually write it. Skip a testimonials page
+rather than inventing quotes for it.
+
+### What every page needs
+
+Shared shell so nothing drifts: the same nav and footer, with the current page
+marked (`aria-current="page"`) so people know where they are. Its own `<title>`,
+meta description and canonical, because those are per page and duplicating them
+across a site is a wasted opportunity and a search problem. Its own `h1`. And a
+`404.html`, which is the one page you cannot link to and the one people reach
+when something is wrong.
+
+Keep the paths flat and readable — `services.html`, not `pages/services/v2.html`.
 
 ## Step 4: build
 
