@@ -141,6 +141,13 @@ Order matters. Each step depends on the last being right.
    The whole site should read as one thing before you write any components.
 2. **The shell** — nav, footer, container, buttons, and the section rhythm on
    every page. Get it right once and every page inherits it.
+
+   Build the icon set here too, not at the end: `favicon.svg`,
+   `apple-touch-icon.png` at 180x180, and `og.png` at 1200x630. The `<head>` you
+   are about to write references all three, and if you defer them you ship four
+   pages pointing at files that do not exist — which no page-level check catches,
+   because a missing `og:image` fails silently in someone else's chat app rather
+   than in your browser. `references/launch.md` has the requirements for each.
 3. **The homepage.** Sectioned by default — bands of content using the shell
    from step 2, and nothing new to invent. Only if a scroll story was actually
    asked for, build the pinned stage and the SVG world instead, following
@@ -178,6 +185,9 @@ actually look. Specifically check:
   it is supposed to. "The code looks right" is not confirmation.
 - **The favicon at 16px.** Scale the SVG, do not shrink the viewport — those are
   different things and only one tells you whether the mark survives.
+- **Every file the `<head>` points at actually exists.** Walk the `href` and
+  `content` attributes and check each one resolves. Icons and share images are
+  the usual absentees because nothing on screen complains about them.
 
 Be sceptical of automated checks you wrote yourself. A contrast script that
 cannot parse `oklab()` will report failures everywhere and teach you nothing. A
