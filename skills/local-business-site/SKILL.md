@@ -152,9 +152,13 @@ that mark a build as a test.
 
 The dividing line while shipping is cost and visibility: anything reversible and
 private — a private repo, a push, a deploy to the platform's own URL — just do,
-then report. Anything that spends money or that outsiders can see — buying a
-domain, changing DNS on a domain they already own, making a repo public — stop
-and confirm with the real cost and the real consequence.
+then report. Anything outsiders can see or that spends money — making a repo
+public, switching a domain that already serves a working site — stop and confirm.
+
+The domain is normally the client's, bought and held in their own account, so
+connecting it means producing instructions rather than making changes. Never edit
+DNS on a domain you do not own, even with access: those records usually carry the
+business's email, and breaking that is worse than any website problem.
 
 Read `references/ship.md` for the order, the traps, and the shape of the
 handover.
