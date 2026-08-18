@@ -200,6 +200,34 @@ number, rather than raw visits, tells you whether the page is doing its job.
 
 The key is designed to be public and is safe in the page.
 
+## Where the site is served from
+
+The site should live at exactly one address. Right now the same commit is published in more than one
+place, which is worth knowing before you share a link:
+
+| Address | What it is |
+| --- | --- |
+| `arimarants-ai.github.io/amora-studios/` | GitHub Pages, publishing this repo at the project subpath |
+| `amora-studios-9gbi.vercel.app` | Vercel |
+| `amora-studios.vercel.app` | a second Vercel project serving the same content |
+| `amora-studios-git-<branch>-...vercel.app` | a Vercel deploy preview, one per branch |
+
+They are all real and all reachable, so a visitor can land on any of them. Only the last is harmless,
+because previews are automatic and Vercel already tells search engines to ignore them.
+
+The end state is `amorastudios.net` and nothing else. Every page already declares that as its
+`rel="canonical"`, so once the domain resolves, search engines will collapse the duplicates onto it
+by themselves. Until then, pick one address to hand out and turn the others off:
+
+- **GitHub Pages** — Settings → Pages → Source → **None**. This is the one people have actually been
+  using, so have the replacement link ready before switching it off.
+- **The spare Vercel project** — delete whichever of the two is redundant, or point it at the other
+  with a redirect. Two projects deploying one repo will keep producing two URLs otherwise.
+
+Analytics ignores deploy previews and anything on localhost, so those never reach the numbers. The
+production copies all do report, and PostHog records the host alongside every event, so while more
+than one is live you can still tell them apart by breaking down on `$host`.
+
 ## Other things to change before launch
 
 1. **Domain.** `https://amorastudios.net` is a placeholder in the canonical tags, the Open Graph tags,
