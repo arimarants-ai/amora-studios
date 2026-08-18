@@ -417,6 +417,12 @@ p {
   height: var(--nav-h);
   display: flex;
   align-items: center;
+  /* The nav swaps its own theme class as it passes over light and dark
+     sections. Without this, anything inheriting colour (the brand name) keeps
+     the literal colour resolved back on body and disappears against the
+     opposite background. Children using var(--ink) directly were always fine,
+     which is why only the wordmark broke. */
+  color: var(--ink);
   transition:
     background-color 0.35s var(--ease),
     border-color 0.35s var(--ease),
@@ -559,6 +565,8 @@ p {
   inset: var(--nav-h) 0 auto 0;
   z-index: 99;
   background: var(--paper);
+  /* Same reason as .nav above: it is themed independently of body. */
+  color: var(--ink);
   border-bottom: 1px solid var(--line);
   padding: 18px var(--gutter) 30px;
   display: none;
