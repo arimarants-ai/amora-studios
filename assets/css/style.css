@@ -448,20 +448,18 @@ p {
   gap: 12px;
 }
 
+/* The mark is the logo itself now, not a letter inside a tile, so it carries
+   its own colours and sits directly on whichever theme it lands on. */
 .brand__mark {
-  width: 34px;
-  height: 34px;
+  width: 38px;
   flex: none;
-  border-radius: 9px;
-  background: var(--accent);
   display: grid;
   place-items: center;
-  box-shadow: 0 8px 20px -10px rgba(194, 85, 45, 0.9);
 }
 
 .brand__mark svg {
-  width: 19px;
-  height: 19px;
+  width: 38px;
+  height: auto;
 }
 
 .brand__word {
@@ -472,16 +470,16 @@ p {
 
 .brand__name {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
 .brand__sub {
   font-size: 9.5px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--gold);
   margin-top: 4px;
 }
 

@@ -14,7 +14,9 @@ amora-studios/
   assets/
     css/style.css   the whole design system
     js/main.js      the scroll camera, the quote form, nav, mobile menu
-    img/favicon.svg
+    img/favicon.svg the logo mark on a dark tile, used for the browser tab
+    img/logo-mark.svg  the mark on its own, transparent
+    img/apple-touch-icon.png  180x180, because iOS ignores SVG icons
     img/og.png      the 1200x630 image shown when a link is shared
   design/
     og-image.html   the source that og.png is rendered from
