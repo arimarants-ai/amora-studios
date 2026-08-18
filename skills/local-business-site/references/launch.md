@@ -5,26 +5,15 @@ of them are visible while you are building.
 
 ## One address, not four
 
-A site can end up published in several places without anyone deciding to: a
-host connected to the repo, a second project someone made while experimenting,
-GitHub Pages left on from a test, a preview URL per branch. They are all real
-and all reachable, and the owner ends up handing out whichever they last saw.
+A site can end up published in several places without anyone deciding to: a host
+connected to the repo, a second project someone made while experimenting, a pages
+service left on from a test, a preview URL per branch. They are all real and all
+reachable, and the owner hands out whichever they last saw.
 
-Before handover, find out how many exist. If analytics is running, break down
-pageviews by host — that answers it in one query and often surprises people.
-
-Then reduce it to one, carefully:
-
-- **Check what each deployment actually deploys before deleting anything.**
-  Project names lie. A project named after this site may be serving something
-  else entirely, and deleting it because the name looks redundant can take down
-  a live system. Verify the connected repo, not the name.
-- **The URL people already have is the one that matters.** Whichever address
-  produced real enquiries is in circulation. Do not switch it off until the
-  replacement link is in hand.
-- Canonical tags on every page pointing at the real domain mean search engines
-  collapse the duplicates by themselves once the domain resolves. That part
-  needs no intervention.
+Before handover, find out how many exist — if analytics is running, breaking
+pageviews down by host answers it in one query and often surprises people — then
+reduce it to one. `references/ship.md` covers how to do that safely, including
+why you must check what a hosting project actually deploys before deleting it.
 
 ## Domain and canonical
 

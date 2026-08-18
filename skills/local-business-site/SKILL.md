@@ -1,6 +1,6 @@
 ---
 name: local-business-site
-description: Builds a complete, well-functioning website for a business or organization — pages, a working contact or booking form that actually delivers the enquiry somewhere, analytics, and a launch checklist. Handles the engineering and the plumbing so the only thing left to decide is the design, which is invented fresh for each business rather than pulled from a template. Use this whenever someone wants a website, landing page, or web presence built or rebuilt — for a studio, agency, salon, trades company, clinic, restaurant, gym, shop, nonprofit, or their own project — including when they just say "build me a site for X" and hand over company details. Use it even for what sounds like a single page, because the form plumbing and the launch checklist are what keep a site from shipping broken.
+description: Builds a complete, well-functioning website for a business or organization — pages, a working contact or booking form that actually delivers the enquiry somewhere, analytics, and a launch checklist. Handles the engineering and the plumbing so the only thing left to decide is the design, which is invented fresh for each business rather than pulled from a template. On a real job it also ships the finished site — repository, hosting, domain, analytics — and hands back an exact list of what only the owner can do. Use this whenever someone wants a website, landing page, or web presence built or rebuilt — for a studio, agency, salon, trades company, clinic, restaurant, gym, shop, nonprofit, or their own project — including when they just say "build me a site for X" and hand over company details. Use it even for what sounds like a single page, because the form plumbing and the launch checklist are what keep a site from shipping broken.
 ---
 
 # Business website
@@ -131,11 +131,33 @@ Be sceptical of checks you wrote yourself. A contrast script that cannot parse
 pixels or read computed values, and when a result surprises you, assume the
 checker is wrong until you have looked with your eyes.
 
-## Step 7: launch
+## Step 7: launch checks
 
-`references/launch.md`. Domain, canonical tags, share image, icons, analytics,
-and the duplicate-deployment problem. Most of the ways a site fails in the wild
-are on that list and none are visible while building.
+`references/launch.md`. Canonical tags, share image, icons, and the
+duplicate-deployment problem. Most of the ways a site fails in the wild are on
+that list and none are visible while building.
+
+## Step 8: ship it
+
+**On a real job, do not stop at a folder of files.** Take it live: create the
+repository, deploy it, get a domain on it, wire up analytics, and confirm the
+live form actually delivers an enquiry. Do everything that does not need the
+owner's password, then hand back a numbered list of what does, with every value
+they need already filled in.
+
+**On a test, demo or example build, do none of it.** Creating repositories,
+deploying public URLs and buying domains for a business that does not exist costs
+money and leaves live pages to clean up. `references/ship.md` lists the signals
+that mark a build as a test.
+
+The dividing line while shipping is cost and visibility: anything reversible and
+private — a private repo, a push, a deploy to the platform's own URL — just do,
+then report. Anything that spends money or that outsiders can see — buying a
+domain, changing DNS on a domain they already own, making a repo public — stop
+and confirm with the real cost and the real consequence.
+
+Read `references/ship.md` for the order, the traps, and the shape of the
+handover.
 
 ## Reference files
 
@@ -146,6 +168,7 @@ are on that list and none are visible while building.
 | `references/build.md` | While building. The technical baseline and the motion rules |
 | `references/forms-and-leads.md` | Wiring the form up |
 | `references/launch.md` | Before handover |
+| `references/ship.md` | **Real jobs only.** Taking it live, and what to hand back |
 
 ## Bundled assets
 
