@@ -202,31 +202,32 @@ The key is designed to be public and is safe in the page.
 
 ## Where the site is served from
 
-The site should live at exactly one address. Right now the same commit is published in more than one
-place, which is worth knowing before you share a link:
+The site should live at exactly one address. Right now it is published in two, which is worth knowing
+before you share a link:
 
-| Address | What it is |
-| --- | --- |
-| `arimarants-ai.github.io/amora-studios/` | GitHub Pages, publishing this repo at the project subpath |
-| `amora-studios-9gbi.vercel.app` | Vercel |
-| `amora-studios.vercel.app` | a second Vercel project serving the same content |
-| `amora-studios-git-<branch>-...vercel.app` | a Vercel deploy preview, one per branch |
+| Address | Repo it deploys | What it is |
+| --- | --- | --- |
+| `amora-studios-9gbi.vercel.app` | `amora-studios` | Vercel. **This is the site.** |
+| `arimarants-ai.github.io/amora-studios/` | `amora-studios` | GitHub Pages, publishing the same repo at the project subpath |
 
-They are all real and all reachable, so a visitor can land on any of them. Only the last is harmless,
-because previews are automatic and Vercel already tells search engines to ignore them.
+Branch pushes also get a throwaway `...-git-<branch>-....vercel.app` preview. Those are automatic,
+Vercel tells search engines to ignore them, and they no longer report to analytics, so they can be
+left alone.
+
+**One name is a trap.** The Vercel project called `amora-studios` does *not* serve this site. It
+deploys `amora-platform`, the Next.js client platform, and answers on `amora-studios.vercel.app`.
+Deleting it because the name looks like a duplicate would take the platform down. The marketing site
+is the awkwardly named `amora-studios-9gbi`.
 
 The end state is `amorastudios.net` and nothing else. Every page already declares that as its
-`rel="canonical"`, so once the domain resolves, search engines will collapse the duplicates onto it
-by themselves. Until then, pick one address to hand out and turn the others off:
+`rel="canonical"`, so once the domain resolves, search engines collapse the duplicate onto it without
+being asked. The remaining job is to stop handing out two links:
 
-- **GitHub Pages** — Settings → Pages → Source → **None**. This is the one people have actually been
+- **GitHub Pages** — Settings → Pages → Source → **None**. This is the copy people have actually been
   using, so have the replacement link ready before switching it off.
-- **The spare Vercel project** — delete whichever of the two is redundant, or point it at the other
-  with a redirect. Two projects deploying one repo will keep producing two URLs otherwise.
 
-Analytics ignores deploy previews and anything on localhost, so those never reach the numbers. The
-production copies all do report, and PostHog records the host alongside every event, so while more
-than one is live you can still tell them apart by breaking down on `$host`.
+Analytics ignores deploy previews and localhost. PostHog records the host on every event, so while
+more than one copy is live you can tell them apart by breaking down on `$host`.
 
 ## Other things to change before launch
 
