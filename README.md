@@ -283,3 +283,16 @@ If you want to change the feel:
   all still work. Only the form needs JavaScript.
 - Skip link, visible focus rings, labelled form fields, real heading order, and a live region on the form status.
 - All artwork is inline SVG, so it is sharp on any screen at any zoom and costs no image requests.
+
+## The site-building skill
+
+`skills/local-business-site/` is a Claude skill that builds a site like this one
+for another business. Point Claude at it and give it the company details.
+
+It carries the design system and the scroll engine as working files rather than
+descriptions, plus five reference documents: the copy voice, the design tokens
+and the colour-inheritance trap, how the scroll camera is authored, the Supabase
+and Resend pipeline including the Verify JWT trap, and a launch checklist.
+
+The bundled `main.js` ships with its keys blank. Nothing in the skill contains a
+credential or an address from this project.
