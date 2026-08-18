@@ -28,8 +28,9 @@
 
      Fill in POSTHOG_KEY and the site starts reporting page views, plus a
      quote_submitted event whenever an enquiry goes through. Leave it empty
-     and no analytics script is loaded and no requests are made, which is the
-     default. See README.md.
+     and no analytics script is loaded and no requests are made. Deploy
+     previews and local copies never report, see reporting() below.
+     See README.md.
      ====================================================================== */
 
   // The project API key from PostHog, Settings → Project → Project API Key.
@@ -40,6 +41,23 @@
   // Getting this wrong means events are sent somewhere that will not have them.
   var POSTHOG_HOST = "https://us.i.posthog.com";
 
+  // Whether this copy of the site should report at all.
+  //
+  // The same files get served from more than one place: the real site, a Vercel
+  // deploy preview for every branch, and whatever is running on a laptop. They
+  // all carry this key, so without a check they all land in the same project and
+  // the numbers stop meaning anything. A branch preview is not a visitor.
+  //
+  // Vercel names branch previews "<project>-git-<branch>-<scope>.vercel.app", so
+  // "-git-" is the reliable tell. Production aliases never contain it.
+  function reporting() {
+    var host = window.location.hostname;
+    if (!host) return false; // opened as a file:// path
+    if (host === "localhost" || host === "127.0.0.1" || host === "::1") return false;
+    if (host.indexOf("-git-") !== -1) return false; // a Vercel deploy preview
+    return true;
+  }
+
   // Reports an event if analytics is switched on, and quietly does nothing if
   // it is not. Everything else in this file calls this rather than posthog
   // directly, so the site behaves the same either way.
@@ -49,7 +67,7 @@
     }
   }
 
-  if (POSTHOG_KEY) {
+  if (POSTHOG_KEY && reporting()) {
     // PostHog's loader, which queues calls made before the script arrives.
     /* eslint-disable */
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);

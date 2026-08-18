@@ -20,6 +20,8 @@ amora-studios/
     img/og.png      the 1200x630 image shown when a link is shared
   design/
     og-image.html   the source that og.png is rendered from
+  docs/
+    google-business-profile.md  what to put in the Google listing
   supabase/
     schema.sql      the leads table and its security policy
     webhook.sql     the trigger that fires the notification
@@ -164,20 +166,25 @@ fake enquiry and make your account send email.
 
 ## Analytics
 
-The site reports nothing by default. `assets/js/main.js` has two constants near the top:
+This is live. `assets/js/main.js` has two constants near the top, both already filled in, pointing at
+the **AMORA Studios** project on PostHog US:
 
 ```js
-var POSTHOG_KEY = "";
+var POSTHOG_KEY = "phc_rQDJ...";
 var POSTHOG_HOST = "https://us.i.posthog.com";
 ```
 
-Fill in `POSTHOG_KEY` with the project API key from [PostHog](https://posthog.com), under
-**Settings → Project → Project API Key**, and set `POSTHOG_HOST` to match the region the project is in,
-`us.i.posthog.com` or `eu.i.posthog.com`. Get the region wrong and events go somewhere that will never show them.
+The key comes from **Settings → Project → Project API Key**, and `POSTHOG_HOST` has to match the region
+the project is in, `us.i.posthog.com` or `eu.i.posthog.com`. Get the region wrong and events go somewhere
+that will never show them.
 
 Leave the key empty and no analytics script is loaded and no requests are made at all.
 
-With it set you get page views, plus these events:
+There is a dashboard, **AMORA Studios site**, with the two things worth watching: daily visitors against
+quote requests, and the services page to quote request funnel. Top pages and traffic sources are already
+covered by PostHog's own **Web analytics** tab, so they are not duplicated as saved insights.
+
+You get page views, plus these events:
 
 | Event | When |
 | --- | --- |
@@ -192,6 +199,35 @@ The question worth asking of it is what share of the people who reach `services.
 number, rather than raw visits, tells you whether the page is doing its job.
 
 The key is designed to be public and is safe in the page.
+
+## Where the site is served from
+
+The site should live at exactly one address. Right now it is published in two, which is worth knowing
+before you share a link:
+
+| Address | Repo it deploys | What it is |
+| --- | --- | --- |
+| `amora-studios-9gbi.vercel.app` | `amora-studios` | Vercel. **This is the site.** |
+| `arimarants-ai.github.io/amora-studios/` | `amora-studios` | GitHub Pages, publishing the same repo at the project subpath |
+
+Branch pushes also get a throwaway `...-git-<branch>-....vercel.app` preview. Those are automatic,
+Vercel tells search engines to ignore them, and they no longer report to analytics, so they can be
+left alone.
+
+**One name is a trap.** The Vercel project called `amora-studios` does *not* serve this site. It
+deploys `amora-platform`, the Next.js client platform, and answers on `amora-studios.vercel.app`.
+Deleting it because the name looks like a duplicate would take the platform down. The marketing site
+is the awkwardly named `amora-studios-9gbi`.
+
+The end state is `amorastudios.net` and nothing else. Every page already declares that as its
+`rel="canonical"`, so once the domain resolves, search engines collapse the duplicate onto it without
+being asked. The remaining job is to stop handing out two links:
+
+- **GitHub Pages** — Settings → Pages → Source → **None**. This is the copy people have actually been
+  using, so have the replacement link ready before switching it off.
+
+Analytics ignores deploy previews and localhost. PostHog records the host on every event, so while
+more than one copy is live you can tell them apart by breaking down on `$host`.
 
 ## Other things to change before launch
 
