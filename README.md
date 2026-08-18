@@ -20,6 +20,8 @@ amora-studios/
     img/og.png      the 1200x630 image shown when a link is shared
   design/
     og-image.html   the source that og.png is rendered from
+  docs/
+    google-business-profile.md  what to put in the Google listing
   supabase/
     schema.sql      the leads table and its security policy
     webhook.sql     the trigger that fires the notification
@@ -164,20 +166,25 @@ fake enquiry and make your account send email.
 
 ## Analytics
 
-The site reports nothing by default. `assets/js/main.js` has two constants near the top:
+This is live. `assets/js/main.js` has two constants near the top, both already filled in, pointing at
+the **AMORA Studios** project on PostHog US:
 
 ```js
-var POSTHOG_KEY = "";
+var POSTHOG_KEY = "phc_rQDJ...";
 var POSTHOG_HOST = "https://us.i.posthog.com";
 ```
 
-Fill in `POSTHOG_KEY` with the project API key from [PostHog](https://posthog.com), under
-**Settings → Project → Project API Key**, and set `POSTHOG_HOST` to match the region the project is in,
-`us.i.posthog.com` or `eu.i.posthog.com`. Get the region wrong and events go somewhere that will never show them.
+The key comes from **Settings → Project → Project API Key**, and `POSTHOG_HOST` has to match the region
+the project is in, `us.i.posthog.com` or `eu.i.posthog.com`. Get the region wrong and events go somewhere
+that will never show them.
 
 Leave the key empty and no analytics script is loaded and no requests are made at all.
 
-With it set you get page views, plus these events:
+There is a dashboard, **AMORA Studios site**, with the two things worth watching: daily visitors against
+quote requests, and the services page to quote request funnel. Top pages and traffic sources are already
+covered by PostHog's own **Web analytics** tab, so they are not duplicated as saved insights.
+
+You get page views, plus these events:
 
 | Event | When |
 | --- | --- |
