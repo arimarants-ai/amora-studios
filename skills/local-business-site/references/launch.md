@@ -42,7 +42,7 @@ or broken, every share looks like spam.
 - Absolute URLs, not relative — they are fetched by other servers
 - Keep it under about 300KB or WhatsApp skips the preview
 - Render it from an HTML source file kept in the repo, so it can be regenerated
-  when the branding changes
+  when the branding changes. Design it — it is the first thing many people see
 
 ## Icons
 

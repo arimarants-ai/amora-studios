@@ -1,141 +1,107 @@
 # Copy
 
-The writing is most of what separates this from a template. A small business
-site fails on its words far more often than on its layout.
+A small business site fails on its words more often than on its layout.
 
-## The voice in one line
+Like the design, the voice belongs to the business, not to this skill. What
+follows is how to find theirs, plus the quality rules that hold regardless of
+which voice you land on.
 
-Write like a competent person explaining their work to a neighbour who asked.
+## Find the voice first
 
-Not a brand. Not a pitch deck. A person who knows the trade, is not trying to
-impress you, and assumes you have things to do.
+Before writing anything, decide how this business sounds — in one line, written
+down. Some real and very different answers:
 
-## Rules that carry most of the weight
+- A funeral director: quiet, plain, no persuasion at all
+- A tattoo studio: confident, informal, assumes you know what you want
+- A pediatric dentist: warm, reassuring, speaking to a worried parent
+- A commercial roofer: blunt, specific, priced, speaking to a site manager
+- A natural wine bar: opinionated, a bit funny, uses words its regulars use
 
-**Concrete nouns beat abstract ones.** "Someone searches for a plumber at 11pm
-and finds you" is a sentence a reader can picture. "We optimise your digital
-presence" is not. When a sentence could describe any business in any industry,
-it is doing no work — cut it or make it specific.
+Sources for it: how the owner actually talks, what their customers call things,
+what the trade calls things, and what the competition sounds like so you can be
+different. If you have their existing material, mine it — a real phrase they
+already use is worth more than anything you would invent.
+
+If the same copy would fit a competitor with the name swapped, the voice has not
+been found yet.
+
+## Rules that hold whatever the voice
+
+**Concrete beats abstract.** "Someone searches for a plumber at 11pm and finds
+you" can be pictured. "We optimise your digital presence" cannot. If a sentence
+could describe any business in any industry, it is doing no work.
 
 **Say the number or say nothing.** "Fast turnaround" means nothing. "Back to you
-within a day" is a promise. If the business will not commit to the number, drop
-the claim rather than blurring it.
+within a day" is a promise. If the business will not commit, drop the claim
+rather than blurring it.
 
-**No sentence the owner could not defend to a customer's face.** This single
-test removes most bad marketing copy. "Transform your business" fails. "Your
-website, your Google listing, and the email that goes out after someone
-enquires" passes.
+**Nothing the owner could not defend to a customer's face.** This one test
+removes most bad marketing copy.
 
-**Sentence case headings.** Title Case Everywhere reads like a press release.
+**Never invent a fact.** No made-up statistics, no fictional testimonials, no
+"trusted by hundreds" unless someone counted. If there are no reviews yet, do not
+build a reviews section and fill it — build something else and add it later.
 
-**No exclamation marks.** Not one. The enthusiasm has to come from the substance.
+**Say what happens next.** After someone submits a form or picks up the phone,
+tell them what to expect and when. That moment is when they decide whether it was
+a good idea.
 
-**Short sentences, varied.** A long one, then a short one. Uniform sentence
-length is what makes prose feel machine-made. Read it aloud — if you run out of
-breath, or if it plods, fix it.
+**Vary sentence length.** A long one, then a short one. Uniform rhythm is what
+makes prose feel machine-made. Read it aloud; if you run out of breath, or if it
+plods, fix it.
 
-**Contractions are fine.** "You'll" and "it's" read like a person. Formality
-reads like a legal notice.
+**Spelling and idiom follow the business,** not your habit. `enquiry` and
+`organise` for UK and Commonwealth, `inquiry` and `organize` for the US. Mixing
+them is a tell.
 
-**British or American, decided once.** `enquiry` and `organise` for a UK or
-Commonwealth business, `inquiry` and `organize` for a US one. Mixing them is a
-tell. Match the business, not your habit.
+## Words that signal empty sentences
 
-## Words to strike
-
-These are not banned words so much as symptoms. If one appears, the sentence
-under it is usually empty.
+Not banned — symptoms. Where one appears, the sentence under it is usually hollow.
 
 > leverage, seamless, robust, cutting-edge, best-in-class, world-class,
-> game-changing, revolutionise, unlock, elevate, empower, supercharge,
-> holistic, synergy, solutions (as a noun for what you sell), journey (unless
-> someone is travelling), passionate about, we're excited to, in today's
-> fast-paced world, take your business to the next level
+> game-changing, revolutionise, unlock, elevate, empower, supercharge, holistic,
+> synergy, solutions (as a noun for what you sell), journey (unless someone is
+> travelling), passionate about, we're excited to, in today's fast-paced world,
+> take your business to the next level
 
-Also strike the false-humility opener — "We're not like other agencies" — and
-the invented statistic. If you do not have the number, do not write a number.
+Also the false-humility opener — "We're not like other agencies" — and any
+sentence that exists only to introduce the next one.
 
-## Section patterns
+## What each part is for
 
-### The hero
+**The headline.** What they do, for whom, in a line the owner would actually say
+out loud. If it only works in a large font, it is not a headline.
 
-One line saying what they do, one line saying who for, one button. That is all.
+**The services.** Named the way the business names them. If they say "shopfront
+refresh", that is the name, not "brand identity refresh". Say what happens and
+what it produces. Only list what they can deliver on Monday — a service list is a
+promise, and a form turns it into an expectation.
 
-The line must be usable in conversation. If the owner would not say it at a
-counter, rewrite it. A tagline that only works in a big font is not a tagline.
-
-> **Good:** Marketing for small businesses that are good at what they do and
-> quiet online.
->
-> **Bad:** Amplify your brand's digital footprint with data-driven strategy.
-
-### The story beats
-
-Each beat is a headline and one short paragraph. The headline carries the
-meaning on its own — a reader who only reads headlines should still get the
-argument.
-
-Write from the customer's side. "You get found" not "We provide SEO services".
-The business is the instrument, not the subject.
-
-### Service cards
-
-Name, then one sentence saying what actually happens, then what it produces.
-Name them the way the business names them — if they say "shopfront refresh",
-that is the name, not "brand identity refresh".
-
-Every named service must be one they can actually deliver on Monday. A service
-list is a promise, and the quote form turns it into an expectation.
-
-### Pricing
-
-Most small businesses should show shape, not a price list: what is included at
-each level, and a range or "from" figure. A bare number with no context invites
+**Pricing.** Most small businesses should show shape rather than a price list:
+what is included, and a range or a "from" figure. A bare number invites
 comparison shopping; no number at all makes people assume they cannot afford it.
-
-If they will not publish figures, say what drives the price — "most kitchens
-land between two and four thousand, depending on the units" — so the reader can
+If they will not publish figures, say what drives the price so the reader can
 place themselves.
 
-Never put a price next to a package name in a bundle list unless asked. It turns
-a recommendation into a menu, and the conversation dies.
+**About.** Usually the shortest page and the one doing the most trust work. What
+they did before, why they started, who they work with. A real name and a real
+role beats three paragraphs about values.
 
-### About
-
-Shortest page, most trust. What they did before, why they started, who they
-work with. One founder card with a real name and a real role beats three
-paragraphs about values.
-
-No stock photography of people who do not work there. If there is no photo, do
-not leave a space for one — build the card so it does not want one.
-
-### The form
-
-Label every field in plain words. Say what happens next — "we'll come back to
-you within a day" — because the moment after someone clicks submit is when they
-decide whether this was a good idea.
-
-Ask for the least you can act on. Every extra field costs enquiries. Name,
-contact, what they want, and a free text box is usually the whole thing.
-
-### The footer
-
-Where they are, how to reach them, and the year. A small business footer that
-says "© 2019" tells the visitor the business might be gone.
+**The footer.** Where they are, how to reach them, and a year that updates
+itself. A footer reading "© 2019" suggests the business might be gone.
 
 ## Location
 
-Say where they are, more than once, without making a slogan of it. Somewhere in
-the hero or first section, in the about page, in the footer, and once inside a
-service where it is natural ("when someone nearby searches for what you do").
+If they serve an area, say so in the header or first section, on the about page,
+in the footer, and once inside a service where it reads naturally. Four or five
+mentions across a site reads as fact. Fifteen reads as keyword stuffing, and both
+people and search engines notice.
 
-Four or five mentions across the site is right. It reads as fact. Ten reads as
-keyword stuffing, and both Google and people notice.
+Use their exact phrasing for the place. People are particular about their own
+place names.
 
-Use the phrasing the business uses, exactly.
-
-## Before you hand it over
+## Before handover
 
 Read every line aloud. The failures are audible: the sentence with no content,
-the heading that sounds like a brochure, the paragraph that says the same thing
-as the one above it. Cut those, and the rest gets better on its own.
+the heading that sounds like a brochure, the paragraph that repeats the one
+above. Cut those and the rest improves on its own.

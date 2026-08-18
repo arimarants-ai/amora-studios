@@ -286,13 +286,15 @@ If you want to change the feel:
 
 ## The site-building skill
 
-`skills/local-business-site/` is a Claude skill that builds a site like this one
-for another business. Point Claude at it and give it the company details.
+`skills/local-business-site/` is a Claude skill for building sites for other
+businesses. Point Claude at it and give it the company details.
 
-It carries the design system and the scroll engine as working files rather than
-descriptions, plus five reference documents: the copy voice, the design tokens
-and the colour-inheritance trap, how the scroll camera is authored, the Supabase
-and Resend pipeline including the Verify JWT trap, and a launch checklist.
+It fixes the engineering and deliberately leaves the design open. `base.css` and
+`site.js` carry the reset, layout primitives, accessibility, motion handling and
+form plumbing, and contain no colours, no typography and no components, so two
+sites built with it should not look related. The visual identity is invented per
+business, and `references/design-direction.md` exists to push that — including a
+note to avoid reproducing this site's own look.
 
-The bundled `main.js` ships with its keys blank. Nothing in the skill contains a
+The bundled `site.js` ships with its keys blank. Nothing in the skill contains a
 credential or an address from this project.
