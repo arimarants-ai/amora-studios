@@ -1,5 +1,11 @@
 # The scroll story
 
+**Read this only if a scroll story was actually asked for.** The default
+homepage is plain sections — see `SKILL.md` step 2. This is the expensive
+option, and building it unrequested burns hours and hands the business a
+homepage it may not want.
+
+
 The homepage is **one** animation. There are no separate scenes handing off to
 each other, because scenes that hand off always seam. One pinned section holds
 one SVG world about two and a half screens wide, and scrolling moves a camera
