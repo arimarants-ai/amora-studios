@@ -1,0 +1,36 @@
+AMORA STUDIOS
+Quote request received
+
+Thanks{{FIRST_NAME_COMMA}} — we've got it.
+
+Your request came through and Ari is already looking at it. Nothing else
+is needed from you right now.
+
+
+WHAT HAPPENS NEXT
+
+01. Ari reviews what you selected.
+    The services you picked, and where your business is right now.
+
+02. He builds the plan and the price.
+    One monthly number for everything — not a menu of line items.
+
+03. {{STEP3_HEADLINE}}
+    {{STEP3_DETAIL}}
+
+
+Expect your plan within 1 business day. That's a promise, not an estimate.
+
+
+If something changed, or you want to add a service to the list — just reply
+to this email. It comes straight to me.
+
+Ari
+AMORA Studios
+
+--
+Get found. Get booked. Get remembered.
+AMORA Studios · College Station – Bryan, TX
+hello@amorastudios.net · https://amorastudios.net
+
+You're receiving this because you requested a quote at amorastudios.net.
