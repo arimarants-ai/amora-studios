@@ -272,7 +272,10 @@
 
       var t = smoothT;
       stage.style.setProperty("--t", t.toFixed(4));
-      stage.style.setProperty("--day", ease((t - 0.8) / 0.16).toFixed(4));
+      // Dawn breaks across the middle of the story rather than in its last
+      // fifth. The narrative is already night to morning, so the light
+      // follows it instead of arriving after the argument is over.
+      stage.style.setProperty("--day", ease((t - 0.18) / 0.54).toFixed(4));
 
       drawCamera(t);
 
