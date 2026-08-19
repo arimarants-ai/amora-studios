@@ -8,6 +8,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "jsr:@supabase/server@^1";
+import { buildAutoReply, isSendableEmail, resolvePref } from "./autoreply.ts";
 
 interface Lead {
   business?: string | null;
@@ -17,6 +18,7 @@ interface Lead {
   package?: string[] | null;
   services?: string[] | null;
   message?: string | null;
+  contact_pref?: string | null;
   page?: string | null;
   created_at?: string | null;
 }
@@ -34,6 +36,21 @@ function esc(value: unknown): string {
 function list(items: string[] | null | undefined, empty: string): string {
   if (!items || items.length === 0) return `<em>${empty}</em>`;
   return items.map(esc).join(", ");
+}
+
+// What they asked for, and a warning when it cannot be honoured. Someone who
+// picks "phone" but leaves the number blank gets the vaguer auto-reply, so this
+// is the only place that says so, and it needs to be impossible to miss.
+function contactPrefRow(lead: Lead): string {
+  const asked = String(lead.contact_pref ?? "").trim().toLowerCase();
+  const resolved = resolvePref(lead.contact_pref, lead.phone);
+
+  if (asked === "phone" && resolved !== "phone") {
+    return '<strong style="color:#a8461f">A call, but left no number &mdash; reply by email</strong>';
+  }
+  if (resolved === "phone") return "A call";
+  if (resolved === "email") return "Email";
+  return "<em>not stated</em>";
 }
 
 export async function handler(req: Request): Promise<Response> {
@@ -75,6 +92,7 @@ export async function handler(req: Request): Promise<Response> {
     ["Contact", esc(lead.name)],
     ["Email", `<a href="mailto:${esc(lead.email)}">${esc(lead.email)}</a>`],
     ["Phone", lead.phone ? esc(lead.phone) : "<em>not given</em>"],
+    ["Prefers", contactPrefRow(lead)],
     ["Package", list(lead.package, "none picked")],
     ["Services", list(lead.services, "not sure yet")],
   ];
@@ -125,7 +143,64 @@ export async function handler(req: Request): Promise<Response> {
     return new Response("Send failed", { status: 502 });
   }
 
+  // Everything past this point is the courtesy reply to the person who filled
+  // the form in. The notification above has already gone, and the lead is
+  // already safe in the table, so nothing here is allowed to change the
+  // outcome: no throw escapes, and the status stays 200 either way. A broken
+  // auto-responder must never cost a lead.
+  await sendAutoReply(lead, apiKey);
+
   return new Response("Sent", { status: 200 });
+}
+
+const AUTO_REPLY_FROM = "Ari at AMORA Studios <hello@amorastudios.net>";
+
+// Where Ari actually reads mail, which is not the address this is sent from.
+const AUTO_REPLY_REPLY_TO = Deno.env.get("NOTIFY_TO")?.split(",")[0]?.trim();
+
+async function sendAutoReply(lead: Lead, apiKey: string): Promise<void> {
+  try {
+    // A typo'd address is not worth a bounce against our sending reputation,
+    // and the lead has already been captured regardless.
+    if (!isSendableEmail(lead.email)) {
+      console.warn("Auto-reply skipped: address is not sendable");
+      return;
+    }
+
+    const reply = buildAutoReply({
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      contactPref: lead.contact_pref,
+    });
+
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: AUTO_REPLY_FROM,
+        to: [String(lead.email).trim()],
+        subject: reply.subject,
+        html: reply.html,
+        // Both parts. Text-only clients get something readable, and sending
+        // multipart rather than HTML alone is a deliverability signal.
+        text: reply.text,
+        reply_to: AUTO_REPLY_REPLY_TO || undefined,
+      }),
+    });
+
+    if (!res.ok) {
+      console.error("Auto-reply refused:", res.status, await res.text(), "pref:", reply.pref);
+      return;
+    }
+
+    console.log("Auto-reply sent, preference:", reply.pref);
+  } catch (err) {
+    console.error("Auto-reply threw, notification was unaffected:", err);
+  }
 }
 
 // A database webhook arrives with no Supabase key, so the platform auth gate is

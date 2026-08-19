@@ -14,6 +14,10 @@ create table if not exists public.leads (
   package     text[] not null default '{}',
   services    text[] not null default '{}',
   message     text,
+  -- How they asked to be contacted: 'email' or 'phone'. Nullable because rows
+  -- written before this column existed have no answer, and the auto-reply
+  -- treats anything it does not recognise as "email or call".
+  contact_pref text,
   page        text,
   handled     boolean not null default false,
   notes       text
@@ -42,6 +46,7 @@ create policy "anon can submit an enquiry"
     and coalesce(length(message), 0) <= 4000
     and coalesce(array_length(services, 1), 0) <= 40
     and coalesce(array_length(package, 1), 0) <= 10
+    and (contact_pref is null or contact_pref in ('email', 'phone'))
     -- Your own triage columns. A submission cannot arrive pre-marked.
     and handled = false
     and notes is null

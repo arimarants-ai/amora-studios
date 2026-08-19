@@ -483,7 +483,7 @@
                 <input id="q-email" name="email" type="email" required placeholder="sam@bramleyandco.com" autocomplete="email" />
               </div>
               <div class="field">
-                <label for="q-phone">Phone <span class="opt">(optional)</span></label>
+                <label for="q-phone">Phone <span class="opt" data-phone-optional>(optional)</span></label>
                 <input id="q-phone" name="phone" type="tel" placeholder="Only if you would rather we called" autocomplete="tel" />
               </div>
             </div>
@@ -491,6 +491,18 @@
             <!-- Spam trap. Off screen and skipped by keyboard and screen readers,
                  so a person never sees it. Bots fill in every field they find,
                  and anything that fills this one is dropped. -->
+            <fieldset class="fieldset fieldset--tight">
+              <legend>How should we get back to you?</legend>
+              <div class="pick-grid pick-grid--pairs">
+                <label class="pick">
+                  <input type="radio" name="contact_pref" value="email" required checked /> Email
+                </label>
+                <label class="pick">
+                  <input type="radio" name="contact_pref" value="phone" required /> Phone
+                </label>
+              </div>
+            </fieldset>
+
             <div class="hp" aria-hidden="true">
               <label for="q-website">Leave this empty</label>
               <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off" />

@@ -164,6 +164,69 @@ Submit a test enquiry and you should get the email within a few seconds. If noth
 The secret in step 4 matters because the function URL is public. Without it, anyone who found the URL could post a
 fake enquiry and make your account send email.
 
+## The auto-reply to the person who enquired
+
+When a lead lands, two emails go out. The notification to you, and a confirmation
+to whoever filled the form in. They are sent by the same edge function, in that
+order, and the second one cannot affect the first.
+
+```
+supabase/functions/notify-lead/
+  index.ts           the webhook handler: notification, then auto-reply
+  autoreply.ts       pure template filling, no network, no Deno APIs
+  autoreply.test.ts  16 tests, run with node
+emails/
+  quote-confirmation.html   the designed email
+  quote-confirmation.txt    the plain text part
+email/amora-logo.png        served at /email/amora-logo.png
+```
+
+**The templates are embedded in `autoreply.ts` as strings**, not read from disk.
+An edge function has no project filesystem at request time, so reading
+`emails/quote-confirmation.html` at runtime would fail once deployed. A test
+asserts the embedded copies still match the files, so editing one without the
+other fails the suite rather than silently shipping stale copy.
+
+**If you edit the templates**, regenerate the embedded copies, then run the
+tests:
+
+```bash
+node --experimental-strip-types --test supabase/functions/notify-lead/autoreply.test.ts
+```
+
+Point `--test` at the file, not the folder, or it tries to run `autoreply.ts`
+itself as a test and reports a failure that is not real.
+
+### What varies per email
+
+The person picks email or phone on the form. Three cases:
+
+| They chose | The email says |
+| --- | --- |
+| Email | "Ari emails you the quote." |
+| Phone, with a number given | "Ari calls you with the quote." |
+| Anything else, or phone with no number | "Ari emails or calls you with the quote." |
+
+The last row matters. If someone asks for a call but leaves the number blank,
+promising a call would be a promise nobody can keep, so the copy stays vague and
+**your notification flags it in red** so you know to reply by email.
+
+### Deploying a change to it
+
+Both `index.ts` and `autoreply.ts` have to exist in the function. In the
+Supabase dashboard, **Edge Functions → notify-lead → Code**, create the second
+file alongside the first, then deploy. If you deploy `index.ts` alone the import
+fails and the notification stops with it.
+
+### Rules it follows
+
+- The notification sends first and is never blocked by the auto-reply, which is
+  wrapped in its own try/catch and cannot change the response.
+- An address that fails a basic sanity check is skipped silently. A lead with a
+  typo'd address is still a lead.
+- Names are escaped before going near the HTML, and capped at one word and 40
+  characters.
+
 ## Analytics
 
 This is live. `assets/js/main.js` has two constants near the top, both already filled in, pointing at
