@@ -998,11 +998,11 @@ p {
   opacity: calc(1 - var(--day, 0));
 }
 
-/* The night is a single sheet laid over a daylight world. It is a graded sky
-   rather than a flat fill, so the dark half of the story still has colour in
-   it, and it never gets opaque enough to crush the artwork underneath. */
+/* The night is a single sheet laid over a daylight world. It stays light
+   enough that the artwork's own colour comes through rather than being
+   replaced by the colour of the sheet. */
 .sv-tint {
-  opacity: calc((1 - var(--day, 0)) * 0.72);
+  opacity: calc((1 - var(--day, 0)) * 0.52);
 }
 
 .sv-rise {

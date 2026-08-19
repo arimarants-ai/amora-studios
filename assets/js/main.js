@@ -275,7 +275,7 @@
       // Dawn breaks across the middle of the story rather than in its last
       // fifth. The narrative is already night to morning, so the light
       // follows it instead of arriving after the argument is over.
-      stage.style.setProperty("--day", ease((t - 0.18) / 0.54).toFixed(4));
+      stage.style.setProperty("--day", ease((t - 0.12) / 0.50).toFixed(4));
 
       drawCamera(t);
 

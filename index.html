@@ -143,17 +143,6 @@
                   <stop offset="0%" stop-color="#f9cd72" stop-opacity="0.75" />
                   <stop offset="100%" stop-color="#f9cd72" stop-opacity="0" />
                 </radialGradient>
-                <!-- Night is one sheet laid over a daylight world. Grading it
-                     rather than flooding it with flat near-black is what lets
-                     the terracotta and gold in the artwork survive the dark
-                     half of the story. -->
-                <linearGradient id="duskSky" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0a0f2e" />
-                  <stop offset="36%" stop-color="#1d1642" />
-                  <stop offset="64%" stop-color="#3d1f3c" />
-                  <stop offset="86%" stop-color="#5e2a27" />
-                  <stop offset="100%" stop-color="#6f3620" />
-                </linearGradient>
               </defs>
 
               <!-- ============ THE WORLD, PAINTED IN DAYLIGHT ============ -->
@@ -223,7 +212,10 @@
               </g>
 
               <!-- ============ NIGHT, ONE SHEET OF DARK ON TOP ============ -->
-              <rect class="sv-tint" x="-600" y="-300" width="3600" height="1500" fill="url(#duskSky)" />
+              <!-- A warm near-black, matching the ink the rest of the site is built from.
+                   Any blue or violet in here reads as a colour wash across the whole
+                   story rather than as darkness. -->
+              <rect class="sv-tint" x="-600" y="-300" width="3600" height="1500" fill="#0d0a08" />
 
               <g class="sv-night">
                 <g fill="#f7f1e8">
