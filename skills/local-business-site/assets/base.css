@@ -1,0 +1,159 @@
+/* ==========================================================================
+   base.css
+
+   Structure and behaviour only. There is deliberately not a single colour,
+   font, or component style in this file, because those are what make two
+   sites look related. Write those yourself, per business.
+
+   What this gives you:
+     1. a reset that removes the browser's surprises
+     2. layout primitives that compose
+     3. focus, motion and screen reader handling that is easy to get wrong
+
+   Everything here is overridable. Nothing here decides how the site looks.
+   ========================================================================== */
+
+/* 1. Reset ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol { margin: 0; }
+ul[class], ol[class] { list-style: none; padding: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Tell the browser which form-control palette to render. Set this to
+     `light`, `dark`, or `light dark` in your own CSS to match the design. */
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  /* No colour and no background here on purpose. If you do not set both in
+     your own stylesheet, the page inherits the browser default and will look
+     wrong in one theme or the other. */
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, button, textarea, select { font: inherit; color: inherit; }
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a { color: inherit; }
+
+/* Long words and URLs should wrap rather than force a sideways scroll. */
+p, li, h1, h2, h3, h4, dd { overflow-wrap: break-word; }
+
+/* 2. Layout primitives ---------------------------------------------------- */
+
+/* Set --container and --gutter in your own CSS. These fallbacks only stop the
+   page collapsing if you forget. */
+.container {
+  width: 100%;
+  max-width: var(--container, 1100px);
+  margin-inline: auto;
+  padding-inline: var(--gutter, 20px);
+}
+
+/* Vertical rhythm without margin collapsing. Set --gap per instance. */
+.stack { display: flex; flex-direction: column; gap: var(--gap, 1rem); }
+
+/* Horizontal group that wraps. */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, 1rem);
+  align-items: var(--cluster-align, center);
+}
+
+/* Responsive columns with no breakpoints: items get at least --min. */
+.grid-auto {
+  display: grid;
+  gap: var(--gap, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--min, 260px), 100%), 1fr));
+}
+
+/* Anything that can be wider than the screen — tables, code, diagrams —
+   scrolls inside its own box so the page body never scrolls sideways. */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* 3. Accessibility -------------------------------------------------------- */
+
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* First focusable element on the page. Give it your own colours. */
+.skip-link {
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 999;
+  padding: 0.75em 1.25em;
+  transform: translateY(-120%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* Never remove this without replacing it with something at least as visible.
+   currentColor is used so it works on any ground you design. */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* 4. Motion --------------------------------------------------------------- */
+
+/* Elements marked [data-reveal] start hidden and are revealed by site.js.
+   The transform and duration are yours to set. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift, 14px));
+  transition:
+    opacity var(--reveal-duration, 0.6s) var(--reveal-ease, cubic-bezier(0.22, 0.61, 0.36, 1)),
+    transform var(--reveal-duration, 0.6s) var(--reveal-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+  transition-delay: calc(var(--reveal-delay, 0) * 80ms);
+}
+
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Quiet the motion, never remove the content. site.js also marks everything
+   visible immediately when this is set, so a visitor with the preference on
+   gets a complete page rather than a blank one. This is the single most
+   common silent failure in animated sites. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* 5. Print ---------------------------------------------------------------- */
+
+@media print {
+  [data-reveal] { opacity: 1; transform: none; }
+  .skip-link, [data-menu], [data-menu-toggle] { display: none; }
+}

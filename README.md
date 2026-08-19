@@ -283,3 +283,18 @@ If you want to change the feel:
   all still work. Only the form needs JavaScript.
 - Skip link, visible focus rings, labelled form fields, real heading order, and a live region on the form status.
 - All artwork is inline SVG, so it is sharp on any screen at any zoom and costs no image requests.
+
+## The site-building skill
+
+`skills/local-business-site/` is a Claude skill for building sites for other
+businesses. Point Claude at it and give it the company details.
+
+It fixes the engineering and deliberately leaves the design open. `base.css` and
+`site.js` carry the reset, layout primitives, accessibility, motion handling and
+form plumbing, and contain no colours, no typography and no components, so two
+sites built with it should not look related. The visual identity is invented per
+business, and `references/design-direction.md` exists to push that — including a
+note to avoid reproducing this site's own look.
+
+The bundled `site.js` ships with its keys blank. Nothing in the skill contains a
+credential or an address from this project.

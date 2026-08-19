@@ -143,6 +143,17 @@
                   <stop offset="0%" stop-color="#f9cd72" stop-opacity="0.75" />
                   <stop offset="100%" stop-color="#f9cd72" stop-opacity="0" />
                 </radialGradient>
+                <!-- Night is one sheet laid over a daylight world. Grading it
+                     rather than flooding it with flat near-black is what lets
+                     the terracotta and gold in the artwork survive the dark
+                     half of the story. -->
+                <linearGradient id="duskSky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0a0f2e" />
+                  <stop offset="36%" stop-color="#1d1642" />
+                  <stop offset="64%" stop-color="#3d1f3c" />
+                  <stop offset="86%" stop-color="#5e2a27" />
+                  <stop offset="100%" stop-color="#6f3620" />
+                </linearGradient>
               </defs>
 
               <!-- ============ THE WORLD, PAINTED IN DAYLIGHT ============ -->
@@ -212,7 +223,7 @@
               </g>
 
               <!-- ============ NIGHT, ONE SHEET OF DARK ON TOP ============ -->
-              <rect class="sv-tint" x="-600" y="-300" width="3600" height="1500" fill="#070a16" />
+              <rect class="sv-tint" x="-600" y="-300" width="3600" height="1500" fill="url(#duskSky)" />
 
               <g class="sv-night">
                 <g fill="#f7f1e8">
@@ -554,8 +565,9 @@
               <p class="beat__num">06 And you grow</p>
               <h2 class="beat__title">A busier month, then another one.</h2>
               <p class="beat__body">
-                Reviews asked for and answered. Email and messages to the customers you already have. One plain
-                report each month showing what your money did, and what we are changing next.
+                Reviews asked for and answered. Email and messages to the customers you already have. Your own
+                dashboard showing what we are doing as we do it, and one plain report each month showing what your
+                money did.
               </p>
             </article>
           </div>
@@ -635,7 +647,7 @@
             <article class="teaser" data-reveal data-reveal-delay="4">
               <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3" /><path d="M7.5 15.5V11M12 15.5V8.5M16.5 15.5v-3" /></svg></span>
               <h3>Analytics &amp; growth</h3>
-              <p>One plain report a month, with what we are changing next because of it.</p>
+              <p>Your own dashboard to watch it happen and send us feedback, plus one plain report a month.</p>
             </article>
           </div>
 
