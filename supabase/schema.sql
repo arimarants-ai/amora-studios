@@ -7,7 +7,7 @@
 create table if not exists public.leads (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz not null default now(),
-  business    text not null,
+  business    text,
   name        text not null,
   email       text not null,
   phone       text,
@@ -18,6 +18,8 @@ create table if not exists public.leads (
   -- written before this column existed have no answer, and the auto-reply
   -- treats anything it does not recognise as "email or call".
   contact_pref text,
+  -- 'quote' from the quote form, 'message' from the contact page.
+  kind        text not null default 'quote',
   page        text,
   handled     boolean not null default false,
   notes       text
@@ -39,7 +41,7 @@ create policy "anon can submit an enquiry"
   for insert
   to anon
   with check (
-    length(business) between 1 and 200
+    coalesce(length(business), 0) <= 200
     and length(name) between 1 and 200
     and length(email) between 3 and 320
     and position('@' in email) > 1
@@ -47,6 +49,8 @@ create policy "anon can submit an enquiry"
     and coalesce(array_length(services, 1), 0) <= 40
     and coalesce(array_length(package, 1), 0) <= 10
     and (contact_pref is null or contact_pref in ('email', 'phone'))
+    and kind in ('quote', 'message')
+    and (kind <> 'quote' or length(business) between 1 and 200)
     -- Your own triage columns. A submission cannot arrive pre-marked.
     and handled = false
     and notes is null

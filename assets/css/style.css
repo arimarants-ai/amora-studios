@@ -276,6 +276,10 @@ p {
   flex-direction: column;
   gap: 18px;
   max-width: 720px;
+  /* Pages that need more set it inline, and inline still wins. This is here so
+     a section head that sets nothing does not end up sitting on whatever
+     follows it. */
+  margin-bottom: 40px;
 }
 
 .section-head .lead {

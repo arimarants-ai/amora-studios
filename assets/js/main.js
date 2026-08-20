@@ -635,6 +635,7 @@
         say("Sending...", "pending");
 
         var lead = {
+          kind: "quote",
           business: (data.get("business") || "").toString().trim(),
           name: (data.get("name") || "").toString().trim(),
           email: (data.get("email") || "").toString().trim(),
@@ -710,14 +711,16 @@
   // for the same reason.
   /* ------------------------------------------------------- contact form */
 
-  // The short form on the contact page. Deliberately separate from the quote
-  // form: that one writes a lead into the database, where business name is
-  // required. This one is just a message, so it opens the visitor's mail app
-  // pre-written. No backend, nothing to configure, nothing to break.
+  // The short form on the contact page. It writes into the same leads table as
+  // the quote form, so the same database webhook emails Ari and the enquiry is
+  // kept alongside the rest. What differs is kind: "message" rather than
+  // "quote", which is how the notify function knows not to send someone the
+  // quote confirmation when all they asked was a question.
   var contactForm = document.querySelector("[data-contact-form]");
 
   if (contactForm) {
     var cStatus = contactForm.querySelector("[data-form-status]");
+    var cBtn = contactForm.querySelector("[type='submit']");
 
     var cSay = function (message, kind) {
       if (!cStatus) return;
@@ -725,24 +728,13 @@
       cStatus.className = "form__status is-" + kind;
     };
 
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!contactForm.reportValidity()) return;
-
-      var data = new FormData(contactForm);
-
-      // Same trap as the quote form: a field no person can see. Show the
-      // normal thank you so the bot does not come back and try again blank.
-      if ((data.get("website") || "").toString().trim()) {
-        contactForm.reset();
-        cSay("Thanks, that is with us. We will come back to you within one working day.", "ok");
-        return;
-      }
-
+    var cMailto = function (data) {
       var name = (data.get("name") || "").toString().trim();
       var body = [
         "From: " + name,
         "Email: " + (data.get("email") || "").toString().trim(),
+        "Phone: " + ((data.get("phone") || "").toString().trim() || "not given"),
+        "Business: " + ((data.get("business") || "").toString().trim() || "not given"),
         "",
         (data.get("message") || "").toString().trim()
       ].join("\n");
@@ -753,7 +745,65 @@
         "&body=" + encodeURIComponent(body);
 
       cSay("Your email app should be opening with everything filled in. Send it and we will reply within one working day.", "ok");
-      track("contact_submitted", { has_message: Boolean((data.get("message") || "").toString().trim()) });
+      track("contact_submitted", { method: "mailto" });
+    };
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!contactForm.reportValidity()) return;
+
+      var data = new FormData(contactForm);
+
+      // Same trap as the quote form: a field no person can see.
+      if ((data.get("website") || "").toString().trim()) {
+        contactForm.reset();
+        cSay("Thanks, that is with us. We will come back to you within one working day.", "ok");
+        return;
+      }
+
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        cMailto(data);
+        return;
+      }
+
+      var payload = {
+        kind: "message",
+        business: (data.get("business") || "").toString().trim() || null,
+        name: (data.get("name") || "").toString().trim(),
+        email: (data.get("email") || "").toString().trim(),
+        phone: (data.get("phone") || "").toString().trim() || null,
+        message: (data.get("message") || "").toString().trim() || null,
+        page: window.location.pathname
+      };
+
+      if (cBtn) cBtn.disabled = true;
+      cSay("Sending...", "ok");
+
+      fetch(SUPABASE_URL.replace(/\/+$/, "").replace(/\/rest\/v1$/, "") + "/rest/v1/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: "Bearer " + SUPABASE_ANON_KEY,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          contactForm.reset();
+          cSay("Thanks, that is with us. We will come back to you within one working day.", "ok");
+          track("contact_submitted", { method: "supabase" });
+        })
+        .catch(function (err) {
+          // Never lose the message. If the database refuses it, fall back to
+          // the visitor's mail app rather than telling them to try later.
+          track("contact_failed", { error: String(err.message || err) });
+          cMailto(data);
+        })
+        .finally(function () {
+          if (cBtn) cBtn.disabled = false;
+        });
     });
   }
 
