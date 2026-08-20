@@ -36,7 +36,7 @@ Google allows 750 characters. This is about 610, which leaves room to add to it 
 > AMORA Studios is a marketing studio in the College Station-Bryan area, working with small local
 > businesses that are good at what they do but quiet online. We build the website, run the social
 > accounts, make the content, and set up the things that turn attention into enquiries: local
-> search, reviews, email and SMS follow up, and a monthly report that tells you plainly what
+> search, reviews, email follow up, and a monthly report that tells you plainly what
 > happened. Everything is handled personally rather than handed to a queue, so you deal with the
 > person doing the work. Start with one piece or the whole thing, and add to it when it makes
 > sense. No long contracts and no jargon, just the parts of marketing a small business actually
@@ -53,7 +53,7 @@ site, and what the platform provisions all line up.
 4. Lead generation
 5. Local SEO
 6. Reputation
-7. Email & SMS
+7. Email management
 8. Analytics & growth
 
 ## Photos

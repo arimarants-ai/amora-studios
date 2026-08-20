@@ -77,7 +77,7 @@ Two things worth knowing:
 eight service checkboxes, and a free text box.
 
 The eight are the modules the backend can actually deliver: Website, Social media, Content creation, Lead
-generation, Local SEO, Reputation, Email & SMS, Analytics & growth. The checkbox values are those names verbatim,
+generation, Local SEO, Reputation, Email management, Analytics & growth. The checkbox values are those names verbatim,
 so what lands in `leads.services` lines up with what the platform provisions. If the module list changes, change
 it here too rather than letting the site advertise something that cannot be switched on.
 
