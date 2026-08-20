@@ -2350,7 +2350,7 @@ p {
 
 .footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
   gap: 40px;
   padding-bottom: 46px;
 }
@@ -2369,6 +2369,11 @@ p {
 
 /* Where we are. Quiet enough not to compete with the sentence above it, but
    present on every page, which is what local search wants to see. */
+.footer__note {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
 .footer__where {
   font-size: 13.5px !important;
   letter-spacing: 0.04em;
