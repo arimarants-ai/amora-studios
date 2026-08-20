@@ -768,271 +768,886 @@ p {
   }
 }
 
-/* 8. Scroll story --------------------------------------------------------- */
+/* 8. Daybreak stage --------------------------------------------------------
+   The landing story: one pinned frame, one night. JS grades these custom
+   properties every frame; everything here reads them. All names are
+   db- prefixed so nothing collides with the rest of the site. */
 
-.story {
+.db-stage {
   position: relative;
-  background: var(--paper);
+  height: 820vh;
+  background: var(--db-bg, #0c0a09);
 }
 
-.progress {
-  position: fixed;
+.db-pin {
+  position: sticky;
   top: 0;
+  height: 100vh;
+  overflow: clip;
+}
+
+/* sky furniture, pinned with the frame */
+.db-stars {
+  position: absolute;
+  inset: 0 0 30% 0;
+  pointer-events: none;
+  opacity: var(--db-stars, 1);
+}
+
+.db-stars i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f4ead8;
+  animation: db-twinkle 3.8s ease-in-out infinite;
+}
+
+@keyframes db-twinkle {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 0.2; }
+}
+
+.db-sun {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: min(46vw, 560px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) translateY(var(--db-suny, 60vh));
+  background: radial-gradient(circle, #ffbe6e 0%, #f9a15c 45%, rgba(249, 161, 92, 0) 72%);
+  opacity: var(--db-suno, 0);
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+/* the story clock */
+.db-clock {
+  position: absolute;
+  top: calc(var(--nav-h) + 14px);
+  right: 24px;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  background: color-mix(in srgb, var(--db-bg, #0c0a09) 55%, transparent);
+  backdrop-filter: blur(10px);
+  font-family: var(--font-sub);
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-clock time {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.db-clock small {
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+}
+
+.db-clock__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5a9b6e;
+  display: none;
+}
+
+.db-clock.is-open .db-clock__dot {
+  display: block;
+  animation: db-pulse 2s infinite;
+}
+
+@keyframes db-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* the drawing: every stroke's progress is scrubbed by the scroll itself */
+.db-street {
+  position: absolute;
   left: 0;
   right: 0;
-  height: 2px;
-  z-index: 120;
-  background: transparent;
+  bottom: 0;
+  height: 44vh;
+  z-index: 1;
   pointer-events: none;
 }
 
-.progress__bar {
-  height: 100%;
-  width: 100%;
-  transform-origin: 0 50%;
-  transform: scaleX(var(--progress, 0));
-  background: linear-gradient(90deg, var(--gold), var(--accent));
-}
-
-.rail {
-  position: fixed;
-  right: 26px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 90;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-}
-
-.rail.is-visible {
-  opacity: 1;
-}
-
-.rail a,
-.rail button {
-  width: 22px;
-  height: 22px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-}
-
-.rail a::after,
-.rail button::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  transition: all 0.3s var(--ease);
-}
-
-.rail a:hover::after,
-.rail button:hover::after {
-  border-color: #f7f1e8;
-}
-
-.rail a.is-active::after,
-.rail button.is-active::after {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.45);
-}
-
-/* One pinned stage holds the whole story. The camera moves through a single
-   world, the copy rides alongside it, and nothing ever cuts to a new section. */
-
-.stage {
-  position: relative;
-  height: 780vh;
-  background: #0a0908;
-}
-
-.stage__pin {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-  background: #0a0908;
-}
-
-.stage__scene {
-  position: absolute;
-  inset: 0;
-}
-
-.stage__scene svg {
+.db-street svg {
   width: 100%;
   height: 100%;
   display: block;
-  shape-rendering: geometricPrecision;
+  overflow: visible;
 }
 
-/* Keeps the copy readable whether the world behind it is midnight or noon. */
-.stage__scrim {
+.db-street .ln {
+  fill: none;
+  stroke: var(--db-art, rgba(247, 241, 232, 0.5));
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.db-street .ln--soft {
+  stroke-width: 1.2;
+  opacity: 0.55;
+}
+
+.db-street text {
+  fill: var(--db-art, rgba(247, 241, 232, 0.5));
+}
+
+.db-shop {
+  transition: opacity 0.9s var(--ease);
+}
+
+.db-shop .ln {
+  transition: stroke 0.6s var(--ease);
+}
+
+/* 02 · the quiet: the shop falls back into the dark */
+.db-stage.is-quiet .db-shop {
+  opacity: 0.38;
+}
+
+/* 03 · blueprint: the drawing becomes the plan */
+.db-stage.is-bp .db-shop .ln {
+  stroke: var(--db-acc, #e08a5f);
+}
+
+.db-callouts {
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.db-stage.is-bp .db-callouts {
+  opacity: 1;
+}
+
+.db-callout {
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+
+.db-callout.on {
+  opacity: 1;
+}
+
+.db-callout .db-lead {
+  fill: none;
+  stroke: var(--db-acc, #e08a5f);
+  stroke-width: 1.3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.55s var(--ease);
+}
+
+.db-callout.on .db-lead {
+  stroke-dashoffset: 0;
+}
+
+.db-callout text {
+  font-family: var(--font-sub);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  fill: var(--db-acc, #e08a5f);
+}
+
+.db-callout circle {
+  fill: var(--db-acc, #e08a5f);
+}
+
+/* 04 · fills are scrubbed inline by JS */
+.db-fill { opacity: 0; }
+.db-fill--awn { fill: #c2552d; }
+.db-fill--sign { fill: #c2552d; }
+.db-fill--door { fill: #cf9b3f; }
+.db-fill--facade { fill: #f7f1e8; }
+
+.db-winwarm {
+  fill: url(#db-winglow);
+  opacity: var(--db-winwarm, 1);
+}
+
+.db-lampglow {
+  fill: url(#db-lampglow);
+  opacity: var(--db-lampwarm, 1);
+}
+
+.db-lampon {
+  fill: #ffd9a0;
+  opacity: var(--db-lampwarm, 1);
+}
+
+/* 05 · enquiries arc into the door */
+.db-arcs.gone {
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+}
+
+.db-arcpath {
+  fill: none;
+  stroke: var(--db-acc, #e08a5f);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  opacity: 0.65;
+}
+
+.db-arctip {
+  fill: var(--db-acc, #e08a5f);
+}
+
+.db-arcpin {
+  fill: var(--db-acc, #e08a5f);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+  transition: all 0.4s var(--spring, cubic-bezier(0.34, 1.4, 0.44, 1));
+}
+
+.db-arcpin--ring {
+  fill: none;
+  stroke: var(--db-acc, #e08a5f);
+  stroke-width: 1.4;
+}
+
+.db-arcpin.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* 06 · the morning */
+.db-birds {
+  opacity: var(--db-birds, 0);
+}
+
+.db-birds path {
+  animation: db-drift 9s ease-in-out infinite;
+}
+
+.db-birds path:nth-child(2) { animation-delay: 3s; }
+.db-birds path:nth-child(3) { animation-delay: 6s; }
+
+@keyframes db-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, -12px); }
+}
+
+.db-grow {
   position: absolute;
-  inset: 0;
+  inset: auto 0 0 0;
+  height: 44vh;
+  z-index: 0;
   pointer-events: none;
-  /* The copy used to be readable because everything behind it was crushed to
-     black. Now that the world keeps its detail, the scrim has to do that work
-     deliberately, or the headings go grey on grey. */
-  background:
-    linear-gradient(
-      100deg,
-      rgba(8, 6, 5, 0.94) 0%,
-      rgba(8, 6, 5, 0.86) 30%,
-      rgba(8, 6, 5, 0.42) 55%,
-      rgba(8, 6, 5, 0) 82%
-    ),
-    linear-gradient(to top, rgba(8, 6, 5, 0.55), rgba(8, 6, 5, 0) 42%);
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
 }
 
-.stage__copy {
+.db-stage.past-6 .db-grow {
+  opacity: 1;
+}
+
+.db-grow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.db-grow__line {
+  fill: none;
+  stroke: var(--db-acc, #e08a5f);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.db-grow__fill {
+  fill: var(--db-acc, #e08a5f);
+  opacity: 0;
+}
+
+/* the copy: beats swap in place, centred */
+.db-copy {
   position: absolute;
-  inset: 0;
+  inset: 0 0 12vh 0;
+  z-index: 5;
   display: grid;
-  align-items: center;
-  padding-inline: max(var(--gutter), 5.5vw);
-  pointer-events: none;
+  place-items: center;
+  text-align: center;
+  padding: 0 6vw;
 }
 
-.beat {
+.db-beat {
   grid-area: 1 / 1;
-  max-width: 41ch;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  color: #f8f3ec;
-  --lp: calc((var(--t, 0) - var(--in)) / var(--span));
-  opacity: min(clamp(0, calc(var(--lp) / 0.16), 1), clamp(0, calc((1 - var(--lp)) / 0.16), 1));
-  transform: translate3d(0, calc((0.5 - var(--lp)) * 74px), 0);
-  will-change: opacity, transform;
+  max-width: 1060px;
+  width: 100%;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
   pointer-events: none;
 }
 
-.stage[data-beat="0"] .beat--hero {
+.db-beat.is-active {
+  opacity: 1;
+  transform: none;
   pointer-events: auto;
 }
 
-.beat__num {
+.db-beat.is-past {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.db-ghost {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
   font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(280px, 40vw, 560px);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--db-line, rgba(247, 241, 232, 0.16));
+  z-index: -1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.db-eyebrow {
+  font-family: var(--font-sub);
   font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--db-acc, #e08a5f);
+  margin-bottom: 24px;
+}
+
+.db-eyebrow__num {
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  margin-right: 14px;
+}
+
+.db-headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 6.2vw, 92px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-headline em {
+  font-style: italic;
+  color: var(--db-acc, #e08a5f);
+}
+
+.db-lede {
+  margin: 26px auto 0;
+  max-width: 52ch;
+  font-size: clamp(15.5px, 1.3vw, 18px);
+  line-height: 1.66;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+}
+
+/* staggered entrance of a beat's children */
+.db-beat > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.db-beat.is-active > * {
+  opacity: 1;
+  transform: none;
+}
+
+.db-beat.is-active > *:nth-child(3) { transition-delay: 0.08s; }
+.db-beat.is-active > *:nth-child(4) { transition-delay: 0.16s; }
+.db-beat.is-active > *:nth-child(5) { transition-delay: 0.24s; }
+
+.db-beat > .db-ghost {
+  transition: opacity 0.65s var(--ease);
+  transform: translate(-50%, -50%);
+}
+
+.db-beat:not(.is-active) > .db-ghost { opacity: 0; }
+.db-beat.is-active > .db-ghost { opacity: 1; }
+
+.db-found {
+  position: relative;
+  display: inline-block;
+}
+
+.db-found::after {
+  content: "";
+  position: absolute;
+  left: 2%;
+  right: 4%;
+  bottom: 0.04em;
+  height: 0.055em;
+  background: var(--db-acc, #e08a5f);
+  border-radius: 99px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s var(--ease) 0.9s;
+}
+
+.db-beat.is-active .db-found::after {
+  transform: scaleX(1);
+}
+
+.db-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+/* beat moments ------------------------------------------------------------ */
+
+.db-neon {
+  display: inline-flex;
+  margin-top: 38px;
+  padding: 14px 34px;
+  border-radius: 14px;
+  border: 2.5px solid var(--db-acc, #e08a5f);
+  font-family: var(--font-sub);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  color: var(--db-acc, #e08a5f);
+  box-shadow: 0 0 26px rgba(224, 138, 95, 0.35), inset 0 0 18px rgba(224, 138, 95, 0.14);
+  animation: db-flicker 5s linear infinite;
+}
+
+@keyframes db-flicker {
+  0%, 100% { opacity: 1; }
+  3% { opacity: 0.5; }
+  5% { opacity: 1; }
+  54% { opacity: 1; }
+  55% { opacity: 0.4; }
+  57% { opacity: 1; }
+  58% { opacity: 0.7; }
+  60% { opacity: 1; }
+}
+
+.db-inboxline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 38px;
+  padding: 18px 30px;
+  border-radius: 16px;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  background: var(--db-panel, rgba(247, 241, 232, 0.05));
+  backdrop-filter: blur(8px);
+  font-variant-numeric: tabular-nums;
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-inboxline__zero {
+  font-family: var(--font-display);
+  font-size: 52px;
   font-weight: 500;
-  letter-spacing: 0.2em;
-  color: rgba(248, 243, 236, 0.6);
+  line-height: 1;
+}
+
+.db-inboxline__what {
+  font-size: 16px;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+}
+
+.db-caret {
+  display: inline-block;
+  width: 2px;
+  height: 38px;
+  background: var(--db-acc, #e08a5f);
+  align-self: center;
+  animation: db-caret 1.1s steps(1) infinite;
+}
+
+@keyframes db-caret {
+  50% { opacity: 0; }
+}
+
+.db-receipt {
+  margin: 34px auto 0;
+  width: min(430px, 88vw);
+  text-align: left;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  border-radius: 18px;
+  background: var(--db-panel, rgba(247, 241, 232, 0.05));
+  backdrop-filter: blur(8px);
+  padding: 22px 26px;
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-receipt h4 {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  margin-bottom: 10px;
+}
+
+.db-rrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 8px 0;
+  font-size: 15.5px;
+  opacity: 0.35;
+  transition: opacity 0.4s var(--ease);
+}
+
+.db-rrow.on {
+  opacity: 1;
+}
+
+.db-bx {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  position: relative;
+  flex: none;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.db-rrow.on .db-bx {
+  background: var(--db-acc, #e08a5f);
+  border-color: var(--db-acc, #e08a5f);
+}
+
+.db-bx::after {
+  content: "";
+  position: absolute;
+  inset: 3px 4px 5px;
+  border: solid #fff;
+  border-width: 0 0 2.5px 2.5px;
+  transform: rotate(-45deg) scale(0);
+  transition: transform 0.3s var(--spring, cubic-bezier(0.34, 1.4, 0.44, 1));
+}
+
+.db-rrow.on .db-bx::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+.db-rtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--db-line, rgba(247, 241, 232, 0.16));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.55s var(--ease);
+}
+
+.db-rtotal.on {
+  opacity: 1;
+  transform: none;
+}
+
+.db-rtotal b {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.db-rtotal span {
+  font-family: var(--font-sub);
+  font-size: 13px;
+  color: var(--db-acc, #e08a5f);
+  font-weight: 600;
+}
+
+.db-buildlist {
+  margin: 34px auto 0;
+  width: min(470px, 88vw);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.db-brow {
   display: flex;
   align-items: center;
   gap: 14px;
+  padding: 13px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  background: var(--db-panel, rgba(247, 241, 232, 0.05));
+  backdrop-filter: blur(8px);
+  font-size: 15px;
+  color: var(--db-ink, #f7f1e8);
+  opacity: 0.3;
+  transform: translateX(-10px);
+  transition: all 0.45s var(--ease);
 }
 
-.beat__num::after {
-  content: "";
-  height: 1px;
-  width: 46px;
-  background: rgba(248, 243, 236, 0.28);
+.db-brow.on {
+  opacity: 1;
+  transform: none;
 }
 
-.beat__title {
-  font-size: clamp(2.2rem, 4.6vw, 4rem);
-  line-height: 1.03;
-  letter-spacing: -0.03em;
-}
-
-.beat__body {
+.db-brow__st {
   font-family: var(--font-sub);
-  color: rgba(248, 243, 236, 0.76);
-  font-size: clamp(1.02rem, 1.3vw, 1.19rem);
-  line-height: 1.62;
-  letter-spacing: -0.005em;
-  max-width: 46ch;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  margin-left: auto;
+  flex: none;
+  transition: color 0.3s;
 }
 
-.stage__cue {
-  position: absolute;
-  left: 50%;
-  bottom: 26px;
-  transform: translateX(-50%);
+.db-brow.on .db-brow__st {
+  color: #5a9b6e;
+}
+
+.db-brow.on .db-brow__st::before {
+  content: "✓ ";
+}
+
+.db-countline {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.db-count {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 11vw, 150px);
+  font-weight: 450;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-countline__what {
+  font-size: 17px;
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  max-width: 12ch;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.db-pile {
+  margin: 26px auto 0;
+  width: min(420px, 88vw);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.db-toast {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  text-align: left;
+  padding: 12px 17px;
+  border-radius: 14px;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  background: var(--db-panel, rgba(247, 241, 232, 0.05));
+  backdrop-filter: blur(8px);
+  color: var(--db-ink, #f7f1e8);
+  opacity: 0;
+  transform: translateY(-16px) scale(0.96);
+  transition: all 0.5s var(--spring, cubic-bezier(0.34, 1.4, 0.44, 1));
+}
+
+.db-toast.on {
+  opacity: 1;
+  transform: none;
+}
+
+.db-ico {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+
+.db-ico--enq { background: rgba(194, 85, 45, 0.22); }
+.db-ico--enq::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--db-acc, #e08a5f); }
+.db-ico--book { background: rgba(90, 155, 110, 0.2); }
+.db-ico--book::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #5a9b6e; }
+.db-ico--star { background: rgba(207, 155, 63, 0.18); color: var(--gold); font-size: 13px; }
+
+.db-toast b {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.db-toast small {
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  font-size: 12.5px;
+}
+
+.db-chip {
   display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  margin-top: 30px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--db-line, rgba(247, 241, 232, 0.16));
+  background: var(--db-panel, rgba(247, 241, 232, 0.05));
+  font-family: var(--font-sub);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--db-ink, #f7f1e8);
+}
+
+.db-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5a9b6e;
+}
+
+/* rail + cue */
+.db-rail {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 7;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.db-rail.is-visible {
+  opacity: 1;
+}
+
+.db-rail button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+.db-rail button i {
+  display: block;
+  width: 2px;
+  height: 22px;
+  background: var(--db-line, rgba(247, 241, 232, 0.16));
+  transition: background 0.3s;
+}
+
+.db-rail button.is-active i {
+  background: var(--db-acc, #e08a5f);
+}
+
+.db-cue {
+  position: absolute;
+  left: 40px;
+  bottom: 26px;
+  z-index: 6;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  font-family: var(--font-sub);
   font-size: 11px;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: rgba(248, 243, 236, 0.6);
-  pointer-events: none;
-  opacity: calc(1 - clamp(0, calc(var(--t, 0) * 22), 1));
+  color: var(--db-muted, rgba(247, 241, 232, 0.62));
+  opacity: var(--db-cue, 1);
+  transition: opacity 0.4s;
 }
 
-/* 9. Scene artwork -------------------------------------------------------- */
+/* 9. Daybreak responsive and reduced motion ------------------------------- */
 
-/* The world is one SVG. Every moving part reads the same two numbers the
-   script writes onto the stage, --t (0 to 1 through the whole story) and
-   --day (0 at midnight, 1 at noon), so the animation never has seams. */
-
-.world text {
-  font-family: var(--font-body);
-}
-
-/* Fades in at --in, back out at --out. --sp sets how sharp the fade is. */
-.sv {
-  opacity: min(
-    clamp(0, calc((var(--t, 0) - var(--in, 0)) * var(--sp, 26)), 1),
-    clamp(0, calc((var(--out, 2) - var(--t, 0)) * var(--sp, 26)), 1)
-  );
-}
-
-/* One switch, no fade out. Used for things that stay once they arrive. */
-.sv-on {
-  opacity: clamp(0, calc((var(--t, 0) - var(--in, 0)) * var(--sp, 60)), 1);
-}
-
-.sv-day {
-  opacity: var(--day, 0);
-}
-
-.sv-night {
-  opacity: calc(1 - var(--day, 0));
-}
-
-/* The night is a single sheet laid over a daylight world. It stays light
-   enough that the artwork's own colour comes through rather than being
-   replaced by the colour of the sheet. */
-.sv-tint {
-  opacity: calc((1 - var(--day, 0)) * 0.52);
-}
-
-.sv-rise {
-  transform: translateY(calc((1 - clamp(0, calc((var(--t, 0) - var(--in, 0)) * 16), 1)) * 30px));
-}
-
-.sv-draw {
-  stroke-dasharray: var(--len, 2400);
-  stroke-dashoffset: calc(var(--len, 2400) * (1 - clamp(0, calc((var(--t, 0) - var(--in, 0)) * 8), 1)));
-}
-
-.twinkle {
-  animation: twinkle 3.4s ease-in-out infinite;
-}
-
-.twinkle:nth-of-type(2n) {
-  animation-delay: 0.7s;
-}
-
-.twinkle:nth-of-type(3n) {
-  animation-delay: 1.5s;
-}
-
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.3;
+@media (max-width: 860px) {
+  .db-clock {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
   }
-  50% {
-    opacity: 0.95;
+
+  .db-headline {
+    font-size: clamp(34px, 9vw, 54px);
+  }
+
+  .db-ghost {
+    font-size: 72vw;
+  }
+
+  .db-street {
+    height: 30vh;
+  }
+
+  .db-copy {
+    inset: 0 0 16vh 0;
+  }
+
+  .db-countline__what {
+    font-size: 14px;
+  }
+
+  .db-rail {
+    display: none;
+  }
+
+  .db-cue {
+    left: 22px;
+  }
+
+  .db-callout text {
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .db-beat,
+  .db-beat > *,
+  .db-found::after,
+  .db-rrow,
+  .db-brow,
+  .db-toast,
+  .db-rtotal,
+  .db-callout,
+  .db-arcpin {
+    transition: none !important;
+  }
+
+  .db-stars i,
+  .db-neon,
+  .db-caret,
+  .db-clock .db-clock__dot,
+  .db-birds path {
+    animation: none !important;
   }
 }
 
@@ -1837,8 +2452,8 @@ p {
 /* 15. Responsive ---------------------------------------------------------- */
 
 @media (max-width: 1080px) {
-  .stage {
-    height: 720vh;
+  .db-stage {
+    height: 740vh;
   }
 }
 
@@ -1856,31 +2471,8 @@ p {
     display: grid;
   }
 
-  .stage {
-    height: 660vh;
-  }
-
-  /* Portrait screens read better with the copy sitting under the world
-     rather than beside it. */
-  .stage__copy {
-    align-items: end;
-    padding-bottom: clamp(48px, 12vh, 110px);
-  }
-
-  .beat {
-    max-width: none;
-    gap: 12px;
-  }
-
-  .beat__body {
-    font-size: 15.5px;
-    max-width: 38ch;
-  }
-
-  .stage__scrim {
-    background:
-      linear-gradient(to top, rgba(8, 6, 5, 0.96) 0%, rgba(8, 6, 5, 0.88) 38%, rgba(8, 6, 5, 0) 74%),
-      linear-gradient(to bottom, rgba(8, 6, 5, 0.55), rgba(8, 6, 5, 0) 26%);
+  .db-stage {
+    height: 680vh;
   }
 
   .split {
@@ -1910,7 +2502,7 @@ p {
     grid-column: 1 / -1;
   }
 
-  .rail {
+  .db-rail {
     display: none;
   }
 
@@ -1925,8 +2517,8 @@ p {
     font-size: 16px;
   }
 
-  .stage {
-    height: 620vh;
+  .db-stage {
+    height: 640vh;
   }
 
   .hero__meta {
@@ -1947,9 +2539,6 @@ p {
     gap: 32px;
   }
 
-  .beat__title {
-    font-size: clamp(1.9rem, 8.4vw, 2.6rem);
-  }
 }
 
 /* 16. Reduced motion and print -------------------------------------------- */
@@ -1987,18 +2576,19 @@ p {
 
 @media print {
   .nav,
-  .rail,
+  .db-rail,
+  .db-cue,
+  .db-clock,
   .progress,
-  .scroll-cue,
-  .stage__cue {
+  .scroll-cue {
     display: none !important;
   }
 
-  .stage {
+  .db-stage {
     height: auto;
   }
 
-  .stage__pin {
+  .db-pin {
     position: static;
     height: auto;
   }
