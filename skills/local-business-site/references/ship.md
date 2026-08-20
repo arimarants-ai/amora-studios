@@ -59,9 +59,14 @@ with exact instructions instead.
 
 ## The order
 
-1. **Repository.** Create it private under their account, commit the site with a
-   real message, push. A private repo costs nothing and hides the work in
-   progress from anyone searching for the business name.
+1. **Repository.** A **new** private repository, named after the client, one per
+   site. Commit the site with a real message and push. A private repo costs
+   nothing and keeps work in progress away from anyone searching the business
+   name. Never add a client's site to an existing repo as a subfolder: it
+   entangles two clients' histories and makes handover impossible.
+
+   Where it lives is a real decision — see "One repo per client, one account"
+   below before creating anything.
 
 2. **Hosting.** Create a project connected to that repo and deploy. Static site,
    no build command, output the repo root unless the structure says otherwise.
@@ -86,6 +91,82 @@ with exact instructions instead.
 7. **Verify live.** Fetch each page, confirm 200. Confirm the files the `<head>`
    points at resolve on the live host, not just on disk. Submit a real enquiry
    through the live form and confirm it arrives.
+
+## One repo per client, one account
+
+**Do not create a separate GitHub account per client.** It is a natural
+instinct — clean separation, nothing tangled — and it goes wrong quickly:
+
+- Every account needs its own password, its own two-factor device, its own
+  recovery codes. Ten clients is ten sets of credentials to keep and to lose.
+- GitHub's terms are written around one account per person. A pile of accounts
+  created by the same human is a support problem waiting to happen, and losing
+  access to one takes a client's site with it.
+- It does not achieve the separation it promises. The sites are already
+  separate — different repos, different projects, different domains. A second
+  account adds bureaucracy, not isolation.
+- Handover gets harder, not easier. Giving a client "their" account means
+  giving away credentials you cannot rotate.
+
+**One account, one repository per client.** That is the separation that
+matters, and it is the one every hosting platform is built around.
+
+### Where the repositories should live
+
+Three arrangements, in the order they usually make sense:
+
+**A GitHub organization** — free, and the right default once there is more than
+one client. The studio gets an org, each client gets a repo inside it, and
+people can be added to a single repo without seeing the others. It reads as a
+business rather than a person's side projects, and a repo can be transferred out
+of it later without touching anyone's personal account.
+
+**A personal account** — fine while there are one or two sites. Everything below
+still applies; moving to an org later is a transfer, not a rebuild.
+
+**The client's own account, with the studio as a collaborator** — right when the
+client insists on owning the code, or when the arrangement might end and they
+want to keep the site. It costs more setup, and most small business owners have
+no GitHub account and no wish for one, so raise it rather than assume it.
+
+Whichever it is, decide **before** creating the repository. Moving one later is
+possible but touches the hosting connection, and it is a conversation nobody
+wants to have mid-project.
+
+### Hosting follows the same shape
+
+**One hosting project per client, named after the client.** Not one project
+serving several sites, not a folder inside an existing project.
+
+Name it exactly and boringly — the client's name, nothing else. Project names
+are the only label anyone sees in a dashboard six months later, and a name that
+does not match what the project deploys is how a live site gets deleted by
+someone tidying up.
+
+**Check the plan you are on.** Free tiers on hosting platforms are commonly
+limited to non-commercial use, and building sites clients pay for is commercial
+whichever way it is described. This changes, so read the current terms rather
+than taking anyone's word for it, including this file's. Being wrong here is
+the kind of thing that surfaces as a suspended account on a Friday.
+
+### Walking someone through it
+
+When the person running this cannot do a step themselves, do not narrate it —
+give them the click path, in order, with what they should see when it worked:
+
+1. **The organization**, if there is not one. GitHub → your avatar → Your
+   organizations → New organization → the free plan. Name it after the studio.
+2. **The repository.** New repository, named after the client, **Private**, no
+   README or .gitignore — the push will bring everything.
+3. **The push.** Usually automatable from here; if not, they get the exact
+   commands with the real repository URL filled in, not a placeholder.
+4. **The hosting project.** New project → import that repository → framework
+   preset none for a static site → no build command → output directory left as
+   the repository root unless the structure says otherwise → deploy.
+5. **Confirm.** Fetch the deployed URL and check it returns the site rather than
+   a build error. A green tick is not a working page.
+
+Then the domain, which is the next section, and which is the client's.
 
 ## The domain belongs to the client
 
