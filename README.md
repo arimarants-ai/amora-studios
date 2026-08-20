@@ -168,6 +168,27 @@ Submit a test enquiry and you should get the email within a few seconds. If noth
 The secret in step 4 matters because the function URL is public. Without it, anyone who found the URL could post a
 fake enquiry and make your account send email.
 
+## Two forms, one table
+
+`services.html#quote` takes a quote request. `contact.html#message` takes a short
+message from someone who is not ready for one. Both write into `leads`, so one
+notification path serves both, and `kind` tells them apart:
+
+| `kind` | From | Ari gets | Sender gets |
+| --- | --- | --- | --- |
+| `quote` | the quote form | notification | the quote confirmation |
+| `message` | the contact page | notification | nothing |
+
+The confirmation promises a plan and a price within one business day, which
+would read strangely to someone who only asked whether we work with
+restaurants. So the function checks `kind` before sending it.
+
+`business` is nullable because of this: a person asking a question has not
+named a business yet, and refusing the message over it would lose the enquiry.
+The insert policy still requires it for a `quote`.
+
+Run `supabase/add-contact-messages.sql` once to add both.
+
 ## The auto-reply to the person who enquired
 
 When a lead lands, two emails go out. The notification to you, and a confirmation

@@ -417,6 +417,7 @@ interface Lead {
   services?: string[] | null;
   message?: string | null;
   contact_pref?: string | null;
+  kind?: string | null;
   page?: string | null;
   created_at?: string | null;
 }
@@ -482,11 +483,18 @@ export async function handler(req: Request): Promise<Response> {
     return new Response("Bad payload", { status: 400 });
   }
 
+  // The contact page writes into this same table. A question is not a quote
+  // request, so it gets its own subject line and, further down, no quote
+  // confirmation.
+  const isMessage = String(lead.kind ?? "quote").trim().toLowerCase() === "message";
   const business = lead.business || "A small business";
-  const subject = `New quote request from ${business}`;
+  const who = lead.business || lead.name || "someone";
+  const subject = isMessage
+    ? `Message from ${who}`
+    : `New quote request from ${business}`;
 
   const rows: Array<[string, string]> = [
-    ["Business", esc(business)],
+    ["Business", lead.business ? esc(lead.business) : "<em>not given</em>"],
     ["Contact", esc(lead.name)],
     ["Email", `<a href="mailto:${esc(lead.email)}">${esc(lead.email)}</a>`],
     ["Phone", lead.phone ? esc(lead.phone) : "<em>not given</em>"],
@@ -497,7 +505,7 @@ export async function handler(req: Request): Promise<Response> {
 
   const html = `
     <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141110">
-      <h2 style="font-size:18px;margin:0 0 16px">New quote request</h2>
+      <h2 style="font-size:18px;margin:0 0 16px">${isMessage ? "Message from the contact page" : "New quote request"}</h2>
       <table cellpadding="0" cellspacing="0" style="border-collapse:collapse">
         ${rows
           .map(
@@ -546,7 +554,14 @@ export async function handler(req: Request): Promise<Response> {
   // already safe in the table, so nothing here is allowed to change the
   // outcome: no throw escapes, and the status stays 200 either way. A broken
   // auto-responder must never cost a lead.
-  await sendAutoReply(lead, apiKey);
+  // Only quote requests get the confirmation. It promises a plan and a price
+  // within one business day, which would read strangely to someone who asked
+  // whether we work with restaurants.
+  if (!isMessage) {
+    await sendAutoReply(lead, apiKey);
+  } else {
+    console.log("Contact message: notification sent, quote confirmation skipped");
+  }
 
   return new Response("Sent", { status: 200 });
 }
