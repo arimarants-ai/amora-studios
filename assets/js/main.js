@@ -708,6 +708,55 @@
 
   // Plain "email us" links elsewhere on the page get their address at runtime
   // for the same reason.
+  /* ------------------------------------------------------- contact form */
+
+  // The short form on the contact page. Deliberately separate from the quote
+  // form: that one writes a lead into the database, where business name is
+  // required. This one is just a message, so it opens the visitor's mail app
+  // pre-written. No backend, nothing to configure, nothing to break.
+  var contactForm = document.querySelector("[data-contact-form]");
+
+  if (contactForm) {
+    var cStatus = contactForm.querySelector("[data-form-status]");
+
+    var cSay = function (message, kind) {
+      if (!cStatus) return;
+      cStatus.textContent = message;
+      cStatus.className = "form__status is-" + kind;
+    };
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!contactForm.reportValidity()) return;
+
+      var data = new FormData(contactForm);
+
+      // Same trap as the quote form: a field no person can see. Show the
+      // normal thank you so the bot does not come back and try again blank.
+      if ((data.get("website") || "").toString().trim()) {
+        contactForm.reset();
+        cSay("Thanks, that is with us. We will come back to you within one working day.", "ok");
+        return;
+      }
+
+      var name = (data.get("name") || "").toString().trim();
+      var body = [
+        "From: " + name,
+        "Email: " + (data.get("email") || "").toString().trim(),
+        "",
+        (data.get("message") || "").toString().trim()
+      ].join("\n");
+
+      window.location.href =
+        "mailto:" + inbox() +
+        "?subject=" + encodeURIComponent("Message from the website" + (name ? " - " + name : "")) +
+        "&body=" + encodeURIComponent(body);
+
+      cSay("Your email app should be opening with everything filled in. Send it and we will reply within one working day.", "ok");
+      track("contact_submitted", { has_message: Boolean((data.get("message") || "").toString().trim()) });
+    });
+  }
+
   var mailLinks = document.querySelectorAll("[data-mailto]");
   for (var m = 0; m < mailLinks.length; m++) {
     var subj = mailLinks[m].getAttribute("data-mailto") || "Hello AMORA";
