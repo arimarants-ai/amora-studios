@@ -145,6 +145,31 @@ test("obviously invalid addresses are rejected, ordinary ones are not", () => {
 
 /* --------------------------------------------------------------- drift --- */
 
+test("index.ts is up to date with its sources", () => {
+  // index.ts is generated, and it is the file that actually gets deployed.
+  // If someone edits autoreply.ts and forgets to re-run build-index.py, the
+  // deployed function keeps the old behaviour and nothing else notices.
+  const here = new URL(".", import.meta.url).pathname;
+  const generated = readFileSync(here + "index.ts", "utf8");
+  const helper = readFileSync(here + "autoreply.ts", "utf8");
+  const handler = readFileSync(here + "handler.part.ts", "utf8");
+
+  assert.ok(
+    generated.includes(helper.trim()),
+    "autoreply.ts changed — re-run: python3 supabase/functions/notify-lead/build-index.py"
+  );
+  const handlerBody = handler.replace(/^import .*$\n?/gm, "").trim();
+  assert.ok(
+    generated.includes(handlerBody),
+    "handler.part.ts changed — re-run: python3 supabase/functions/notify-lead/build-index.py"
+  );
+  assert.equal(
+    generated.match(/^import .*from "\.\/.*$/m),
+    null,
+    "the deployed file must have no relative imports"
+  );
+});
+
 test("the embedded templates still match the files in emails/", () => {
   const here = new URL(".", import.meta.url).pathname;
   const root = here + "../../../";

@@ -172,14 +172,29 @@ order, and the second one cannot affect the first.
 
 ```
 supabase/functions/notify-lead/
-  index.ts           the webhook handler: notification, then auto-reply
-  autoreply.ts       pure template filling, no network, no Deno APIs
-  autoreply.test.ts  16 tests, run with node
+  index.ts           GENERATED. the single file that gets deployed
+  autoreply.ts       source: pure template filling, no network, no Deno APIs
+  handler.part.ts    source: the webhook handler
+  build-index.py     concatenates the two into index.ts
+  autoreply.test.ts  17 tests, run with node
 emails/
   quote-confirmation.html   the designed email
   quote-confirmation.txt    the plain text part
 email/amora-logo.png        served at /email/amora-logo.png
 ```
+
+**`index.ts` is generated and must not be edited directly.** Edit `autoreply.ts`
+or `handler.part.ts`, then run:
+
+```bash
+python3 supabase/functions/notify-lead/build-index.py
+```
+
+It exists as one file because the dashboard editor deploys whatever files you
+have created in it, and it is easy to paste one, hit Deploy, and get
+`Module not found` for the other — which takes the lead notification down with
+it, not just the auto-reply. One file with no relative imports cannot fail that
+way. A test asserts the generated file still matches its sources.
 
 **The templates are embedded in `autoreply.ts` as strings**, not read from disk.
 An edge function has no project filesystem at request time, so reading
@@ -213,10 +228,8 @@ promising a call would be a promise nobody can keep, so the copy stays vague and
 
 ### Deploying a change to it
 
-Both `index.ts` and `autoreply.ts` have to exist in the function. In the
-Supabase dashboard, **Edge Functions → notify-lead → Code**, create the second
-file alongside the first, then deploy. If you deploy `index.ts` alone the import
-fails and the notification stops with it.
+**Edge Functions → notify-lead → Code**, select everything in `index.ts`, paste
+the generated file over it, deploy. One file, nothing else to create.
 
 ### Rules it follows
 
