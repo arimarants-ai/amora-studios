@@ -194,6 +194,12 @@ connecting it means producing instructions rather than making changes. Never edi
 DNS on a domain you do not own, even with access: those records usually carry the
 business's email, and breaking that is worse than any website problem.
 
+**One new private repository per client, and one hosting project per client,
+both named after them.** Never a second GitHub account per client — that is
+credentials to lose rather than separation gained, and the sites are already
+separate. `references/ship.md` covers where the repositories should live and how
+to walk someone through creating them.
+
 Read `references/ship.md` for the order, the traps, and the shape of the
 handover.
 
