@@ -54,8 +54,12 @@ Any static host works. Point it at this folder and there is nothing to build.
 
 ## The email address
 
-Enquiries go to `arimarants@gmail.com`. It is **never shown anywhere on the page**. There is no `mailto:` link in
-the markup and no address in the text.
+The public address is `hello@amorastudios.net`. Cloudflare Email Routing forwards it to Ari's Gmail, and it is
+shown openly in the footer of every page, in the quote form's "write it yourself" link, and in the structured data.
+
+It was hidden while it was a personal Gmail, assembled at runtime so scrapers reading the markup for `mailto:` links
+would not find it. That trade no longer makes sense: a role address on your own domain, behind a provider's spam
+filtering, is meant to be seen. Showing it is worth more than the scraping it invites.
 
 The address is assembled at runtime inside `assets/js/main.js`, in the small `inbox()` function. Everything that
 needs it asks for it there. To change the address, change that one function.

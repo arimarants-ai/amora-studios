@@ -382,7 +382,7 @@
   // Assembled at runtime rather than written into the page, so the address is
   // never rendered as text and never sits in the markup for scrapers to lift.
   function inbox() {
-    return ["arimarants", "gmail.com"].join("@");
+    return ["hello", "amorastudios.net"].join("@");
   }
 
   var form = document.querySelector("[data-quote-form]");
