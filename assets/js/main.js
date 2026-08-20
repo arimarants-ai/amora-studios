@@ -397,9 +397,39 @@
       status.className = "form__status is-" + kind;
     };
 
+    // The phone number is optional until someone asks to be called, at which
+    // point it is the only way to keep the promise the auto-reply makes.
+    var phoneField = form.querySelector("[name='phone']");
+    var prefInputs = Array.prototype.slice.call(form.querySelectorAll("[name='contact_pref']"));
+
+    var syncPhoneRequirement = function () {
+      if (!phoneField || !prefInputs.length) return;
+      var wantsCall = prefInputs.some(function (input) {
+        return input.checked && input.value === "phone";
+      });
+      phoneField.required = wantsCall;
+
+      // The label has to agree with the field, or the form contradicts itself.
+      var hint = form.querySelector("[data-phone-optional]");
+      if (hint) hint.textContent = wantsCall ? "(required)" : "(optional)";
+
+      phoneField.setCustomValidity(
+        wantsCall && !phoneField.value.trim()
+          ? "Add a number, or choose email instead."
+          : ""
+      );
+    };
+
+    prefInputs.forEach(function (input) {
+      input.addEventListener("change", syncPhoneRequirement);
+    });
+    if (phoneField) phoneField.addEventListener("input", syncPhoneRequirement);
+    syncPhoneRequirement();
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      syncPhoneRequirement();
       if (!form.reportValidity()) return;
 
       var data = new FormData(form);
@@ -432,6 +462,7 @@
         "Contact name: " + (data.get("name") || ""),
         "Email: " + (data.get("email") || ""),
         "Phone: " + (data.get("phone") || "not given"),
+        "Prefers: " + (data.get("contact_pref") === "phone" ? "a call" : "email"),
         "",
         "Package interested in:",
         packages.length ? packages.map(function (p) { return "  - " + p; }).join("\n") : "  - none picked",
@@ -458,6 +489,7 @@
           package: packages,
           services: services,
           message: (data.get("message") || "").toString().trim() || null,
+          contact_pref: (data.get("contact_pref") || "").toString().trim() || null,
           page: window.location.pathname
         };
 

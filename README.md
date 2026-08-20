@@ -164,6 +164,82 @@ Submit a test enquiry and you should get the email within a few seconds. If noth
 The secret in step 4 matters because the function URL is public. Without it, anyone who found the URL could post a
 fake enquiry and make your account send email.
 
+## The auto-reply to the person who enquired
+
+When a lead lands, two emails go out. The notification to you, and a confirmation
+to whoever filled the form in. They are sent by the same edge function, in that
+order, and the second one cannot affect the first.
+
+```
+supabase/functions/notify-lead/
+  index.ts           GENERATED. the single file that gets deployed
+  autoreply.ts       source: pure template filling, no network, no Deno APIs
+  handler.part.ts    source: the webhook handler
+  build-index.py     concatenates the two into index.ts
+  autoreply.test.ts  17 tests, run with node
+emails/
+  quote-confirmation.html   the designed email
+  quote-confirmation.txt    the plain text part
+email/amora-logo.png        served at /email/amora-logo.png
+```
+
+**`index.ts` is generated and must not be edited directly.** Edit `autoreply.ts`
+or `handler.part.ts`, then run:
+
+```bash
+python3 supabase/functions/notify-lead/build-index.py
+```
+
+It exists as one file because the dashboard editor deploys whatever files you
+have created in it, and it is easy to paste one, hit Deploy, and get
+`Module not found` for the other — which takes the lead notification down with
+it, not just the auto-reply. One file with no relative imports cannot fail that
+way. A test asserts the generated file still matches its sources.
+
+**The templates are embedded in `autoreply.ts` as strings**, not read from disk.
+An edge function has no project filesystem at request time, so reading
+`emails/quote-confirmation.html` at runtime would fail once deployed. A test
+asserts the embedded copies still match the files, so editing one without the
+other fails the suite rather than silently shipping stale copy.
+
+**If you edit the templates**, regenerate the embedded copies, then run the
+tests:
+
+```bash
+node --experimental-strip-types --test supabase/functions/notify-lead/autoreply.test.ts
+```
+
+Point `--test` at the file, not the folder, or it tries to run `autoreply.ts`
+itself as a test and reports a failure that is not real.
+
+### What varies per email
+
+The person picks email or phone on the form. Three cases:
+
+| They chose | The email says |
+| --- | --- |
+| Email | "Ari emails you the quote." |
+| Phone, with a number given | "Ari calls you with the quote." |
+| Anything else, or phone with no number | "Ari emails or calls you with the quote." |
+
+The last row matters. If someone asks for a call but leaves the number blank,
+promising a call would be a promise nobody can keep, so the copy stays vague and
+**your notification flags it in red** so you know to reply by email.
+
+### Deploying a change to it
+
+**Edge Functions → notify-lead → Code**, select everything in `index.ts`, paste
+the generated file over it, deploy. One file, nothing else to create.
+
+### Rules it follows
+
+- The notification sends first and is never blocked by the auto-reply, which is
+  wrapped in its own try/catch and cannot change the response.
+- An address that fails a basic sanity check is skipped silently. A lead with a
+  typo'd address is still a lead.
+- Names are escaped before going near the HTML, and capped at one word and 40
+  characters.
+
 ## Analytics
 
 This is live. `assets/js/main.js` has two constants near the top, both already filled in, pointing at
