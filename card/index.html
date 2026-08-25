@@ -148,6 +148,52 @@
   .row .t small{display:block;font-size:11.5px;color:rgba(244,237,226,.5);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row .arw{width:13px;height:13px;flex:0 0 auto;stroke:rgba(244,237,226,.32);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
+  /* a row that opens the panel instead of going somewhere */
+  button.row{
+    width:100%;
+    background:none;
+    border:0;border-bottom:1px solid var(--line);
+    font:inherit;color:var(--cream);
+    text-align:left;cursor:pointer;
+  }
+
+  /* ---------- services panel ---------- */
+  .scrim{
+    position:fixed;inset:0;z-index:20;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+    background:rgba(6,5,4,.74);
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  }
+  .scrim[hidden]{display:none}
+  .sheet{
+    width:100%;max-width:360px;max-height:78svh;overflow-y:auto;
+    background:var(--ink-2);
+    border:1px solid rgba(201,161,90,.3);
+    border-radius:12px;
+    padding:18px 18px 16px;
+    box-shadow:0 30px 60px -24px rgba(0,0,0,.95);
+  }
+  .sheet__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .sheet__top h2{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.1;margin:0}
+  .sheet__top p{margin:3px 0 0;font-size:11px;color:rgba(244,237,226,.48)}
+  .sheet__close{
+    flex:0 0 auto;width:30px;height:30px;
+    background:transparent;border:1px solid var(--line);border-radius:6px;
+    color:var(--gold);font-family:var(--body);font-size:16px;line-height:1;cursor:pointer;
+  }
+  .sheet__close:hover{border-color:var(--gold);background:rgba(201,161,90,.09)}
+  .sheet ul{list-style:none;margin:14px 0 0;padding:0}
+  .sheet li{padding:9px 0;border-top:1px solid var(--line)}
+  .sheet li strong{display:block;font-size:13px;font-weight:500;letter-spacing:.01em}
+  .sheet li small{display:block;font-size:10.5px;line-height:1.45;color:rgba(244,237,226,.45);margin-top:2px}
+  .sheet__more{
+    display:inline-block;margin-top:14px;
+    color:var(--gold);text-decoration:none;
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    border-bottom:1px solid rgba(201,161,90,.4);padding-bottom:2px;
+  }
+
   .pitch{
     margin:22px 0 0;padding:18px 18px 20px;
     border:1px solid var(--line);border-radius:8px;
@@ -221,6 +267,12 @@
 
   <div class="rows">
 
+    <button class="row" type="button" data-ev="services" data-sheet-open aria-haspopup="dialog">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span class="t"><strong>What we do</strong><small>Eight services, pick what you need</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+
     <a class="row" href="tel:+14378812746" data-ev="call">
       <svg class="ico" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
       <span class="t"><strong>Call</strong><small>(437) 881-2746</small></span>
@@ -263,6 +315,29 @@
     <button id="share" data-ev="share">Share card</button>
   </div>
 
+</div>
+
+<div class="scrim" data-sheet hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="svc-title">
+    <div class="sheet__top">
+      <div>
+        <h2 id="svc-title">What we do</h2>
+        <p>Take one, take the lot, one monthly price.</p>
+      </div>
+      <button class="sheet__close" type="button" data-sheet-close aria-label="Close">&times;</button>
+    </div>
+    <ul>
+      <li><strong>Website</strong><small>Site build · Landing pages · Optimisation</small></li>
+      <li><strong>Social media</strong><small>Planning · Posting · Engagement</small></li>
+      <li><strong>Content creation</strong><small>Posts · Captions · Blogs · Video concepts</small></li>
+      <li><strong>Local SEO</strong><small>Google Business Profile · Local ranking</small></li>
+      <li><strong>Lead generation</strong><small>Funnels · Forms · Booking flows</small></li>
+      <li><strong>Reputation</strong><small>Review requests · Monitoring · Responses</small></li>
+      <li><strong>Email management</strong><small>Follow-ups · Reminders · Campaigns</small></li>
+      <li><strong>Analytics &amp; growth</strong><small>Your dashboard · Reporting · Recommendations</small></li>
+    </ul>
+    <a class="sheet__more" href="/services.html?utm_source=card&amp;utm_medium=digital-card&amp;utm_campaign=services" data-ev="services_full">See the detail &rarr;</a>
+  </div>
 </div>
 
 <script>
@@ -323,6 +398,38 @@
 
   document.querySelectorAll('[data-ev]').forEach(function(el){
     el.addEventListener('click', function(){ track(el.getAttribute('data-ev')); });
+  });
+
+  /* ------------------------------------------------------------- services
+
+     Opens over the card rather than navigating, so nobody loses the contact
+     details to go and read a list. Closes on the button, on the backdrop and
+     on Escape, and hands focus back to the row that opened it.
+     ------------------------------------------------------------------- */
+
+  var scrim = document.querySelector('[data-sheet]');
+  var openBtn = document.querySelector('[data-sheet-open]');
+  var closeBtn = document.querySelector('[data-sheet-close]');
+  var returnTo = null;
+
+  function openSheet(){
+    returnTo = document.activeElement;
+    scrim.hidden = false;
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function closeSheet(){
+    if (scrim.hidden) return;
+    scrim.hidden = true;
+    document.body.style.overflow = '';
+    if (returnTo && returnTo.focus) returnTo.focus();
+  }
+
+  openBtn.addEventListener('click', openSheet);
+  closeBtn.addEventListener('click', closeSheet);
+  scrim.addEventListener('click', function(e){ if (e.target === scrim) closeSheet(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Esc') closeSheet();
   });
 
   var share = document.getElementById('share');
