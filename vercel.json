@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/card",
+      "destination": "/card/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/card/ari.vcf",
