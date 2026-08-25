@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!--
+  AMORA Studios digital card
+  Lives at card/index.html, served at https://amorastudios.net/card/
+  Companion file: card/ari.vcf
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ari Marants · AMORA Studios</title>
+<meta name="description" content="Growth services for small businesses in College Station and Bryan. Pick the parts you need and we quote one monthly price.">
+<meta name="theme-color" content="#0a0908">
+<meta property="og:title" content="Ari Marants · AMORA Studios">
+<meta property="og:description" content="Pick the parts you need and we quote one monthly price.">
+<meta property="og:url" content="https://amorastudios.net/card">
+<meta property="og:image" content="https://amorastudios.net/email/amora-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0908;
+    --ink-2:#161311;
+    --cream:#f4ede2;
+    --gold:#c9a15a;
+    --gold-mid:#8a6a30;
+    --gold-small:#7d5f2a;
+    --line:rgba(244,237,226,.14);
+    --display:"Didot","Bodoni 72","Instrument Serif",Georgia,serif;
+    --body:"Avenir Next","Space Grotesk",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--ink);
+    color:var(--cream);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    min-height:100svh;
+    display:flex;
+    justify-content:center;
+    padding:28px 20px calc(40px + env(safe-area-inset-bottom));
+  }
+  .wrap{width:100%;max-width:420px}
+
+  /* ---------- the card ---------- */
+  .stage{perspective:1400px;margin-bottom:26px}
+  .card{
+    position:relative;
+    aspect-ratio:1.75/1;
+    transform-style:preserve-3d;
+    transition:transform .62s cubic-bezier(.2,.7,.2,1);
+  }
+  .card.flipped{transform:rotateY(180deg)}
+  .face{
+    position:absolute;inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 24px 50px -22px rgba(0,0,0,.9), 0 0 0 1px rgba(201,161,90,.22);
+  }
+  .front{
+    background:var(--ink-2);
+    display:flex;flex-direction:column;justify-content:space-between;
+    padding:22px 22px 18px;
+  }
+  .front::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+    background:linear-gradient(90deg,var(--gold) 0 34%,transparent 34%);
+  }
+  .mark{
+    font-family:var(--display);
+    font-size:clamp(26px,8.4vw,34px);
+    letter-spacing:.20em;
+    line-height:1;
+    color:var(--cream);
+    text-indent:.20em;
+  }
+  .mark span{display:block;font-size:.34em;letter-spacing:.42em;color:var(--gold);margin-top:9px;text-indent:.42em}
+  .who{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+  .who h1{
+    font-family:var(--display);
+    font-weight:400;font-size:23px;line-height:1.05;margin:0 0 4px;
+  }
+  .who p{margin:0;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:rgba(244,237,226,.62)}
+  .flipbtn{
+    flex:0 0 auto;
+    background:transparent;border:1px solid var(--line);color:var(--gold);
+    font-family:var(--body);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    padding:8px 11px;border-radius:5px;cursor:pointer;
+    transition:border-color .18s,background .18s;
+  }
+  .flipbtn:hover{border-color:var(--gold);background:rgba(201,161,90,.09)}
+
+  .back{
+    background:var(--cream);
+    transform:rotateY(180deg);
+    display:flex;align-items:center;gap:18px;
+    padding:20px 22px;
+  }
+  .qr{width:118px;height:118px;flex:0 0 auto;display:block}
+  .qr path{fill:var(--ink)}
+  .back .copy h2{
+    font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1;
+    margin:0 0 6px;color:var(--ink);
+  }
+  .back .copy p{margin:0;font-size:11.5px;line-height:1.5;color:var(--gold-small)}
+  .back .flipbtn{position:absolute;top:14px;right:14px;color:var(--gold-small);border-color:rgba(10,9,8,.2)}
+  .back .flipbtn:hover{border-color:var(--gold-small);background:rgba(125,95,42,.08)}
+
+  /* ---------- actions ---------- */
+  .save{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:16px;margin-bottom:10px;
+    background:var(--gold);color:var(--ink);
+    font-size:14px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    text-decoration:none;border-radius:8px;
+    transition:filter .18s,transform .18s;
+  }
+  .save:hover{filter:brightness(1.07)}
+  .save:active{transform:translateY(1px)}
+  .save svg{width:17px;height:17px;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  .rows{border-top:1px solid var(--line)}
+  .row{
+    display:flex;align-items:center;gap:14px;
+    padding:15px 4px;border-bottom:1px solid var(--line);
+    color:var(--cream);text-decoration:none;
+    transition:padding-left .2s,color .2s;
+  }
+  .row:hover{padding-left:10px;color:var(--gold)}
+  .row .ico{
+    width:19px;height:19px;flex:0 0 auto;
+    fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .row .t{flex:1;min-width:0}
+  .row .t strong{display:block;font-size:14px;font-weight:500;letter-spacing:.01em}
+  .row .t small{display:block;font-size:11.5px;color:rgba(244,237,226,.5);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .arw{width:13px;height:13px;flex:0 0 auto;stroke:rgba(244,237,226,.32);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+  .pitch{
+    margin:22px 0 0;padding:18px 18px 20px;
+    border:1px solid var(--line);border-radius:8px;
+    background:linear-gradient(180deg,rgba(201,161,90,.07),transparent);
+  }
+  .pitch p{margin:0 0 14px;font-family:var(--display);font-size:19px;line-height:1.3}
+  .pitch a{
+    display:inline-block;padding:11px 18px;
+    border:1px solid var(--gold);border-radius:6px;
+    color:var(--gold);text-decoration:none;
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    transition:background .18s,color .18s;
+  }
+  .pitch a:hover{background:var(--gold);color:var(--ink)}
+
+  .foot{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-top:22px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+    color:rgba(244,237,226,.4);
+  }
+  .foot button{
+    background:none;border:none;padding:0;cursor:pointer;
+    color:var(--gold);font-family:var(--body);
+    font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  }
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+  @media (prefers-reduced-motion:reduce){
+    .card{transition:none}
+    .row,.save,.flipbtn,.pitch a{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="stage">
+    <div class="card" id="card">
+
+      <div class="face front">
+        <div class="mark">AMORA<span>STUDIOS</span></div>
+        <div class="who">
+          <div>
+            <h1>Ari Marants</h1>
+            <p>Founder</p>
+          </div>
+          <button class="flipbtn" data-flip aria-controls="card" aria-expanded="false">Show code</button>
+        </div>
+      </div>
+
+      <div class="face back">
+        <svg class="qr" viewBox="0 0 29 29" role="img" aria-label="QR code linking to this card">
+          <path d="M0 0h7v1h-7zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h2v1h-2zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h3v1h-3zM12 1h1v1h-1zM14 1h6v1h-6zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM11 2h1v1h-1zM13 2h2v1h-2zM16 2h1v1h-1zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h3v1h-3zM13 3h3v1h-3zM18 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h3v1h-3zM14 4h1v1h-1zM19 4h1v1h-1zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM13 5h1v1h-1zM17 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM10 7h1v1h-1zM13 7h2v1h-2zM16 7h2v1h-2zM20 7h1v1h-1zM0 8h1v1h-1zM2 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM11 8h1v1h-1zM14 8h7v1h-7zM24 8h1v1h-1zM27 8h1v1h-1zM0 9h1v1h-1zM2 9h1v1h-1zM8 9h1v1h-1zM12 9h1v1h-1zM14 9h2v1h-2zM21 9h2v1h-2zM25 9h1v1h-1zM28 9h1v1h-1zM0 10h2v1h-2zM3 10h4v1h-4zM13 10h1v1h-1zM16 10h2v1h-2zM22 10h1v1h-1zM26 10h3v1h-3zM0 11h2v1h-2zM4 11h1v1h-1zM7 11h4v1h-4zM12 11h1v1h-1zM17 11h2v1h-2zM23 11h1v1h-1zM27 11h1v1h-1zM1 12h3v1h-3zM5 12h2v1h-2zM9 12h4v1h-4zM17 12h1v1h-1zM21 12h3v1h-3zM25 12h1v1h-1zM27 12h2v1h-2zM3 13h1v1h-1zM5 13h1v1h-1zM8 13h1v1h-1zM12 13h2v1h-2zM16 13h2v1h-2zM20 13h1v1h-1zM22 13h1v1h-1zM25 13h1v1h-1zM28 13h1v1h-1zM0 14h5v1h-5zM6 14h1v1h-1zM9 14h3v1h-3zM14 14h1v1h-1zM17 14h2v1h-2zM22 14h2v1h-2zM25 14h1v1h-1zM27 14h2v1h-2zM0 15h3v1h-3zM9 15h1v1h-1zM13 15h3v1h-3zM17 15h2v1h-2zM20 15h1v1h-1zM22 15h1v1h-1zM24 15h2v1h-2zM27 15h1v1h-1zM0 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h2v1h-2zM9 16h1v1h-1zM11 16h2v1h-2zM14 16h1v1h-1zM17 16h1v1h-1zM19 16h4v1h-4zM25 16h1v1h-1zM27 16h2v1h-2zM3 17h1v1h-1zM14 17h1v1h-1zM16 17h2v1h-2zM20 17h1v1h-1zM22 17h1v1h-1zM25 17h2v1h-2zM28 17h1v1h-1zM0 18h1v1h-1zM3 18h1v1h-1zM6 18h1v1h-1zM8 18h3v1h-3zM13 18h1v1h-1zM18 18h1v1h-1zM21 18h4v1h-4zM27 18h2v1h-2zM1 19h1v1h-1zM4 19h2v1h-2zM9 19h4v1h-4zM15 19h5v1h-5zM21 19h1v1h-1zM24 19h2v1h-2zM27 19h1v1h-1zM0 20h1v1h-1zM2 20h2v1h-2zM5 20h2v1h-2zM9 20h2v1h-2zM15 20h1v1h-1zM17 20h1v1h-1zM19 20h6v1h-6zM8 21h1v1h-1zM10 21h4v1h-4zM17 21h4v1h-4zM24 21h1v1h-1zM26 21h3v1h-3zM0 22h7v1h-7zM11 22h1v1h-1zM14 22h1v1h-1zM17 22h4v1h-4zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h2v1h-2zM0 23h1v1h-1zM6 23h1v1h-1zM11 23h4v1h-4zM17 23h1v1h-1zM20 23h1v1h-1zM24 23h2v1h-2zM27 23h2v1h-2zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM8 24h2v1h-2zM11 24h2v1h-2zM14 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM28 24h1v1h-1zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM9 25h3v1h-3zM13 25h2v1h-2zM16 25h2v1h-2zM19 25h1v1h-1zM23 25h2v1h-2zM26 25h3v1h-3zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h5v1h-5zM14 26h1v1h-1zM19 26h3v1h-3zM23 26h3v1h-3zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h1v1h-1zM13 27h2v1h-2zM16 27h2v1h-2zM19 27h2v1h-2zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h1v1h-1zM10 28h3v1h-3zM14 28h2v1h-2zM17 28h6v1h-6zM24 28h1v1h-1zM27 28h2v1h-2z"/>
+        </svg>
+        <div class="copy">
+          <h2>Point a camera here</h2>
+          <p>Opens this card. Save my details in one tap, no app needed.</p>
+        </div>
+        <button class="flipbtn" data-flip aria-controls="card" aria-expanded="true">Back</button>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="save" href="ari.vcf" download data-ev="save_contact">
+    <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    Save contact
+  </a>
+
+  <div class="rows">
+
+    <a class="row" href="tel:+14378812746" data-ev="call">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+      <span class="t"><strong>Call</strong><small>(437) 881-2746</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+    <a class="row" href="sms:+14378812746" data-ev="text">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-4.2-1L3 20.4l1.5-4.6a8.4 8.4 0 0 1-1-4.3 8.4 8.4 0 0 1 8.5-8.4h.5a8.4 8.4 0 0 1 8 8Z"/></svg>
+      <span class="t"><strong>Text</strong><small>(437) 881-2746</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+    <a class="row" href="mailto:hello@amorastudios.net" data-ev="email">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2.5 6 9.5 7 9.5-7"/></svg>
+      <span class="t"><strong>Email</strong><small>hello@amorastudios.net</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+    <a class="row" href="../index.html" data-ev="site">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>
+      <span class="t"><strong>Website</strong><small>amorastudios.net</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+    <a class="row" href="https://maps.google.com/?q=Bryan+College+Station+TX" data-ev="map">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.8"/></svg>
+      <span class="t"><strong>Bryan &amp; College Station</strong><small>Local, in person, same week</small></span>
+      <svg class="arw" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+
+  </div>
+
+  <div class="pitch">
+    <p>The best one in town is the one you can't find.</p>
+    <a href="../services.html?utm_source=card&amp;utm_medium=digital-card&amp;utm_campaign=intro#quote" data-ev="quote">Get a free quote</a>
+  </div>
+
+  <div class="foot">
+    <span>Growth partner, not a vendor</span>
+    <button id="share" data-ev="share">Share card</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var card = document.getElementById('card');
+  document.querySelectorAll('[data-flip]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var open = card.classList.toggle('flipped');
+      document.querySelectorAll('[data-flip]').forEach(function(x){
+        x.setAttribute('aria-expanded', String(open));
+      });
+      track(open ? 'show_qr' : 'hide_qr');
+    });
+  });
+
+  var src = new URLSearchParams(location.search).get('s') || 'link';
+  function track(ev){
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', ev, { card_source: src });
+    }
+  }
+  track('card_view');
+
+  document.querySelectorAll('[data-ev]').forEach(function(el){
+    el.addEventListener('click', function(){ track(el.getAttribute('data-ev')); });
+  });
+
+  var share = document.getElementById('share');
+  share.addEventListener('click', async function(){
+    var url = 'https://amorastudios.net/card';
+    var data = { title: 'Ari Marants · AMORA Studios', text: 'My card', url: url };
+    if (navigator.share) {
+      try { await navigator.share(data); } catch(e) {}
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+      share.textContent = 'Link copied';
+      setTimeout(function(){ share.textContent = 'Share card'; }, 1800);
+    }
+  });
+})();
+</script>
+</body>
+</html>
