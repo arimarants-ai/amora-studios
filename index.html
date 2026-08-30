@@ -9,7 +9,7 @@
       content="Website, social media, content creation, lead generation, local SEO, reputation, email management, and analytics for small businesses. Pick the services you need and we quote you one monthly price."
     />
     <link rel="canonical" href="https://amorastudios.net/" />
-    <meta name="theme-color" content="#0a0908" />
+    <meta name="theme-color" content="#fffdf8" />
     <meta name="robots" content="index, follow" />
 
     <meta property="og:type" content="website" />
@@ -39,9 +39,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Instrument+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&display=swap"
     />
-    <link rel="stylesheet" href="assets/css/style.css" />
 
     <script type="application/ld+json">
       {
@@ -71,444 +70,484 @@
         ]
       }
     </script>
+
+    <style>
+      /* ====================================================================
+         The ledger landing page. This page carries its own styles; the rest
+         of the site keeps assets/css/style.css. main.js is shared and drives
+         analytics, the year stamp, the mobile menu, and [data-reveal].
+         ==================================================================== */
+
+      :root {
+        --paper: #fffdf8;
+        --paper-warm: #f6f0e4;
+        --ink: #1a1611;
+        --faint: #77695a;
+        --ghost: rgba(26, 22, 17, 0.18);
+        --rule: rgba(26, 22, 17, 0.16);
+        --rule-strong: rgba(26, 22, 17, 0.55);
+        --stamp: #b8401f;
+        --gold: #a97b25;
+        --sage: #3f6153;
+        --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+        --body: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+        --mono: "Spline Sans Mono", "SF Mono", Consolas, monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background:
+          repeating-linear-gradient(0deg, transparent 0 34px, rgba(26, 22, 17, 0.025) 34px 35px),
+          var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .skip-link {
+        position: absolute; left: -9999px; z-index: 100;
+        background: var(--ink); color: var(--paper); padding: 10px 18px;
+        font-family: var(--mono); font-size: 13px; border-radius: 0 0 6px 0; text-decoration: none;
+      }
+      .skip-link:focus { left: 0; top: 0; }
+
+      .sheet { max-width: 1040px; margin: 0 auto; padding: 0 26px; }
+
+      /* ---- masthead ---- */
+      .mast-wrap {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+        background: rgba(255, 253, 248, 0.92); backdrop-filter: blur(6px);
+        border-bottom: 2.5px solid var(--ink);
+      }
+      .mast { max-width: 1040px; margin: 0 auto; padding: 16px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+      .brand svg { width: 46px; height: 28px; display: block; }
+      .brand__name { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1; display: block; }
+      .brand__sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.36em; text-transform: uppercase; display: block; margin-top: 3px; color: var(--faint); }
+      .mast nav { display: flex; gap: 4px; }
+      .mast nav a {
+        font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.05em; text-decoration: none;
+        color: var(--faint); padding: 7px 13px; border: 1px solid transparent; border-radius: 100px; transition: all 0.2s;
+      }
+      .mast nav a:hover, .mast nav a.is-active { color: var(--ink); border-color: var(--rule); }
+      .mast__actions { display: flex; align-items: center; gap: 12px; }
+      .mast__cta {
+        font-family: var(--mono); font-weight: 600; font-size: 12.5px; text-decoration: none;
+        background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 4px;
+        border: 1.5px solid var(--ink); transition: all 0.18s; white-space: nowrap;
+      }
+      .mast__cta:hover { background: var(--stamp); border-color: var(--stamp); }
+      .mast__toggle {
+        display: none; flex-direction: column; justify-content: center; gap: 5px;
+        width: 42px; height: 42px; padding: 0 10px; background: none;
+        border: 1.5px solid var(--ink); border-radius: 4px; cursor: pointer;
+      }
+      .mast__toggle span { display: block; height: 2px; background: var(--ink); border-radius: 2px; }
+      @media (max-width: 760px) {
+        .mast nav { display: none; }
+        .mast__toggle { display: flex; }
+      }
+
+      .mobile-menu {
+        position: fixed; inset: 0; z-index: 49; display: none;
+        background: var(--paper); padding: 110px 26px 40px;
+      }
+      .mobile-menu.is-open { display: grid; align-content: start; gap: 4px; }
+      .mobile-menu a {
+        font-family: var(--display); font-size: 30px; font-weight: 500; text-decoration: none;
+        color: var(--ink); padding: 14px 0; border-bottom: 1px solid var(--rule);
+      }
+      .mobile-menu a:last-child { border-bottom: none; margin-top: 18px; font-family: var(--mono); font-size: 14px; font-weight: 600; background: var(--ink); color: var(--paper); text-align: center; padding: 16px; border-radius: 4px; }
+
+      /* ---- mantra hero: ignites line by line as you scroll ---- */
+      .mantra { height: 300vh; position: relative; }
+      .mantra__pin { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+      .mantra__inner { max-width: 1040px; margin: 0 auto; padding: 60px 26px 0; width: 100%; }
+      .mantra__kicker {
+        font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: var(--stamp); margin-bottom: 30px; display: flex; align-items: center; gap: 14px;
+      }
+      .mantra__kicker::after { content: ""; height: 1px; flex: 1; background: var(--rule); }
+      .mline {
+        font-family: var(--display); font-weight: 400; font-style: italic;
+        font-size: clamp(48px, 8.6vw, 112px); line-height: 1.04; letter-spacing: -0.02em;
+        color: var(--ghost); transition: color 0.5s ease, transform 0.5s ease;
+        transform: translateX(0.5vw);
+      }
+      .mline.is-lit { color: var(--ink); transform: none; }
+      .mline .dot { transition: color 0.5s ease; }
+      .mline.is-lit .dot { color: var(--stamp); }
+      .mantra__row { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-top: 34px; flex-wrap: wrap; }
+      .mantra__sub, .mantra__stamp { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .mantra__stamp { transition-delay: 0.15s; }
+      .mantra__sub.is-lit, .mantra__stamp.is-lit { opacity: 1; transform: translateY(0); }
+      .mantra__sub { color: var(--faint); font-size: 18px; max-width: 52ch; }
+      .mantra__sub b { color: var(--ink); font-weight: 600; }
+      .stamp {
+        display: inline-block;
+        font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--stamp); border: 2.5px solid var(--stamp); border-radius: 8px; padding: 12px 18px;
+        rotate: -4deg; white-space: nowrap;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='2' cy='2' r='1.8' fill='black'/%3E%3C/svg%3E");
+        mask-size: 3px 3px;
+      }
+      .mantra__cue {
+        position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+        font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+        color: var(--faint); display: grid; justify-items: center; gap: 8px;
+      }
+      .mantra__cue::after { content: ""; width: 1.5px; height: 40px; background: linear-gradient(var(--gold), transparent); animation: cue 1.8s ease-in-out infinite; }
+      @keyframes cue {
+        0% { transform: scaleY(0); transform-origin: top; }
+        55% { transform: scaleY(1); transform-origin: top; }
+        56% { transform-origin: bottom; }
+        100% { transform: scaleY(0); transform-origin: bottom; }
+      }
+
+      /* ---- the service carousel, ruled like the ledger ---- */
+      .marquee { border-top: 2.5px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; overflow: hidden; background: var(--paper-warm); }
+      .marquee__track { display: flex; white-space: nowrap; width: max-content; animation: slide 36s linear infinite; }
+      @keyframes slide { to { transform: translateX(-50%); } }
+      .marquee span { font-family: var(--display); font-style: italic; font-size: 20px; color: var(--ink); padding: 0 16px; }
+      .marquee b { font-family: var(--mono); font-style: normal; font-weight: 500; font-size: 12px; color: var(--stamp); padding: 0 4px; position: relative; top: -3px; }
+
+      /* ---- reveals: main.js toggles .is-visible on [data-reveal] ---- */
+      [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+      [data-reveal].is-visible { opacity: 1; transform: none; }
+      [data-reveal-delay="1"] { transition-delay: 0.08s; }
+      [data-reveal-delay="2"] { transition-delay: 0.16s; }
+      [data-reveal-delay="3"] { transition-delay: 0.24s; }
+
+      /* ---- ledger ---- */
+      .ledger-wrap { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 60px; padding: 90px 0 100px; align-items: start; }
+      @media (max-width: 860px) { .ledger-wrap { grid-template-columns: 1fr; gap: 44px; } }
+      .ledger-intro h2 { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 36px); line-height: 1.15; text-wrap: balance; margin-bottom: 16px; }
+      .ledger-intro p { color: var(--faint); max-width: 46ch; margin-bottom: 14px; }
+      .ledger-intro .hint { font-family: var(--mono); font-size: 12.5px; color: var(--gold); }
+      .stages { margin-top: 30px; display: grid; border-top: 1px solid var(--rule); }
+      .stage { display: grid; grid-template-columns: 90px 1fr; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--rule); font-size: 14.5px; text-decoration: none; color: inherit; transition: background 0.15s; }
+      .stage:hover { background: rgba(169, 123, 37, 0.06); }
+      .stage b { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sage); padding-top: 2px; }
+      .stage span { color: var(--faint); }
+
+      .ledger { border: 1.5px solid var(--ink); border-radius: 4px; background: var(--paper); box-shadow: 6px 6px 0 var(--paper-warm), 6px 6px 0 1.5px var(--rule); }
+      .ledger__head { display: flex; justify-content: space-between; align-items: baseline; padding: 18px 24px; border-bottom: 1.5px solid var(--ink); }
+      .ledger__head h3 { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; }
+      .ledger__head span { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+      .item { display: block; cursor: pointer; }
+      .item input { position: absolute; opacity: 0; pointer-events: none; }
+      .item__row { display: grid; grid-template-columns: 26px 1fr auto; gap: 16px; align-items: baseline; padding: 17px 24px; border-bottom: 1px solid var(--rule); transition: background 0.15s; }
+      .item:hover .item__row { background: rgba(169, 123, 37, 0.06); }
+      .item__box {
+        width: 19px; height: 19px; border: 1.6px solid var(--rule-strong); border-radius: 3px;
+        position: relative; top: 3px; transition: border-color 0.2s;
+      }
+      .item__box::after {
+        content: ""; position: absolute; inset: 0;
+        background: no-repeat center / 15px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 13l5 5L20 6' fill='none' stroke='%23b8401f' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        transform: scale(0); transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .item input:checked ~ .item__row .item__box { border-color: var(--stamp); }
+      .item input:checked ~ .item__row .item__box::after { transform: scale(1); }
+      .item input:focus-visible ~ .item__row { outline: 2px solid var(--gold); outline-offset: -2px; }
+      .item__name { font-family: var(--display); font-weight: 500; font-size: 19px; }
+      .item__name small { display: block; font-family: var(--body); font-weight: 400; font-size: 13.5px; color: var(--faint); margin-top: 3px; line-height: 1.5; }
+      .item__no { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+      .item input:checked ~ .item__row .item__no { color: var(--stamp); font-weight: 600; }
+
+      .ledger__total { padding: 20px 24px 24px; }
+      .total__row { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); }
+      .total__row b { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; }
+      .total__row output { font-size: 13px; color: var(--faint); font-variant-numeric: tabular-nums; }
+      .total__row output b { color: var(--stamp); font-size: 15px; letter-spacing: 0; }
+      .total__quote { margin-top: 8px; font-size: 13px; color: var(--faint); }
+      .total__cta { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer;
+        font-family: var(--mono); font-weight: 600; font-size: 13.5px; letter-spacing: 0.04em;
+        padding: 14px 24px; border-radius: 4px; border: 1.5px solid var(--ink); transition: all 0.18s;
+      }
+      .btn--ink { background: var(--ink); color: var(--paper); }
+      .btn--ink:hover { background: var(--stamp); border-color: var(--stamp); }
+      .btn--line { background: transparent; color: var(--ink); }
+      .btn--line:hover { background: var(--paper-warm); }
+      .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+      /* ---- motto ---- */
+      .motto { border-top: 2.5px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 70px 0; background: var(--paper-warm); }
+      .motto__inner { max-width: 1040px; margin: 0 auto; padding: 0 26px; display: grid; grid-template-columns: auto 1fr; gap: 34px; align-items: start; }
+      @media (max-width: 640px) { .motto__inner { grid-template-columns: 1fr; } }
+      .motto__mark { font-family: var(--display); font-size: 110px; line-height: 0.6; color: var(--gold); font-style: italic; }
+      .motto blockquote { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(24px, 3.4vw, 38px); line-height: 1.25; text-wrap: balance; max-width: 26ch; }
+      .motto figcaption { margin-top: 20px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint); }
+
+      /* ---- terms ---- */
+      .terms { padding: 76px 0; }
+      .terms__grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
+      @media (max-width: 760px) { .terms__grid { grid-template-columns: 1fr; } }
+      .term { padding: 30px 26px 34px 0; border-bottom: 1px solid var(--rule); }
+      .term + .term { border-left: 1px solid var(--rule); padding-left: 26px; }
+      @media (max-width: 760px) { .term + .term { border-left: none; padding-left: 0; } }
+      .term b { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px; }
+      .term h3 { font-family: var(--display); font-weight: 500; font-size: 21px; margin-bottom: 10px; }
+      .term p { color: var(--faint); font-size: 14.5px; }
+
+      /* ---- CTA ---- */
+      .cta { background: var(--ink); color: var(--paper); padding: 90px 0; }
+      .cta__inner { max-width: 1040px; margin: 0 auto; padding: 0 26px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 50px; align-items: center; }
+      @media (max-width: 760px) { .cta__inner { grid-template-columns: 1fr; } }
+      .cta h2 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; text-wrap: balance; margin-bottom: 18px; }
+      .cta h2 em { font-style: italic; color: #d9a94e; }
+      .cta p { color: rgba(255, 253, 248, 0.65); max-width: 48ch; }
+      .cta__panel { border: 1px dashed rgba(255, 253, 248, 0.4); border-radius: 6px; padding: 28px; font-family: var(--mono); }
+      .cta__panel .row { display: flex; justify-content: space-between; font-size: 13px; padding: 9px 0; border-bottom: 1px solid rgba(255, 253, 248, 0.14); color: rgba(255, 253, 248, 0.75); }
+      .cta__panel .row b { color: var(--paper); font-weight: 500; }
+      .cta__panel .btn { margin-top: 22px; width: 100%; justify-content: center; background: var(--paper); color: var(--ink); border-color: var(--paper); }
+      .cta__panel .btn:hover { background: #d9a94e; border-color: #d9a94e; }
+
+      /* ---- footer ---- */
+      .footer { background: var(--ink); color: rgba(255, 253, 248, 0.6); border-top: 1px solid rgba(255, 253, 248, 0.16); padding: 50px 0 30px; }
+      .footer__inner { max-width: 1040px; margin: 0 auto; padding: 0 26px; }
+      .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 36px; padding-bottom: 40px; border-bottom: 1px solid rgba(255, 253, 248, 0.14); }
+      @media (max-width: 860px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 540px) { .footer__grid { grid-template-columns: 1fr; } }
+      .footer .brand { color: var(--paper); margin-bottom: 16px; }
+      .footer .brand__sub { color: rgba(255, 253, 248, 0.5); }
+      .footer p { font-size: 14px; max-width: 38ch; }
+      .footer__where { margin-top: 10px; font-family: var(--mono); font-size: 12px; color: #d9a94e; }
+      .footer h4 { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); margin-bottom: 14px; }
+      .footer ul { list-style: none; display: grid; gap: 8px; }
+      .footer a { color: rgba(255, 253, 248, 0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+      .footer a:hover { color: var(--paper); }
+      .footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 22px; font-family: var(--mono); font-size: 11.5px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .mantra { height: auto; }
+        .mantra__pin { position: static; height: auto; padding: 150px 0 90px; overflow: visible; }
+        .mline, .mantra__sub, .mantra__stamp { opacity: 1; transform: none; color: var(--ink); transition: none; }
+        .mline .dot { color: var(--stamp); }
+        .mantra__cue { display: none; }
+        .marquee__track { animation: none; }
+        [data-reveal] { opacity: 1; transform: none; transition: none; }
+        html { scroll-behavior: auto; }
+      }
+
+      @media print {
+        .mast-wrap, .mantra__cue, .mobile-menu { display: none; }
+        .mantra { height: auto; }
+        .mantra__pin { position: static; height: auto; }
+        .mline, .mantra__sub, .mantra__stamp { opacity: 1; transform: none; color: var(--ink); }
+      }
+    </style>
   </head>
 
-  <body class="theme-dark">
-    <a class="skip-link" href="#what-we-do">Skip to content</a>
+  <body>
+    <a class="skip-link" href="#order">Skip to content</a>
 
-    <div class="progress" data-progress aria-hidden="true"><div class="progress__bar"></div></div>
-
-    <header class="nav theme-dark" data-nav>
-      <div class="nav__inner">
+    <div class="mast-wrap">
+      <header class="mast">
         <a class="brand" href="index.html" aria-label="AMORA Studios home">
-          <span class="brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 100 60" fill="none"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#3b2f1c" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#cf9b3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#d9483a" /></svg>
-          </span>
-          <span class="brand__word">
-            <span class="brand__name">amora</span>
-            <span class="brand__sub">Studios</span>
-          </span>
+          <svg viewBox="0 0 100 60" fill="none" aria-hidden="true"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#e9ddc6" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#a97b25" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#b8401f" /></svg>
+          <span><span class="brand__name">amora</span><span class="brand__sub">Studios</span></span>
         </a>
-
-        <nav class="nav__links" aria-label="Primary">
-          <a class="nav__link is-active" href="index.html">Home</a>
-          <a class="nav__link" href="services.html">Services</a>
-          <a class="nav__link" href="about.html">About</a>
-          <a class="nav__link" href="contact.html">Contact</a>
+        <nav aria-label="Primary">
+          <a href="index.html" class="is-active">Home</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
         </nav>
-
-        <div class="nav__actions">
-          <a class="btn btn--primary nav__cta" href="services.html#quote">Get a quote</a>
-          <button class="nav__toggle" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <div class="mast__actions">
+          <a class="mast__cta" href="services.html#quote">Get a quote</a>
+          <button class="mast__toggle" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
             <span></span><span></span><span></span>
           </button>
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
 
-    <div class="mobile-menu theme-dark" id="mobile-menu" data-menu>
+    <div class="mobile-menu" id="mobile-menu" data-menu>
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a class="btn btn--primary" href="services.html#quote">Get a quote</a>
+      <a href="services.html#quote">Get a quote</a>
     </div>
 
     <main>
-      <!-- ======================================================================
-           THE STORY · Daybreak
-           One pinned frame. The whole story is a single night, 23:12 to 09:00.
-           The sky grades from espresso to cream as you scroll, a fine-line
-           drawing of the shop sketches itself in, becomes the plan, earns its
-           colour, and fills with life. Every stroke is scrubbed by the scroll.
-      ======================================================================= -->
-      <section class="db-stage theme-dark" data-db-stage data-nav-theme="dark" aria-label="How AMORA Studios takes a small business from unseen to open, told as one night">
-        <div class="db-pin" data-db-pin>
-
-          <div class="db-stars" aria-hidden="true">
-            <i style="left:8%;top:14%"></i><i style="left:19%;top:32%;animation-delay:1s"></i><i style="left:29%;top:8%;animation-delay:2.2s"></i>
-            <i style="left:41%;top:26%"></i><i style="left:52%;top:12%;animation-delay:1.5s"></i><i style="left:63%;top:30%;animation-delay:0.7s"></i>
-            <i style="left:72%;top:9%;animation-delay:2.6s"></i><i style="left:83%;top:24%"></i><i style="left:91%;top:15%;animation-delay:1.9s"></i>
-            <i style="left:12%;top:48%;animation-delay:3s"></i><i style="left:57%;top:44%;animation-delay:1.1s"></i><i style="left:87%;top:41%;animation-delay:0.4s"></i>
-          </div>
-          <div class="db-sun" aria-hidden="true"></div>
-
-          <div class="db-clock" data-db-clock aria-label="Time of night in the story">
-            <span class="db-clock__dot"></span>
-            <time data-db-time>23:12</time>
-            <small data-db-daylabel>tonight</small>
-          </div>
-
-          <!-- the drawing: sketched, dimmed, blueprinted, coloured and visited, all by scroll -->
-          <div class="db-street" aria-hidden="true">
-            <svg viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax meet">
-              <defs>
-                <radialGradient id="db-winglow" cx="0.5" cy="0.5" r="0.5">
-                  <stop offset="0" stop-color="#ffb45c" stop-opacity="0.4" /><stop offset="1" stop-color="#ffb45c" stop-opacity="0" />
-                </radialGradient>
-                <radialGradient id="db-lampglow" cx="0.5" cy="0.5" r="0.5">
-                  <stop offset="0" stop-color="#ffd9a0" stop-opacity="0.35" /><stop offset="1" stop-color="#ffd9a0" stop-opacity="0" />
-                </radialGradient>
-              </defs>
-
-              <!-- distant rooftops -->
-              <path class="ln ln--soft draw" d="M40 396 L40 330 L120 330 L120 302 L186 302 L186 344 L260 344 L260 316 L330 316 L330 396" />
-              <path class="ln ln--soft draw" d="M352 396 L352 336 L420 336 L420 360 L470 360 L470 396" />
-
-              <!-- the street itself -->
-              <path class="ln draw" d="M0 396 L1440 396" />
-              <path class="ln ln--soft draw" d="M60 410 L200 410 M290 410 L520 410 M640 410 L900 410 M1010 410 L1290 410" />
-
-              <!-- streetlamp -->
-              <ellipse class="db-lampglow" cx="560" cy="240" rx="130" ry="140" />
-              <path class="ln draw" d="M560 396 L560 190 Q560 168 584 168 L596 168" />
-              <path class="ln draw" d="M596 158 L596 178" />
-              <circle class="db-lampon" cx="601" cy="168" r="7" />
-              <circle class="ln draw" cx="601" cy="168" r="11" />
-
-              <!-- the corner shop -->
-              <g class="db-shop" data-db-shop>
-                <ellipse class="db-winwarm" cx="985" cy="300" rx="190" ry="120" />
-                <path class="db-fill db-fill--facade" data-db-fill="facade" d="M830 396 L830 128 L1190 128 L1190 396 Z" />
-                <path class="ln draw" d="M830 396 L830 128 L1190 128 L1190 396" />
-                <path class="ln draw" d="M818 128 L1202 128" />
-                <path class="ln draw" d="M824 112 L1196 112 L1202 128 L818 128 Z" />
-                <rect class="db-fill db-fill--sign" data-db-fill="sign" x="856" y="150" width="308" height="46" rx="6" />
-                <rect class="ln draw" x="856" y="150" width="308" height="46" rx="6" />
-                <text data-db-signtext x="1010" y="181" font-size="21" text-anchor="middle" font-family="Fraunces, Georgia, serif" letter-spacing="5.5">THE CORNER SHOP</text>
-                <path class="db-fill db-fill--awn" data-db-fill="awn" d="M842 216 L1178 216 L1178 244 Q1157 262 1136 244 Q1115 262 1094 244 Q1073 262 1052 244 Q1031 262 1010 244 Q989 262 968 244 Q947 262 926 244 Q905 262 884 244 Q863 262 842 244 Z" />
-                <path class="ln draw" d="M842 216 L1178 216 L1178 244 Q1157 262 1136 244 Q1115 262 1094 244 Q1073 262 1052 244 Q1031 262 1010 244 Q989 262 968 244 Q947 262 926 244 Q905 262 884 244 Q863 262 842 244 Z" />
-                <rect class="ln draw" x="856" y="272" width="176" height="124" rx="4" />
-                <path class="ln ln--soft draw" d="M944 272 L944 396" />
-                <path class="ln ln--soft draw" d="M856 334 L1032 334" />
-                <circle class="ln ln--soft draw" cx="900" cy="352" r="9" />
-                <path class="ln ln--soft draw" d="M884 396 L884 378 Q884 366 900 366 Q916 366 916 378 L916 396" />
-                <path class="db-fill db-fill--door" data-db-fill="door" d="M1064 272 L1164 272 L1164 396 L1064 396 Z" />
-                <rect class="ln draw" x="1064" y="272" width="100" height="124" rx="4" />
-                <circle class="ln draw" cx="1076" cy="340" r="3.5" />
-                <path class="ln ln--soft draw" d="M1114 272 L1114 286" />
-                <rect class="ln draw" x="1090" y="286" width="48" height="24" rx="5" />
-                <text data-db-opentext x="1114" y="303" font-size="12" font-weight="600" text-anchor="middle" font-family="Instrument Sans, Helvetica, sans-serif" letter-spacing="2">OPEN</text>
-                <path class="ln ln--soft draw" d="M1204 396 L1200 366 L1232 366 L1228 396 Z" />
-                <path class="ln ln--soft draw" d="M1216 366 Q1204 340 1220 322 M1216 366 Q1230 344 1246 338 M1216 366 Q1198 350 1194 334" />
-              </g>
-
-              <!-- 03 · the plan, written onto the drawing -->
-              <g class="db-callouts" data-db-callouts>
-                <g class="db-callout">
-                  <circle cx="1164" cy="173" r="4" />
-                  <path class="db-lead" pathLength="1" d="M1168 173 L1258 173" />
-                  <text x="1266" y="178">Social</text>
-                </g>
-                <g class="db-callout">
-                  <circle cx="1032" cy="320" r="4" />
-                  <path class="db-lead" pathLength="1" d="M1036 320 L1258 320" />
-                  <text x="1266" y="325">Website</text>
-                </g>
-                <g class="db-callout">
-                  <circle cx="1164" cy="356" r="4" />
-                  <path class="db-lead" pathLength="1" d="M1168 356 L1258 356" />
-                  <text x="1266" y="361">Leads</text>
-                </g>
-                <g class="db-callout">
-                  <circle cx="1178" cy="230" r="4" />
-                  <path class="db-lead" pathLength="1" d="M1182 230 L1258 230" />
-                  <text x="1266" y="235">Content</text>
-                </g>
-                <g class="db-callout">
-                  <circle cx="1114" cy="298" r="4" />
-                  <path class="db-lead" pathLength="1" d="M1114 298 Q1114 268 1258 268" />
-                  <text x="1266" y="273">Email</text>
-                </g>
-              </g>
-
-              <!-- 05 · enquiries arc into the door -->
-              <g class="db-arcs" data-db-arcs>
-                <path class="db-arcpath" data-db-arc d="M140 40 Q560 60 900 200 Q1060 262 1108 290" />
-                <circle class="db-arctip" data-db-tip r="4.5" />
-                <path class="db-arcpath" data-db-arc d="M1400 30 Q1300 160 1220 230 Q1160 272 1122 290" />
-                <circle class="db-arctip" data-db-tip r="4.5" />
-                <path class="db-arcpath" data-db-arc d="M60 250 Q480 300 840 330 Q1020 342 1096 306" />
-                <circle class="db-arctip" data-db-tip r="4.5" />
-                <circle class="db-arcpin" data-db-pinpop cx="1114" cy="284" r="7" />
-                <circle class="db-arcpin db-arcpin--ring" data-db-pinpop cx="1114" cy="284" r="12" />
-              </g>
-
-              <!-- 06 · the morning -->
-              <g class="db-birds">
-                <path class="ln ln--soft" d="M330 130 Q340 122 350 130 Q360 122 370 130" />
-                <path class="ln ln--soft" d="M420 96 Q428 90 436 96 Q444 90 452 96" />
-                <path class="ln ln--soft" d="M1280 110 Q1289 103 1298 110 Q1307 103 1316 110" />
-              </g>
-              <g class="db-customers" data-db-customers>
-                <circle class="ln" cx="1290" cy="322" r="9" />
-                <path class="ln" d="M1274 396 L1274 356 Q1274 340 1290 340 Q1306 340 1306 356 L1306 396" />
-                <circle class="ln ln--soft" cx="1336" cy="332" r="7.5" />
-                <path class="ln ln--soft" d="M1324 396 L1324 362 Q1324 348 1336 348 Q1348 348 1348 362 L1348 396" />
-                <circle class="ln ln--soft" cx="760" cy="330" r="8" />
-                <path class="ln ln--soft" d="M746 396 L746 360 Q746 346 760 346 Q774 346 774 360 L774 396" />
-              </g>
-            </svg>
-          </div>
-
-          <div class="db-grow" aria-hidden="true">
-            <svg viewBox="0 0 1200 340" preserveAspectRatio="none">
-              <path class="db-grow__fill" data-db-growfill d="M0 300 C150 292 240 268 360 252 C480 236 560 244 680 210 C800 176 900 150 1020 108 C1090 84 1150 66 1200 52 L1200 340 L0 340 Z" />
-              <path class="db-grow__line" data-db-growline pathLength="1" d="M0 300 C150 292 240 268 360 252 C480 236 560 244 680 210 C800 176 900 150 1020 108 C1090 84 1150 66 1200 52" />
-            </svg>
-          </div>
-
-          <div class="db-copy">
-            <article class="db-beat" data-in="-0.05" data-span="0.17">
-              <p class="db-eyebrow">AMORA Studios</p>
-              <h1 class="db-headline">Good businesses<br />deserve to be <em class="db-found">found.</em></h1>
-              <p class="db-lede">
-                We run the social media, build the website, bring in the leads, and handle the follow up. You pick
-                the parts you actually need and we send you one monthly price for all of it.
+      <!-- Mantra hero: the three lines ignite one by one as you scroll -->
+      <section class="mantra" data-mantra aria-label="Get found. Get booked. Get remembered.">
+        <div class="mantra__pin">
+          <div class="mantra__inner">
+            <p class="mantra__kicker">AMORA Studios · growth for small businesses</p>
+            <h1 class="mline" data-step="0">Get found<span class="dot">.</span></h1>
+            <p class="mline" data-step="1" role="presentation">Get booked<span class="dot">.</span></p>
+            <p class="mline" data-step="2" role="presentation">Get remembered<span class="dot">.</span></p>
+            <div class="mantra__row">
+              <p class="mantra__sub" data-step="3">
+                We run the social media, build the website, bring in the leads, and handle the follow up.
+                <b>Tick the services you actually need</b> and we send you one monthly price for all of it.
               </p>
-              <div class="db-actions">
-                <a class="btn btn--primary btn--lg" href="services.html">
-                  See what we do
-                  <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
-                </a>
-                <a class="btn btn--ghost btn--lg" href="services.html#quote">Get a quote</a>
-              </div>
-            </article>
-
-            <article class="db-beat" data-in="0.13" data-span="0.13">
-              <span class="db-ghost" aria-hidden="true">01</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">01</span>Where it starts</p>
-              <h2 class="db-headline">You built something <em>real.</em></h2>
-              <p class="db-lede">
-                The work is good and the regulars know it. Word of mouth carries you through most weeks, and for a
-                while that has been enough to keep the lights on.
-              </p>
-              <div><span class="db-neon">OPEN</span></div>
-            </article>
-
-            <article class="db-beat" data-in="0.27" data-span="0.13">
-              <span class="db-ghost" aria-hidden="true">02</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">02</span>The quiet part</p>
-              <h2 class="db-headline">Most people still have not <em>heard</em> of you.</h2>
-              <p class="db-lede">
-                The inbox is slow. The page has not been posted on in months. The phone only rings when someone
-                finally remembers your name.
-              </p>
-              <div class="db-inboxline">
-                <span class="db-inboxline__zero">0</span>
-                <span class="db-inboxline__what">new enquiries this week</span>
-                <span class="db-caret"></span>
-              </div>
-            </article>
-
-            <article class="db-beat" data-in="0.41" data-span="0.14">
-              <span class="db-ghost" aria-hidden="true">03</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">03</span>You choose</p>
-              <h2 class="db-headline">Pick only the parts you <em>need.</em></h2>
-              <p class="db-lede">
-                Build, attract, convert, grow. Take one stage, take all four, or start with the single thing that is
-                costing you customers right now.
-              </p>
-              <div class="db-receipt">
-                <h4>Build your plan</h4>
-                <div class="db-rrow" data-at="0.25"><span class="db-bx"></span>Social media</div>
-                <div class="db-rrow" data-at="0.38"><span class="db-bx"></span>Website</div>
-                <div class="db-rrow" data-at="0.51"><span class="db-bx"></span>Lead generation</div>
-                <div class="db-rrow" data-at="0.64"><span class="db-bx"></span>Content creation</div>
-                <div class="db-rrow" data-at="0.77"><span class="db-bx"></span>Email management</div>
-                <div class="db-rtotal" data-at="0.88"><b>Your monthly quote</b><span>built around this list</span></div>
-              </div>
-            </article>
-
-            <article class="db-beat" data-in="0.55" data-span="0.14">
-              <span class="db-ghost" aria-hidden="true">04</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">04</span>We build</p>
-              <h2 class="db-headline">Then we build it and <em>run</em> it.</h2>
-              <p class="db-lede">
-                A website that loads fast and reads clearly. Social posted on a real schedule, with the photos and
-                videos made for you. Local search set up so you turn up when someone nearby looks.
-              </p>
-              <div class="db-buildlist">
-                <div class="db-brow" data-at="0.25">Website<span class="db-brow__st">live</span></div>
-                <div class="db-brow" data-at="0.42">14 posts, made and scheduled<span class="db-brow__st">queued</span></div>
-                <div class="db-brow" data-at="0.59">Google Business Profile<span class="db-brow__st">updated</span></div>
-                <div class="db-brow" data-at="0.76">Booking, open all hours<span class="db-brow__st">on</span></div>
-              </div>
-            </article>
-
-            <article class="db-beat" data-in="0.69" data-span="0.14">
-              <span class="db-ghost" aria-hidden="true">05</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">05</span>It starts moving</p>
-              <h2 class="db-headline">The quiet turns into <em>enquiries.</em></h2>
-              <div class="db-countline">
-                <span class="db-count" data-db-count>0</span>
-                <span class="db-countline__what">new enquiries this week</span>
-              </div>
-              <div class="db-pile">
-                <div class="db-toast" data-at="0.3"><span class="db-ico db-ico--enq"></span><div><b>New enquiry from the website</b><small>Asking about next week</small></div></div>
-                <div class="db-toast" data-at="0.5"><span class="db-ico db-ico--book"></span><div><b>Booking confirmed</b><small>Thursday at 10:30, deposit paid</small></div></div>
-                <div class="db-toast" data-at="0.7"><span class="db-ico db-ico--star">★</span><div><b>New five star review</b><small>Left after the automatic follow up</small></div></div>
-              </div>
-            </article>
-
-            <article class="db-beat" data-in="0.83" data-span="0.17">
-              <span class="db-ghost" aria-hidden="true">06</span>
-              <p class="db-eyebrow"><span class="db-eyebrow__num">06</span>And you grow</p>
-              <h2 class="db-headline">A busier month, then <em>another</em> one.</h2>
-              <p class="db-lede">
-                Reviews asked for and answered. Email to the customers you already have. Your own dashboard showing
-                what we are doing as we do it, and one plain report each month showing what your money did.
-              </p>
-              <div><span class="db-chip"><i></i>Your dashboard · live all month</span></div>
-            </article>
+              <span class="stamp mantra__stamp" data-step="3" aria-hidden="true">One monthly price</span>
+            </div>
           </div>
-
-          <nav class="db-rail" data-db-rail aria-label="Jump through the story">
-            <button type="button" data-to="0.15" aria-label="Where it starts"><i></i></button>
-            <button type="button" data-to="0.29" aria-label="The quiet part"><i></i></button>
-            <button type="button" data-to="0.43" aria-label="You choose"><i></i></button>
-            <button type="button" data-to="0.57" aria-label="We build"><i></i></button>
-            <button type="button" data-to="0.71" aria-label="It starts moving"><i></i></button>
-            <button type="button" data-to="0.87" aria-label="And you grow"><i></i></button>
-          </nav>
-
-          <div class="db-cue" aria-hidden="true">
-            <span>Scroll</span>
-            <span class="scroll-cue__track"></span>
-          </div>
+          <div class="mantra__cue" aria-hidden="true"><span>Scroll</span></div>
         </div>
       </section>
 
-      <!-- ========================= WHAT WE DO ============================= -->
-      <section class="section theme-light" data-nav-theme="light" id="what-we-do">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <p class="eyebrow">What we do</p>
-            <h2 class="display-md">Everything a small business needs to be seen, booked, and remembered.</h2>
-            <p class="lead">
-              These eight are what we do. Take one of them, take the lot, or start with the one thing that is
-              costing you customers right now.
+      <!-- The constant sideways carousel of the eight services -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Website<b>№01</b></span><span>Social media<b>№02</b></span><span>Content creation<b>№03</b></span><span>Lead generation<b>№04</b></span>
+          <span>Local SEO<b>№05</b></span><span>Reputation<b>№06</b></span><span>Email management<b>№07</b></span><span>Analytics &amp; growth<b>№08</b></span>
+          <span>Website<b>№01</b></span><span>Social media<b>№02</b></span><span>Content creation<b>№03</b></span><span>Lead generation<b>№04</b></span>
+          <span>Local SEO<b>№05</b></span><span>Reputation<b>№06</b></span><span>Email management<b>№07</b></span><span>Analytics &amp; growth<b>№08</b></span>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <section class="ledger-wrap" id="order">
+          <div class="ledger-intro">
+            <h2 data-reveal>Eight services. You hold the pen.</h2>
+            <p data-reveal data-reveal-delay="1">
+              These eight are what we do. Take one of them, take the lot, or start with the one thing
+              that is costing you customers right now.
             </p>
+            <p class="hint" data-reveal data-reveal-delay="2">Tick a few, then build your quote — we price exactly that list.</p>
+            <div class="stages">
+              <a class="stage" href="services.html#build" data-reveal><b>Build</b><span>The website and pages that hold everything up.</span></a>
+              <a class="stage" href="services.html#attract" data-reveal data-reveal-delay="1"><b>Attract</b><span>Social, content, and local search that get you seen.</span></a>
+              <a class="stage" href="services.html#convert" data-reveal data-reveal-delay="2"><b>Convert</b><span>Leads, bookings, and follow up that fill the diary.</span></a>
+              <a class="stage" href="services.html#grow" data-reveal data-reveal-delay="3"><b>Grow</b><span>Reputation, email, and reporting that compound.</span></a>
+            </div>
           </div>
 
-          <div class="teaser-grid">
-            <article class="teaser" data-reveal data-reveal-delay="1">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="15" rx="3" /><path d="M2.5 9h19" /><circle cx="6" cy="6.5" r="0.9" fill="currentColor" /></svg></span>
-              <h3>Website</h3>
-              <p>Site build, landing pages, and the tuning that turns a visitor into a phone call.</p>
-            </article>
+          <form class="ledger" data-reveal data-reveal-delay="1" aria-label="Pick your services">
+            <div class="ledger__head"><h3>Service list</h3><span>form A-01 · rev. 2026</span></div>
 
-            <article class="teaser" data-reveal data-reveal-delay="2">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" /></svg></span>
-              <h3>Social media</h3>
-              <p>Planning, posting, and answering what comes back, on a schedule you can rely on.</p>
-            </article>
+            <label class="item"><input type="checkbox" name="svc" value="Website" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Website<small>Site build, landing pages, and the tuning that turns a visitor into a phone call.</small></span>
+                <span class="item__no">№ 01</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Social media" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Social media<small>Planning, posting, and answering what comes back, on a schedule you can rely on.</small></span>
+                <span class="item__no">№ 02</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Content creation" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Content creation<small>Posts, captions, blogs, and video concepts made for your business.</small></span>
+                <span class="item__no">№ 03</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Lead generation" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Lead generation<small>Funnels, forms, and booking flows that turn attention into real enquiries.</small></span>
+                <span class="item__no">№ 04</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Local SEO" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Local SEO<small>Your Google Business Profile kept current so people nearby find you first.</small></span>
+                <span class="item__no">№ 05</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Reputation" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Reputation<small>Review requests after every job, monitored and replied to.</small></span>
+                <span class="item__no">№ 06</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Email management" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Email management<small>Follow ups, reminders, and campaigns to the customers you already have.</small></span>
+                <span class="item__no">№ 07</span></span>
+            </label>
+            <label class="item"><input type="checkbox" name="svc" value="Analytics & growth" />
+              <span class="item__row"><span class="item__box" aria-hidden="true"></span>
+                <span class="item__name">Analytics &amp; growth<small>Your own dashboard to watch it happen and send us feedback, plus one plain report a month.</small></span>
+                <span class="item__no">№ 08</span></span>
+            </label>
 
-            <article class="teaser" data-reveal data-reveal-delay="3">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="14" height="14" rx="3" /><path d="m16.5 10 5-3v10l-5-3z" /></svg></span>
-              <h3>Content creation</h3>
-              <p>Posts, captions, blogs, and video concepts made for your business.</p>
-            </article>
+            <div class="ledger__total">
+              <div class="total__row"><b>Your plan</b><output data-tally><b>0</b> of 8 selected</output></div>
+              <p class="total__quote">One monthly quote, built around this list. No bundles, no padding.</p>
+              <div class="total__cta">
+                <a class="btn btn--ink" href="services.html#quote" data-quote-link>Build your quote</a>
+                <a class="btn btn--line" href="about.html">How we work</a>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
 
-            <article class="teaser" data-reveal data-reveal-delay="4">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.5" cy="8" r="3.4" /><path d="M3.5 20a6 6 0 0 1 12 0" /><path d="M19 8v6M16 11h6" /></svg></span>
-              <h3>Lead generation</h3>
-              <p>Funnels, forms, and booking flows that turn attention into real enquiries.</p>
-            </article>
-
-            <article class="teaser" data-reveal data-reveal-delay="1">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z" /><circle cx="12" cy="10" r="2.6" /></svg></span>
-              <h3>Local SEO</h3>
-              <p>Your Google Business Profile kept current so people nearby find you first.</p>
-            </article>
-
-            <article class="teaser" data-reveal data-reveal-delay="2">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.7 6.4.7-4.8 4.3 1.3 6.3L12 17l-5.5 3 1.3-6.3L3 9.4l6.4-.7z" /></svg></span>
-              <h3>Reputation</h3>
-              <p>Review requests after every job, monitored and replied to.</p>
-            </article>
-
-            <article class="teaser" data-reveal data-reveal-delay="3">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m3.5 7 8.5 6 8.5-6" /></svg></span>
-              <h3>Email management</h3>
-              <p>Follow ups, reminders, and campaigns to the customers you already have.</p>
-            </article>
-
-            <article class="teaser" data-reveal data-reveal-delay="4">
-              <span class="teaser__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3" /><path d="M7.5 15.5V11M12 15.5V8.5M16.5 15.5v-3" /></svg></span>
-              <h3>Analytics &amp; growth</h3>
-              <p>Your own dashboard to watch it happen and send us feedback, plus one plain report a month.</p>
-            </article>
-          </div>
-
-          <div class="btn-row" style="margin-top: 40px" data-reveal>
-            <a class="btn btn--primary" href="services.html">
-              See all services
-              <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
-            </a>
-            <a class="btn btn--ghost" href="about.html">About AMORA</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================ THE MOTTO ========================== -->
-      <section class="section section--tight theme-light" data-nav-theme="light">
-        <div class="container">
-          <figure class="quote" data-reveal>
+      <section class="motto">
+        <figure class="motto__inner" data-reveal>
+          <span class="motto__mark" aria-hidden="true">&ldquo;</span>
+          <div>
             <blockquote>
-              You should never pay for a service you did not ask for. Choose what you need, and we will price it
-              honestly.
+              You should never pay for a service you did not ask for. Choose what you need,
+              and we will price it honestly.
             </blockquote>
             <figcaption>How we work at AMORA Studios</figcaption>
-          </figure>
-        </div>
+          </div>
+        </figure>
       </section>
 
-      <!-- ============================== CTA ============================== -->
-      <section class="section cta-band theme-dark" data-nav-theme="dark" id="contact">
-        <div class="container container--narrow cta-band__inner">
-          <p class="eyebrow" data-reveal>Get started</p>
-          <h2 class="display-lg" data-reveal data-reveal-delay="1">Tell us what you need.</h2>
-          <p class="lead" data-reveal data-reveal-delay="2">
-            Tick the services you are interested in, tell us a little about your business, and we will come back with
-            a monthly price and a date we can start.
-          </p>
-          <div class="btn-row" data-reveal data-reveal-delay="3" style="justify-content: center">
-            <a class="btn btn--primary btn--lg" href="services.html#quote">
-              Build your quote
-              <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
-            </a>
-            <a class="btn btn--ghost btn--lg" href="services.html">Browse the services</a>
+      <div class="sheet">
+        <section class="terms">
+          <div class="terms__grid">
+            <div class="term" data-reveal>
+              <b>Terms · 1</b>
+              <h3>We build it and run it.</h3>
+              <p>A website that loads fast and reads clearly. Social posted on a real schedule, with the photos and videos made for you.</p>
+            </div>
+            <div class="term" data-reveal data-reveal-delay="1">
+              <b>Terms · 2</b>
+              <h3>You watch it happen.</h3>
+              <p>Your own dashboard, live all month, plus one plain report showing what your money did.</p>
+            </div>
+            <div class="term" data-reveal data-reveal-delay="2">
+              <b>Terms · 3</b>
+              <h3>We answer fast.</h3>
+              <p>We reply to every enquiry within one working day, and we serve the College Station&ndash;Bryan area.</p>
+            </div>
           </div>
-          <p class="body-muted" data-reveal data-reveal-delay="4" style="font-size: 14.5px">
-            We reply to every enquiry within one working day.
-          </p>
+        </section>
+      </div>
+
+      <section class="cta" id="contact">
+        <div class="cta__inner">
+          <div data-reveal>
+            <h2>Tell us what <em>you</em> need.</h2>
+            <p>
+              Tick the services you are interested in, tell us a little about your business, and we will
+              come back with a monthly price and a date we can start.
+            </p>
+          </div>
+          <div class="cta__panel" data-reveal data-reveal-delay="1">
+            <div class="row"><span>Services</span><b>your pick of the eight</b></div>
+            <div class="row"><span>Price</span><b>one monthly quote</b></div>
+            <div class="row"><span>Reply</span><b>within one working day</b></div>
+            <a class="btn" href="services.html#quote" data-quote-link>Build your quote</a>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="footer theme-dark" data-nav-theme="dark">
-      <div class="container">
+    <footer class="footer">
+      <div class="footer__inner">
         <div class="footer__grid">
-          <div class="footer__intro">
+          <div>
             <a class="brand" href="index.html">
-              <span class="brand__mark" aria-hidden="true">
-                <svg viewBox="0 0 100 60" fill="none"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#3b2f1c" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#cf9b3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#d9483a" /></svg>
-              </span>
-              <span class="brand__word">
-                <span class="brand__name">amora</span>
-                <span class="brand__sub">Studios</span>
-              </span>
+              <svg viewBox="0 0 100 60" fill="none" aria-hidden="true"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#3b2f1c" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#cf9b3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#d9483a" /></svg>
+              <span><span class="brand__name">amora</span><span class="brand__sub">Studios</span></span>
             </a>
             <p>
-              We help small businesses get found, get booked, and get remembered. Pick the services you want and we
-              quote you one monthly price.
+              We help small businesses get found, get booked, and get remembered. Pick the services
+              you want and we quote you one monthly price.
             </p>
-            <p class="footer__where">Serving the College Station-Bryan area</p>
-            <a class="text-link" href="services.html#quote">Get a quote</a>
+            <p class="footer__where">Serving the College Station&ndash;Bryan area</p>
           </div>
-
-          <div class="footer__col">
+          <div>
             <h4>Pages</h4>
             <ul>
               <li><a href="index.html">Home</a></li>
@@ -518,8 +557,7 @@
               <li><a href="services.html#quote">Get a quote</a></li>
             </ul>
           </div>
-
-          <div class="footer__col">
+          <div>
             <h4>Services</h4>
             <ul>
               <li><a href="services.html#build">Build</a></li>
@@ -528,17 +566,15 @@
               <li><a href="services.html#grow">Grow</a></li>
             </ul>
           </div>
-
-          <div class="footer__col">
+          <div>
             <h4>Contact</h4>
             <ul>
               <li><a href="mailto:hello@amorastudios.net">hello@amorastudios.net</a></li>
-              <li class="footer__note">Replies within one working day</li>
-              <li class="footer__note">College Station &ndash; Bryan, TX</li>
+              <li>Replies within one working day</li>
+              <li>College Station &ndash; Bryan, TX</li>
             </ul>
           </div>
         </div>
-
         <div class="footer__bottom">
           <span>&copy; <span data-year>2026</span> AMORA Studios. All rights reserved.</span>
           <span>Built and run in house.</span>
@@ -547,5 +583,45 @@
     </footer>
 
     <script src="assets/js/main.js" defer></script>
+    <script>
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* Mantra ignition: light each line as the pinned hero is scrolled through. */
+        var mantra = document.querySelector("[data-mantra]");
+        var steps = document.querySelectorAll("[data-step]");
+        if (reduced) {
+          steps.forEach(function (el) { el.classList.add("is-lit"); });
+        } else {
+          var onScroll = function () {
+            var rect = mantra.getBoundingClientRect();
+            var scrollable = rect.height - window.innerHeight;
+            var p = scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 1;
+            var lit = Math.floor(p / 0.2);
+            steps.forEach(function (el) {
+              el.classList.toggle("is-lit", parseInt(el.getAttribute("data-step"), 10) <= lit);
+            });
+          };
+          document.addEventListener("scroll", onScroll, { passive: true });
+          onScroll();
+        }
+
+        /* Service tally. The ticks are a preview of the quote form on the
+           services page; the ticked names ride along on the quote links so
+           nothing chosen here is lost on the way. */
+        var boxes = document.querySelectorAll('input[name="svc"]');
+        var tally = document.querySelector("[data-tally]");
+        var quoteLinks = document.querySelectorAll("[data-quote-link]");
+        var update = function () {
+          var picked = [];
+          boxes.forEach(function (b) { if (b.checked) picked.push(b.value); });
+          tally.innerHTML = "<b>" + picked.length + "</b> of 8 selected";
+          var query = picked.length ? "?services=" + encodeURIComponent(picked.join(",")) : "";
+          quoteLinks.forEach(function (a) { a.href = "services.html" + query + "#quote"; });
+        };
+        boxes.forEach(function (b) { b.addEventListener("change", update); });
+        update();
+      })();
+    </script>
   </body>
 </html>

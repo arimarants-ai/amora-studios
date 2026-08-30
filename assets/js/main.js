@@ -541,6 +541,20 @@
   var form = document.querySelector("[data-quote-form]");
 
   if (form) {
+    // The home page's service list links here with ?services=Website,Local SEO
+    // carrying whatever was ticked there. Pre-tick the same boxes so nothing
+    // chosen on the way in has to be chosen twice.
+    var carried = new URLSearchParams(window.location.search).get("services");
+    if (carried) {
+      carried.split(",").forEach(function (name) {
+        var box = Array.prototype.find.call(
+          form.querySelectorAll("[name='services']"),
+          function (input) { return input.value === name; }
+        );
+        if (box) box.checked = true;
+      });
+    }
+
     var status = form.querySelector("[data-form-status]");
     var submitBtn = form.querySelector("[type='submit']");
 
