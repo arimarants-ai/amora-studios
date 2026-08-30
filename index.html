@@ -193,19 +193,6 @@
         mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='2' cy='2' r='1.8' fill='black'/%3E%3C/svg%3E");
         mask-size: 3px 3px;
       }
-      .mantra__cue {
-        position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-        font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-        color: var(--faint); display: grid; justify-items: center; gap: 8px;
-      }
-      .mantra__cue::after { content: ""; width: 1.5px; height: 40px; background: linear-gradient(var(--gold), transparent); animation: cue 1.8s ease-in-out infinite; }
-      @keyframes cue {
-        0% { transform: scaleY(0); transform-origin: top; }
-        55% { transform: scaleY(1); transform-origin: top; }
-        56% { transform-origin: bottom; }
-        100% { transform: scaleY(0); transform-origin: bottom; }
-      }
-
       /* ---- the service carousel, ruled like the ledger ---- */
       .marquee { border-top: 2.5px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; overflow: hidden; background: var(--paper-warm); }
       .marquee__track { display: flex; white-space: nowrap; width: max-content; animation: slide 36s linear infinite; }
@@ -328,14 +315,13 @@
         .mantra__pin { position: static; height: auto; padding: 150px 0 90px; overflow: visible; }
         .mline, .mantra__sub, .mantra__stamp { opacity: 1; transform: none; color: var(--ink); transition: none; }
         .mline .dot { color: var(--stamp); }
-        .mantra__cue { display: none; }
         .marquee__track { animation: none; }
         [data-reveal] { opacity: 1; transform: none; transition: none; }
         html { scroll-behavior: auto; }
       }
 
       @media print {
-        .mast-wrap, .mantra__cue, .mobile-menu { display: none; }
+        .mast-wrap, .mobile-menu { display: none; }
         .mantra { height: auto; }
         .mantra__pin { position: static; height: auto; }
         .mline, .mantra__sub, .mantra__stamp { opacity: 1; transform: none; color: var(--ink); }
@@ -392,7 +378,6 @@
               <span class="stamp mantra__stamp" data-step="3" aria-hidden="true">One monthly price</span>
             </div>
           </div>
-          <div class="mantra__cue" aria-hidden="true"><span>Scroll</span></div>
         </div>
       </section>
 
