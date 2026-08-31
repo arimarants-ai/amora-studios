@@ -5,47 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Page not found | AMORA Studios</title>
     <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#fffdf8" />
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&display=swap"
     />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/ledger.css" />
+
+    <style>
+      /* Page styles on top of ledger.css: one centered entry the ledger has
+         no line for. */
+
+      .lost { min-height: 100svh; display: grid; place-items: center; padding: 150px 0 80px; }
+      .lost__inner { text-align: center; max-width: 640px; }
+      .lost .kicker { justify-content: center; }
+      .lost .kicker::before { content: ""; height: 1px; flex: 1; background: var(--rule); }
+      .lost h1 {
+        font-family: var(--display); font-weight: 400; font-style: italic;
+        font-size: clamp(38px, 5.6vw, 68px); line-height: 1.04; letter-spacing: -0.02em;
+        text-wrap: balance; margin: 26px 0 18px;
+      }
+      .lost h1 em { color: var(--stamp); }
+      .lost .lede { color: var(--faint); font-size: 17.5px; max-width: 46ch; margin: 0 auto 32px; }
+      .lost .btn-row { justify-content: center; margin-top: 0; }
+      .lost .stamp { margin-top: 40px; rotate: 4deg; }
+    </style>
   </head>
 
-  <body class="theme-dark">
-    <header class="nav theme-dark is-stuck" data-nav>
-      <div class="nav__inner">
-        <a class="brand" href="index.html" aria-label="AMORA Studios home">
-          <span class="brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 100 60" fill="none"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#3b2f1c" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#cf9b3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#d9483a" /></svg>
-          </span>
-          <span class="brand__word">
-            <span class="brand__name">amora</span>
-            <span class="brand__sub">Studios</span>
-          </span>
-        </a>
-        <nav class="nav__links" aria-label="Primary">
-          <a class="nav__link" href="index.html">Home</a>
-          <a class="nav__link" href="services.html">Services</a>
-          <a class="nav__link" href="about.html">About</a>
-        </nav>
-      </div>
-    </header>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <main class="section theme-dark" style="min-height: 100svh; display: grid; place-items: center">
-      <div class="container container--narrow" style="text-align: center">
-        <p class="eyebrow">Error 404</p>
-        <h1 class="display-lg" style="margin-top: 16px">This page has moved on.</h1>
-        <p class="lead" style="margin-top: 18px">
+    <div class="mast-wrap">
+      <header class="mast">
+        <a class="brand" href="index.html" aria-label="AMORA Studios home">
+          <svg viewBox="0 0 100 60" fill="none" aria-hidden="true"><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5 L89.3 52 L10 52 Z" fill="#e9ddc6" /><path d="M10 44.4 L31.1 29.2 L51.5 38.3 L70.9 12.6 L89.3 9.5" stroke="#a97b25" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="89.3" cy="9.5" r="5.5" fill="#b8401f" /></svg>
+          <span><span class="brand__name">amora</span><span class="brand__sub">Studios</span></span>
+        </a>
+        <nav aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="mast__actions">
+          <a class="mast__cta" href="services.html#quote">Get a quote</a>
+          <button class="mast__toggle" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu" data-menu>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="services.html#quote">Get a quote</a>
+    </div>
+
+    <main class="lost" id="main">
+      <div class="sheet lost__inner">
+        <p class="kicker">Error 404</p>
+        <h1>This page has <em>moved on.</em></h1>
+        <p class="lede">
           The link you followed does not exist any more. Head back to the homepage or take a look at what we do.
         </p>
-        <div class="btn-row" style="justify-content: center; margin-top: 28px">
-          <a class="btn btn--primary btn--lg" href="index.html">Back to home</a>
-          <a class="btn btn--ghost btn--lg" href="services.html">See the services</a>
+        <div class="btn-row">
+          <a class="btn btn--ink" href="index.html">Back to home</a>
+          <a class="btn btn--line" href="services.html">See the services</a>
         </div>
+        <span class="stamp" aria-hidden="true">Not on the ledger</span>
       </div>
     </main>
 
