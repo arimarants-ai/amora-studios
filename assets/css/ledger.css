@@ -1,0 +1,285 @@
+/* ==========================================================================
+   AMORA Studios - the ledger design system
+   Shared by services.html, about.html, and contact.html. The home page
+   carries the same system inline (it arrived first and is self-contained).
+   main.js drives analytics, the year stamp, the mobile menu, [data-reveal],
+   and both forms; this file only styles.
+
+   Contents
+   1. Tokens and base
+   2. Masthead and mobile menu
+   3. Small parts: kicker, buttons, stamp, reveals
+   4. Page hero
+   5. Ledger frame
+   6. Ruled column grids (terms)
+   7. Forms on ink
+   8. Ink CTA band
+   9. Footer
+   10. Reduced motion and print
+   ========================================================================== */
+
+/* 1. Tokens and base ------------------------------------------------------ */
+
+:root {
+  --paper: #fffdf8;
+  --paper-warm: #f6f0e4;
+  --ink: #1a1611;
+  --faint: #77695a;
+  --rule: rgba(26, 22, 17, 0.16);
+  --rule-strong: rgba(26, 22, 17, 0.55);
+  --stamp: #b8401f;
+  --gold: #a97b25;
+  --gold-bright: #d9a94e;
+  --sage: #3f6153;
+  --cream-dim: rgba(255, 253, 248, 0.65);
+  --cream-faint: rgba(255, 253, 248, 0.4);
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "Spline Sans Mono", "SF Mono", Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 34px, rgba(26, 22, 17, 0.025) 34px 35px),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; z-index: 100;
+  background: var(--ink); color: var(--paper); padding: 10px 18px;
+  font-family: var(--mono); font-size: 13px; border-radius: 0 0 6px 0; text-decoration: none;
+}
+.skip-link:focus { left: 0; top: 0; }
+
+.sheet { max-width: 1040px; margin: 0 auto; padding: 0 26px; }
+
+/* 2. Masthead and mobile menu --------------------------------------------- */
+
+.mast-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(255, 253, 248, 0.92); backdrop-filter: blur(6px);
+  border-bottom: 2.5px solid var(--ink);
+}
+.mast { max-width: 1040px; margin: 0 auto; padding: 16px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.brand svg { width: 46px; height: 28px; display: block; }
+.brand__name { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1; display: block; }
+.brand__sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.36em; text-transform: uppercase; display: block; margin-top: 3px; color: var(--faint); }
+.mast nav { display: flex; gap: 4px; }
+.mast nav a {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.05em; text-decoration: none;
+  color: var(--faint); padding: 7px 13px; border: 1px solid transparent; border-radius: 100px; transition: all 0.2s;
+}
+.mast nav a:hover, .mast nav a.is-active { color: var(--ink); border-color: var(--rule); }
+.mast__actions { display: flex; align-items: center; gap: 12px; }
+.mast__cta {
+  font-family: var(--mono); font-weight: 600; font-size: 12.5px; text-decoration: none;
+  background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 4px;
+  border: 1.5px solid var(--ink); transition: all 0.18s; white-space: nowrap;
+}
+.mast__cta:hover { background: var(--stamp); border-color: var(--stamp); }
+.mast__toggle {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 42px; height: 42px; padding: 0 10px; background: none;
+  border: 1.5px solid var(--ink); border-radius: 4px; cursor: pointer;
+}
+.mast__toggle span { display: block; height: 2px; background: var(--ink); border-radius: 2px; }
+@media (max-width: 760px) {
+  .mast nav { display: none; }
+  .mast__toggle { display: flex; }
+}
+
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 49; display: none;
+  background: var(--paper); padding: 110px 26px 40px;
+}
+.mobile-menu.is-open { display: grid; align-content: start; gap: 4px; }
+.mobile-menu a {
+  font-family: var(--display); font-size: 30px; font-weight: 500; text-decoration: none;
+  color: var(--ink); padding: 14px 0; border-bottom: 1px solid var(--rule);
+}
+.mobile-menu a:last-child { border-bottom: none; margin-top: 18px; font-family: var(--mono); font-size: 14px; font-weight: 600; background: var(--ink); color: var(--paper); text-align: center; padding: 16px; border-radius: 4px; }
+
+/* 3. Small parts ---------------------------------------------------------- */
+
+.kicker {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--stamp); display: flex; align-items: center; gap: 14px;
+}
+.kicker::after { content: ""; height: 1px; flex: 1; background: var(--rule); }
+.kicker--muted { color: var(--sage); }
+.kicker--center { justify-content: center; }
+.kicker--center::before { content: ""; height: 1px; flex: 1; background: var(--rule); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer;
+  font-family: var(--mono); font-weight: 600; font-size: 13.5px; letter-spacing: 0.04em;
+  padding: 14px 24px; border-radius: 4px; border: 1.5px solid var(--ink); transition: all 0.18s;
+}
+.btn--ink { background: var(--ink); color: var(--paper); }
+.btn--ink:hover { background: var(--stamp); border-color: var(--stamp); }
+.btn--line { background: transparent; color: var(--ink); }
+.btn--line:hover { background: var(--paper-warm); }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.stamp {
+  display: inline-block;
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--stamp); border: 2.5px solid var(--stamp); border-radius: 8px; padding: 12px 18px;
+  rotate: -4deg; white-space: nowrap;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='2' cy='2' r='1.8' fill='black'/%3E%3C/svg%3E");
+  mask-size: 3px 3px;
+}
+
+/* main.js toggles .is-visible on [data-reveal] */
+[data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+
+/* 4. Page hero ------------------------------------------------------------ */
+
+.page-hero { padding: 150px 0 56px; border-bottom: 1px solid var(--rule); }
+.page-hero h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(38px, 5.6vw, 72px); line-height: 1.04; letter-spacing: -0.02em;
+  text-wrap: balance; max-width: 18ch; margin: 26px 0 22px;
+}
+.page-hero h1 em { font-style: italic; color: var(--stamp); }
+.page-hero .lede { color: var(--faint); font-size: 18px; max-width: 60ch; }
+
+.sec-head h2 {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 42px); line-height: 1.12; text-wrap: balance; margin: 22px 0 14px;
+}
+.sec-head .lede { color: var(--faint); max-width: 62ch; }
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+
+/* 5. Ledger frame --------------------------------------------------------- */
+
+.ledger {
+  border: 1.5px solid var(--ink); border-radius: 4px; background: var(--paper);
+  box-shadow: 6px 6px 0 var(--paper-warm), 6px 6px 0 1.5px var(--rule);
+}
+.ledger__head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 18px 24px; border-bottom: 1.5px solid var(--ink); }
+.ledger__head h2, .ledger__head h3 { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; }
+.ledger__head span { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+.ledger__head .desc { font-family: var(--body); font-size: 13.5px; color: var(--faint); text-align: right; letter-spacing: 0; text-transform: none; }
+
+/* 6. Ruled column grids --------------------------------------------------- */
+
+.terms { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule-strong); }
+.terms--4 { grid-template-columns: repeat(4, 1fr); }
+.terms--2 { grid-template-columns: 1fr 1fr; }
+@media (max-width: 760px) {
+  .terms { grid-template-columns: 1fr; }
+  .terms--4 { grid-template-columns: 1fr 1fr; }
+  .terms--2 { grid-template-columns: 1fr; }
+}
+.term { padding: 28px 26px 32px 0; border-bottom: 1px solid var(--rule); }
+.term + .term { border-left: 1px solid var(--rule); padding-left: 26px; }
+@media (max-width: 760px) {
+  .terms:not(.terms--4) .term + .term { border-left: none; padding-left: 0; }
+  .terms--4 .term:nth-child(odd) { border-left: none; padding-left: 0; }
+}
+.term > b { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px; }
+.term h3 { font-family: var(--display); font-weight: 500; font-size: 21px; margin-bottom: 10px; }
+.term p { color: var(--faint); font-size: 14.5px; }
+
+/* 7. Forms on ink --------------------------------------------------------- */
+
+.ink-band { background: var(--ink); color: var(--paper); padding: 90px 0; }
+.ink-band .kicker { color: var(--gold-bright); }
+.ink-band .kicker::after, .ink-band .kicker--center::before { background: rgba(255, 253, 248, 0.2); }
+.ink-band h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(32px, 4.4vw, 54px); line-height: 1.06; text-wrap: balance; margin: 22px 0 14px;
+}
+.ink-band h2 em { font-style: italic; color: var(--gold-bright); }
+.ink-band .lede { color: var(--cream-dim); max-width: 60ch; margin-bottom: 40px; }
+
+.inkform { border: 1px dashed var(--cream-faint); border-radius: 6px; padding: 34px; display: grid; gap: 22px; }
+@media (max-width: 640px) { .inkform { padding: 22px; } }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 640px) { .frow { grid-template-columns: 1fr; } }
+.field label { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 253, 248, 0.75); margin-bottom: 8px; }
+.field .opt { text-transform: none; letter-spacing: 0.04em; color: rgba(255, 253, 248, 0.45); }
+.field input, .field textarea {
+  width: 100%; background: transparent; border: 1.5px solid rgba(255, 253, 248, 0.35);
+  border-radius: 4px; color: var(--paper); font-family: var(--body); font-size: 15px; padding: 12px 14px;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold-bright); }
+.field ::placeholder { color: rgba(255, 253, 248, 0.35); }
+.inkform fieldset { border: none; }
+.inkform legend { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 253, 248, 0.75); margin-bottom: 6px; }
+.inkform .hint { font-size: 13px; color: rgba(255, 253, 248, 0.45); margin-bottom: 12px; }
+.pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 640px) { .pick-grid { grid-template-columns: 1fr; } }
+.pick {
+  display: flex; align-items: center; gap: 11px; font-size: 14.5px;
+  border: 1.5px solid rgba(255, 253, 248, 0.25); border-radius: 4px; padding: 11px 14px;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.pick:hover { border-color: rgba(255, 253, 248, 0.6); }
+.pick input { accent-color: var(--gold-bright); width: 16px; height: 16px; flex: none; }
+.form__foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.form__foot .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.form__foot .btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); }
+.form__foot .btn:disabled { opacity: 0.6; cursor: wait; }
+.form__note { font-size: 13.5px; color: rgba(255, 253, 248, 0.55); }
+.form__note a, .text-link { color: var(--gold-bright); }
+
+.form__status { font-size: 14.5px; line-height: 1.5; margin: 0; flex: 1 1 240px; }
+.form__status.is-ok { color: #8fca9a; }
+.form__status.is-error { color: #e0917a; }
+.form__status.is-pending { color: var(--cream-dim); }
+
+/* The spam trap. Off screen so no person ever sees it; bots fill it in. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* 8. Ink CTA band --------------------------------------------------------- */
+
+.ink-band--center { text-align: center; }
+.ink-band--center h2 { margin-left: auto; margin-right: auto; max-width: 20ch; }
+.ink-band--center .lede { margin-left: auto; margin-right: auto; margin-bottom: 36px; }
+.ink-band--center .btn-row { justify-content: center; margin-top: 0; }
+.ink-band .btn--paper { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.ink-band .btn--paper:hover { background: var(--gold-bright); border-color: var(--gold-bright); }
+.ink-band .btn--ghost { color: var(--paper); border-color: var(--cream-faint); background: transparent; }
+.ink-band .btn--ghost:hover { background: rgba(255, 253, 248, 0.08); }
+
+/* 9. Footer --------------------------------------------------------------- */
+
+.footer { background: var(--ink); color: rgba(255, 253, 248, 0.6); border-top: 1px solid rgba(255, 253, 248, 0.16); padding: 50px 0 30px; }
+.footer .brand { color: var(--paper); margin-bottom: 16px; }
+.footer .brand__sub { color: rgba(255, 253, 248, 0.5); }
+.footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 36px; padding-bottom: 40px; border-bottom: 1px solid rgba(255, 253, 248, 0.14); }
+@media (max-width: 860px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .footer__grid { grid-template-columns: 1fr; } }
+.footer p { font-size: 14px; max-width: 38ch; }
+.footer__where { margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--gold-bright); }
+.footer h4 { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); margin-bottom: 14px; }
+.footer ul { list-style: none; display: grid; gap: 8px; }
+.footer a { color: rgba(255, 253, 248, 0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+.footer a:hover { color: var(--paper); }
+.footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 22px; font-family: var(--mono); font-size: 11.5px; }
+
+/* 10. Reduced motion and print -------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+@media print {
+  .mast-wrap, .mobile-menu, .skip-link { display: none; }
+  [data-reveal] { opacity: 1; transform: none; }
+}
